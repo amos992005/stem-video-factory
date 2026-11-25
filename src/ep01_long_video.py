@@ -90,9 +90,11 @@ class Ch3_OneWayValveDiode(FilmScene):
         self.say('The negative half of the wave is cut off, leaving gaps between positive humps.',Create(laser))
         half=giant_wave('half',GOLD,10,3.2)
         self.say('The mathematical output is the maximum of zero and the input wave.',ReplacementTransform(wave,half))
-        gauge=Integer(100,color=WHITE,font_size=60).move_to(UP*2.4);percent=Text('%',font_size=48,color=WHITE).next_to(gauge,RIGHT,buff=.1)
+        gauge_value=ValueTracker(100)
+        gauge=always_redraw(lambda: Integer(round(gauge_value.get_value()),color=WHITE,font_size=60).move_to(UP*2.4))
+        percent=Text('%',font_size=48,color=WHITE).move_to(RIGHT*.95+UP*2.4)
         self.say('For an ideal diode and a resistive load, the output receives half the original sine-wave power.',FadeIn(gauge),FadeIn(percent))
-        self.say('That result is not a universal measure of losses in a real phone charger.',gauge.animate.set_value(50))
+        self.say('That result is not a universal measure of losses in a real phone charger.',gauge_value.animate.set_value(50))
         self.clear_act()
 
 
