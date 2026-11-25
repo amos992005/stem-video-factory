@@ -79,6 +79,7 @@ class Ch3_OneWayValveDiode(FilmScene):
         valve,_,_,flow=mechanical_valve();valve.shift(UP*.3);self.add(valve)
         symbol=VGroup(Polygon(LEFT*1.4+UP*1.4,LEFT*1.4+DOWN*1.4,RIGHT*1.3,color=GOLD,stroke_width=8),Line(RIGHT*1.3+UP*1.55,RIGHT*1.3+DOWN*1.55,color=GOLD,stroke_width=9))
         symbol=add_neon_glow(symbol,GOLD,3,22).shift(UP*.3)
+        flow.clear_updaters()  # Its path is consumed by the morph.
         self.say('In a circuit diagram, that one-way behavior is represented by the diode symbol.',ReplacementTransform(valve,symbol))
         self.say('Place a single diode in series with a load and only one half-cycle passes.')
         self.say('This simple arrangement is called a half-wave rectifier.')

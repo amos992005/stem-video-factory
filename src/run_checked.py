@@ -12,6 +12,6 @@ for line in process.stdout:
     last.append(line)
 code = process.wait()
 if code:
-    message=''.join(last)[-8000:].replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+    message=''.join(last)[-3000:].replace('%','%25').replace('\r','%0D').replace('\n','%0A')
     print(f'::error title=Command failed::{message}', flush=True)
 raise SystemExit(code)

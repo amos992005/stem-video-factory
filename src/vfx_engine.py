@@ -77,6 +77,9 @@ class ContinuousFlowStream(VGroup):
         super().__init__(*markers,**kwargs)
         def update(group,dt):
             group.elapsed += dt
+            # A path may briefly have no points during a ReplacementTransform.
+            if group.path.get_num_points() == 0:
+                return
             for i,marker in enumerate(group):
                 offset=i/count
                 # AC displacement reverses (deliberately slowed to avoid aliasing).
