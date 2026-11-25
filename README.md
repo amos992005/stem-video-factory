@@ -1,39 +1,43 @@
 # STEM video factory
 
-A minimal Manim Community Edition pipeline: Schemdraw creates an RC circuit,
-SymPy creates the capacitor energy equation, and Edge TTS narrates the scene.
-Edge TTS needs internet access to Microsoft's speech service; it is an unofficial
-service and availability or behavior may change. No API key is required.
+A Manim Community Edition pipeline for STEM animations and narrated video.
+Episode 01 covers the ideas behind a phone charger, with five chapters and
+three standalone portrait Shorts. The circuit models are educational
+simplifications, not instructions for building or modifying a mains device.
 
-## GitHub Actions (recommended in the restricted sandbox)
+## Render and download
 
-The **Render test video** workflow runs automatically after a push that changes
-the pipeline, and can also be started manually with **Actions → Render test
-video → Run workflow**, selecting the branch containing these files. When it
-succeeds, open the run's **Artifacts** section and download **test-video**; the
-ZIP contains `test_video.mp4`. Artifacts expire after 30 days. GitHub Actions
-availability and free-minute limits depend on the repository's plan. The
-workflow doesn't publish generated videos to the repository or a release.
+The **Render Episode 01** GitHub Actions workflow automatically starts on a
+relevant push, or can be started via **Actions → Render Episode 01 → Run
+workflow** on the branch with these files. It renders eight scenes in parallel
+at 1080p, concatenates the chapters, transcribes with faster-whisper `base.en`,
+burns the Shorts' captions, and verifies dimensions and audio streams. Download
+**ep01-phone-charger-videos** from the successful run's Artifacts section.
+The ZIP contains four ready-to-play MP4s and their four SRT subtitle files.
+Artifacts expire after 30 days; Actions availability and quotas depend on plan.
 
-## On a Debian/Ubuntu machine
+The render needs outbound access to Microsoft's Edge TTS and Hugging Face's
+Whisper model downloads. Edge TTS is an unofficial free service that can change
+or become unavailable. Generated assets and videos are excluded from Git.
+See `STATE.md` for current pipeline details.
+
+## Local setup (Debian/Ubuntu)
 
 ```sh
 sudo apt-get update
 sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev \
-  texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science dvisvgm
+  texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science dvisvgm fonts-dejavu-core
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
-manim -ql src/test_pipeline.py TestScene
-mkdir -p output
-cp media/videos/test_pipeline/480p15/TestScene.mp4 output/test_video.mp4
+python src/generate_ep01_svgs.py
+manim -qh src/ep01_long_video.py Ch1_TheHookAndACvsDC
 ```
 
-Run from the repository root. Manim generates the SVG in `assets/svg/`, caches
-narration in `media/voiceovers/`, and writes the render to `media/videos/`.
-Generated media and the local virtual environment are ignored by Git. The
-custom service uses audio duration for scene timing; bookmark-based word timing
-is not implemented. Faster Whisper is installed for future transcription use,
-but is not needed for this scene and downloads its models separately when used.
+The workflow is the authoritative full-suite build recipe: it collects the
+five landscape and three portrait scene MP4s in `staging/`, then runs
+`python src/package_ep01.py`. Packaging requires FFmpeg with libass/libx264,
+and internet access for the initial Whisper model download. The voiceover
+service times animations to clip durations; bookmark timing is not implemented.

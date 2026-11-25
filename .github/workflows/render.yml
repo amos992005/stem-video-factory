@@ -1,10 +1,11 @@
-name: Render test video
+name: Render Episode 01
 
 on:
   workflow_dispatch:
   push:
     paths:
       - 'src/**'
+      - 'tests/**'
       - 'requirements.txt'
       - '.github/workflows/render.yml'
 
@@ -13,33 +14,88 @@ permissions:
 
 jobs:
   render:
+    name: Render ${{ matrix.scene }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {file: ep01_long_video, scene: Ch1_TheHookAndACvsDC, orientation: landscape}
+          - {file: ep01_long_video, scene: Ch2_TheWirelessJumpTransformer, orientation: landscape}
+          - {file: ep01_long_video, scene: Ch3_OneWayValveDiode, orientation: landscape}
+          - {file: ep01_long_video, scene: Ch4_TheMagicDiamondBridge, orientation: landscape}
+          - {file: ep01_long_video, scene: Ch5_TheCapacitorIron, orientation: landscape}
+          - {file: ep01_shorts, scene: Short01_ACvsDC, orientation: portrait}
+          - {file: ep01_shorts, scene: Short02_WirelessTransformer, orientation: portrait}
+          - {file: ep01_shorts, scene: Short03_DiamondBridge, orientation: portrait}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: pip
-      - name: Install system dependencies
+      - name: Install system packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science dvisvgm
-      - name: Install Python dependencies
+          sudo apt-get install -y --no-install-recommends ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science dvisvgm fonts-dejavu-core
+      - name: Install Python packages
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+      - name: Unit tests and generate SVGs
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
-      - name: Render test scene
+          python -m unittest discover -s tests -v
+          python src/generate_ep01_svgs.py
+      - name: Render landscape at 1080p
+        if: matrix.orientation == 'landscape'
+        run: manim -qh --disable_caching src/${{ matrix.file }}.py ${{ matrix.scene }}
+      - name: Render portrait at 1080p
+        if: matrix.orientation == 'portrait'
+        run: manim -qh -r 1080,1920 --disable_caching src/${{ matrix.file }}.py ${{ matrix.scene }}
+      - name: Collect and verify scene
+        env:
+          SCENE: ${{ matrix.scene }}
         run: |
-          manim -ql src/test_pipeline.py TestScene
-          mkdir -p output
-          cp media/videos/test_pipeline/480p15/TestScene.mp4 output/test_video.mp4
-          ffprobe -v error -show_entries stream=codec_type -of csv=p=0 output/test_video.mp4 | grep -qx audio
+          set -euo pipefail
+          mkdir -p staging
+          mapfile -t matches < <(find media/videos -type f -name "$SCENE.mp4")
+          test "${#matches[@]}" -eq 1
+          cp "${matches[0]}" "staging/$SCENE.mp4"
+          ffprobe -v error -select_streams a:0 -show_entries stream=codec_type -of csv=p=0 "staging/$SCENE.mp4" | grep -qx audio
       - uses: actions/upload-artifact@v4
         with:
-          name: test-video
-          path: output/test_video.mp4
+          name: ep01-scene-${{ matrix.scene }}
+          path: staging/${{ matrix.scene }}.mp4
+          if-no-files-found: error
+          retention-days: 3
+
+  package:
+    name: Package, caption and verify
+    needs: render
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core
+          python -m pip install --upgrade pip
+          python -m pip install 'faster-whisper>=1.2,<2'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ep01-scene-*
+          path: staging
+          merge-multiple: true
+      - name: Create final MP4s and subtitles
+        run: python src/package_ep01.py
+      - name: Upload final episode
+        uses: actions/upload-artifact@v4
+        with:
+          name: ep01-phone-charger-videos
+          path: output/ep01_phone_charger/
           if-no-files-found: error
           retention-days: 30
