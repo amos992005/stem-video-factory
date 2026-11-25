@@ -41,12 +41,23 @@ jobs:
           data=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
           for n in range((len(data)+2999)//3000): print(f'::notice title=SHEET {n}::{data[n*3000:(n+1)*3000]}')
           PY
-      - name: Preview landscape subtitle frame
+      - name: Preview subtitle frames
         run: |
           python - <<'PY'
-          import pathlib,base64,subprocess
-          source='deliver/output/ep01_phone_charger/full_youtube_video_16x9.mp4';dest='/tmp/frame.jpg'
-          subprocess.run(['ffmpeg','-v','error','-ss','45','-i',source,'-frames:v','1','-vf','scale=480:-2','-q:v','20','-y',dest],check=True)
-          data=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
-          for n in range((len(data)+2999)//3000): print(f'::notice title=FRAME {n}::{data[n*3000:(n+1)*3000]}')
+          import pathlib,base64,subprocess,re
+          root=pathlib.Path('deliver/output/ep01_phone_charger')
+          for i,name in enumerate(['full_youtube_video_16x9','short_01_ac_vs_dc_war_9x16']):
+              lines=(root/(name+'.srt')).read_text().splitlines()
+              entries=[]
+              for j,line in enumerate(lines):
+                  if ' --> ' in line:
+                      def sec(t):
+                          h,m,s=t.replace(',','.').split(':');return int(h)*3600+int(m)*60+float(s)
+                      a,b=map(sec,line.split(' --> '));entries.append((a,b,lines[j+1]))
+              cue=min(entries,key=lambda x:abs(x[0]-(45 if i==0 else 15)))
+              t=(cue[0]+cue[1])/2; print(f'::notice title=Caption sample::{name} at {t:.2f}s: {cue[2]}')
+              dest=f'/tmp/frame{i}.jpg';size='scale=640:-2' if i==0 else 'scale=320:-2'
+              subprocess.run(['ffmpeg','-v','error','-ss',str(t),'-i',str(root/(name+'.mp4')),'-frames:v','1','-vf',size,'-q:v','20','-y',dest],check=True)
+              data=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
+              for n in range((len(data)+2999)//3000): print(f'::notice title=CAP {i} {n}::{data[n*3000:(n+1)*3000]}')
           PY
