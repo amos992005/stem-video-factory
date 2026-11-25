@@ -13,6 +13,8 @@
 - The final rendered cut was validated at 1920x1080 (3:54.32) and three
   1080x1920 Shorts (42.50, 39.77 and 42.02 seconds); all have AAC audio.
   A representative set of frames was also visually spot-checked.
+- Successful render: https://github.com/amos992005/stem-video-factory/actions/runs/45679504062
+  Final packaged artifact: https://github.com/amos992005/stem-video-factory/actions/runs/45683213328
   GitHub artifacts expire after 30 days.
 - The circuit models are intentionally idealized: the narration distinguishes
   them from real switch-mode chargers, notes USB output versus battery voltage,
