@@ -1,0 +1,38 @@
+name: Inspect Episode 01 artifact
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Render run ID
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ep01-phone-charger-videos
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
+          path: video
+      - name: Report metadata and frames
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, json, pathlib, subprocess
+          for p in sorted(pathlib.Path('video').glob('*.mp4')):
+              data=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(p)]))
+              v=next(s for s in data['streams'] if s['codec_type']=='video')
+              a=next(s for s in data['streams'] if s['codec_type']=='audio')
+              duration=float(data['format']['duration'])
+              print(f'::notice title=Video metadata::{p.name} {v["width"]}x{v["height"]} {duration:.2f}s video={v["codec_name"]} audio={a["codec_name"]}')
+              for index,fraction in enumerate((.22,.55,.82)):
+                  dest=f'/tmp/preview-{index}.jpg'
+                  subprocess.run(['ffmpeg','-v','error','-ss',str(duration*fraction),'-i',str(p),'-frames:v','1','-vf','scale=480:-2','-q:v','8','-y',dest],check=True)
+                  text=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
+                  print(f'::notice title=Preview {p.stem} {index}::{text}')
+          PY
