@@ -8,29 +8,38 @@ permissions:
 jobs:
   inspect:
     runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        scene: [Ch1_TheHookAndACvsDC, Ch2_TheWirelessJumpTransformer, Ch4_TheMagicDiamondBridge, Short01_ACvsDC, Short03_DiamondBridge]
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: ep01-scene-${{ matrix.scene }}
-          run-id: 45688471530
+          name: ep01-phone-charger-videos
+          run-id: 45691178756
           github-token: ${{ github.token }}
-          path: scene
+          path: deliver
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - name: Preview frames
-        env:
-          SCENE: ${{ matrix.scene }}
+      - name: Validate final report and media
         run: |
           python - <<'PY'
-          import os,base64,pathlib,json,subprocess
-          name=os.environ['SCENE']; p=pathlib.Path('scene')/(name+'.mp4')
-          d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(p)])); duration=float(d['format']['duration'])
-          print(f'::notice title=Duration::{name}: {duration:.2f}s')
-          for i,f in enumerate([.2,.5,.8]):
-              image=f'/tmp/f{i}.jpg'; size='scale=180:-2' if name.startswith('Short') else 'scale=320:-2'
-              subprocess.run(['ffmpeg','-v','error','-ss',str(f*duration),'-i',str(p),'-frames:v','1','-vf',size,'-q:v','25','-y',image],check=True)
-              b64=base64.b64encode(pathlib.Path(image).read_bytes()).decode()
-              for part in range((len(b64)+2999)//3000): print(f'::notice title=FRAME {name} {i} {part}::{b64[part*3000:(part+1)*3000]}')
+          import pathlib,json,subprocess
+          p=pathlib.Path('deliver/output/ep01_phone_charger')
+          assert p.is_dir(),f'Expected output directory, got {list(pathlib.Path("deliver").rglob("*"))}'
+          files=sorted(p.glob('*.mp4')); assert len(files)==4,files
+          report=(p/'motion_audit_report.md').read_text()
+          print('::notice title=Motion audit::'+report.replace('%','%25').replace('\n','%0A'))
+          for f in files:
+              d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration:stream=codec_type,width,height','-of','json',str(f)]))
+              v=next(s for s in d['streams'] if s['codec_type']=='video'); assert any(s['codec_type']=='audio' for s in d['streams'])
+              print(f'::notice title=Video::{f.name} {v["width"]}x{v["height"]} {float(d["format"]["duration"]):.2f}s')
+          for name in ['visual_contact_sheet_16x9.png','visual_contact_sheet_short01.png']:
+              d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','stream=width,height','-of','json',str(p/name)]));print(f'::notice title=Contact sheet::{name} {d["streams"][0]}')
+          PY
+      - name: Preview contact sheets
+        run: |
+          python - <<'PY'
+          import pathlib,base64,subprocess
+          p=pathlib.Path('deliver/output/ep01_phone_charger')
+          for i,name in enumerate(['visual_contact_sheet_16x9.png','visual_contact_sheet_short01.png']):
+              dest=f'/tmp/sheet{i}.jpg'
+              subprocess.run(['ffmpeg','-v','error','-i',str(p/name),'-vf','scale=600:-2','-frames:v','1','-q:v','25','-y',dest],check=True)
+              data=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
+              for n in range((len(data)+2999)//3000):print(f'::notice title=SHEET {i} {n}::{data[n*3000:(n+1)*3000]}')
           PY
