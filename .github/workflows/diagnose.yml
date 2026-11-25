@@ -13,11 +13,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api --allow-escape-sequences repos/${{ github.repository }}/actions/jobs/139521672819/logs > /tmp/job.log 2>/tmp/fetch.err || { echo "::error title=Log fetch::$(cat /tmp/fetch.err)"; exit 1; }
+          gh api --allow-escape-sequences repos/${{ github.repository }}/actions/jobs/139527081449/logs > /tmp/job.log 2>/tmp/fetch.err || { echo "::error title=Log fetch::$(cat /tmp/fetch.err)"; exit 1; }
           python - <<'PY'
           import re
           raw=open('/tmp/job.log',errors='replace').read()
-          lines=[x for x in raw.splitlines() if re.search(r'(ep01_long_video|cinematic_scene|vfx_engine|point_from_proportion|Line has no points)',x,re.I)]
+          lines=[x for x in raw.splitlines() if re.search(r'(error|exception|no points|traceback|runtimeerror|failed)',x,re.I)]
           s='\n'.join(lines)[-3000:]
           print('::error title=Diagnostic::'+s.replace('%','%25').replace('\r','%0D').replace('\n','%0A'))
           PY
