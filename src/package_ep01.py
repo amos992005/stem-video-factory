@@ -4,6 +4,7 @@ import json
 import subprocess
 import tempfile
 from pathlib import Path
+import subtitle_engine as subtitles
 
 SCENES = ['Ch1_TheHookAndACvsDC', 'Ch2_TheWirelessJumpTransformer', 'Ch3_OneWayValveDiode', 'Ch4_TheMagicDiamondBridge', 'Ch5_TheCapacitorIron']
 SHORTS = {
@@ -109,23 +110,26 @@ def package(input_dir, output_dir, model_name):
         run('ffmpeg','-y','-f','concat','-safe','0','-i',listing,'-c','copy',raw_full)
         model=WhisperModel(model_name, device='cpu', compute_type='int8')
         # Transcribe clean narration before adding the music bed.
-        write_srt(output_dir/f'{FULL}.srt',transcribe(model,raw_full))
+        full_groups=subtitles.transcribe(model,raw_full,portrait=False)
+        subtitles.write_srt(output_dir/f'{FULL}.srt',full_groups)
+        full_ass=output_dir/f'{FULL}.ass'
+        subtitles.write_ass(full_ass,full_groups,portrait=False)
         pad=Path(__file__).resolve().parents[1]/'assets/audio/ep01/ambient.wav'
         if not pad.is_file():
             from audio_design import generate
             generate(pad.parent)
         mix='[1:a]volume=-20dB[bed];[0:a][bed]amix=inputs=2:duration=first:dropout_transition=0:normalize=0,alimiter=limit=0.95[a]'
-        run('ffmpeg','-y','-i',raw_full,'-stream_loop','-1','-i',pad,'-filter_complex',mix,'-map','0:v:0','-map','[a]','-c:v','copy','-c:a','aac','-b:a','192k','-movflags','+faststart',full)
+        full_filter=f'drawbox=x=0:y=ih*0.84:w=iw:h=ih*0.16:color=0x050814:t=fill,ass={full_ass}'
+        run('ffmpeg','-y','-i',raw_full,'-stream_loop','-1','-i',pad,'-filter_complex',mix,'-map','0:v:0','-map','[a]','-vf',full_filter,'-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',full)
         probe(full,1920,1080)
         for scene,name in SHORTS.items():
             source=input_dir/f'{scene}.mp4'
-            cues=transcribe(model,source)
-            write_srt(output_dir/f'{name}.srt',cues)
-            # A fixed, safe temporary name avoids ffmpeg filter-path quoting issues.
-            ass=temp/'captions.ass'
-            write_ass(ass,cues)
+            groups=subtitles.transcribe(model,source,portrait=True)
+            subtitles.write_srt(output_dir/f'{name}.srt',groups)
+            ass=output_dir/f'{name}.ass'
+            subtitles.write_ass(ass,groups,portrait=True)
             dest=output_dir/f'{name}.mp4'
-            run('ffmpeg','-y','-i',source,'-stream_loop','-1','-i',pad,'-filter_complex',mix,'-map','0:v:0','-map','[a]','-vf',f'ass={ass}', '-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',dest)
+            run('ffmpeg','-y','-i',source,'-stream_loop','-1','-i',pad,'-filter_complex',mix,'-map','0:v:0','-map','[a]','-vf',f'drawbox=x=0:y=ih*0.8125:w=iw:h=ih*0.1875:color=0x050814:t=fill,ass={ass}', '-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-movflags','+faststart',dest)
             probe(dest,1080,1920)
     print('Episode package complete:',output_dir,flush=True)
 

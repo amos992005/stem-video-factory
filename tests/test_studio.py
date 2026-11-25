@@ -31,3 +31,23 @@ class StudioTests(unittest.TestCase):
 
 
 if __name__=='__main__': unittest.main()
+
+class CompositionTests(unittest.TestCase):
+    def test_layout_flags_fixed_template(self):
+        from visual_audit import composition_pairs, MIN_DIVERSITY
+        frame=np.zeros((180,320),np.uint8);frame[30:100,40:100]=200
+        pairs=composition_pairs([frame.copy() for _ in range(30)])
+        self.assertTrue(all(value < MIN_DIVERSITY for _,_,value in pairs))
+
+    def test_layout_ignores_subtitle_zone(self):
+        from visual_audit import layout_descriptor
+        a=np.zeros((180,320),np.uint8);a[20:80,40:100]=200
+        b=a.copy();b[155:175,:]=255
+        np.testing.assert_allclose(layout_descriptor(a),layout_descriptor(b))
+
+    def test_layout_detects_major_recomposition(self):
+        from visual_audit import layout_descriptor, MIN_DIVERSITY
+        a=np.zeros((180,320),np.uint8);a[20:70,20:80]=200
+        b=np.zeros_like(a);b[60:120,220:300]=200
+        diff=np.abs(layout_descriptor(a)-layout_descriptor(b)).sum()/2
+        self.assertGreater(diff,MIN_DIVERSITY)

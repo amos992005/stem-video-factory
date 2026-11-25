@@ -1,7 +1,7 @@
-"""Portrait versions use the same motion engine and leave room for captions."""
+"""Three independently staged portrait cuts, without persistent HUD labels."""
 from manim import *
-from vfx_engine import *
-from studio_components import *
+from cinematic_scene import FilmScene
+from cinematic_acts import *
 
 config.pixel_width=1080
 config.pixel_height=1920
@@ -9,70 +9,73 @@ config.frame_width=9
 config.frame_height=16
 
 
-class PortraitStudio(StudioScene):
+class PortraitFilm(FilmScene):
     portrait=True
     speech_rate='+15%'
 
 
-class Short01_ACvsDC(PortraitStudio):
+class Short01_ACvsDC(PortraitFilm):
     def construct(self):
-        self.title('SHORT 01','AC vs DC')
-        wall=outlet_icon(.8).move_to(LEFT*2.3+UP*2.2)
-        battery=battery_icon(.8).move_to(RIGHT*2.3+UP*2.2)
-        arc=burst_arc(wall.get_right(),battery.get_left())
-        self.add(wall,battery)
-        self.sentence('Why is connecting a phone battery directly to a wall outlet so dangerous?','NEVER CONNECT TO MAINS',FadeIn(arc),sfx='zap')
-        sparks=create_explosion(battery.get_center(),40); self.add(sparks)
-        self.sentence('It can cause electric shock, fire, and battery failure.','SHOCK  /  FIRE  /  DAMAGE',shake=True)
-        self.sentence('Never try it: the charger is a critical safety barrier.','THIS IS A WARNING',FadeOut(arc),FadeOut(sparks))
-        wave=wave_card('ac',CORAL,5.7,1.6).move_to(UP*.15)
-        self.sentence('The outlet supplies alternating voltage, so the polarity reverses again and again.','WALL  /  ALTERNATING',FadeOut(wall),FadeOut(battery),FadeIn(wave))
-        path=Line(LEFT*3+DOWN*2,RIGHT*3+DOWN*2,color=CYAN,stroke_width=4)
-        flow=ContinuousFlowStream(path,GOLD,18,ac=True)
-        self.sentence('Charges in alternating current oscillate; this visualization is deliberately slowed down.','60 HZ  /  MOTION SLOWED',Create(path),FadeIn(flow))
-        dc=ContinuousFlowStream(path,LIME,18,speed=.25)
-        self.sentence('Direct current flows in one direction, and a USB output often starts at five volts.','USB  /  DIRECT CURRENT',FadeOut(flow),FadeIn(dc))
-        half=wave_card('half',GOLD,5.7,1.6).move_to(wave)
-        self.sentence('One diode blocks half the waveform, leaving gaps in the ideal output.','ONE DIODE  /  HALF WAVE',ReplacementTransform(wave,half))
-        self.sentence('A four-diode bridge can use both halves of the cycle.','THE DIAMOND SOLUTION')
-        self.sentence('Watch the full video to see how the whole charger works.','WATCH THE FULL EPISODE')
-        self.clear_foreground()
+        self.card('AC  vs  DC')
+        wall=outlet_icon(1.15).move_to(LEFT*2.5+UP*1.6);battery=battery_icon(1.15).move_to(RIGHT*2.5+UP*1.6)
+        self.add(wall,battery);arc=burst_arc(wall.get_right(),battery.get_left())
+        self.say('Why is connecting a phone battery directly to a wall outlet so dangerous?',FadeIn(arc),sfx='zap')
+        sparks=self.burst(battery.get_center())
+        self.say('It can cause electric shock, fire, and battery failure. Never try it.',shake=True)
+        self.clear_act()
+        tubes=tube_pair(7).scale(.85).shift(UP*.5);self.add(tubes)
+        self.say('The wall supplies alternating voltage, so its polarity keeps reversing.')
+        self.say('The charge motion is slowed down here; direct current flows in one direction.')
+        self.say('A USB charger commonly starts at five volts, and the phone controls its battery.')
+        self.clear_act()
+        wave=giant_wave('ac',CORAL,7,2.8).shift(UP*.5);self.add(wave)
+        half=giant_wave('half',GOLD,7,2.8).shift(UP*.5)
+        self.say('A single diode blocks one half of the wave, leaving gaps.',ReplacementTransform(wave,half))
+        self.say('A four-diode bridge can use both halves of the cycle.')
+        self.say('Watch the full video to see how the whole charger works.')
+        self.clear_act()
 
 
-class Short02_WirelessTransformer(PortraitStudio):
+class Short02_WirelessTransformer(PortraitFilm):
     def construct(self):
-        self.title('SHORT 02','THE MAGNETIC JUMP')
-        transformer=transformer_unit(6).move_to(UP*1.75)
-        self.add(transformer)
-        self.sentence('Did you know an isolated charger has no direct wire connection from the wall to your phone cord?','SEPARATE WINDINGS',sfx='whoosh')
-        self.sentence('Energy crosses a transformer through a changing magnetic field.','ENERGY CROSSES THE GAP')
-        self.sentence('Insulation and careful construction help protect you from mains voltage.','ISOLATION IS ENGINEERED')
-        self.sentence('Changing current in the first coil makes the field pulse.','PRIMARY  /  CHANGING CURRENT')
-        self.sentence('That field induces a voltage in the separate secondary coil.','SECONDARY  /  INDUCED VOLTAGE')
-        eq=formula('transformer',50).move_to(DOWN*.9)
-        self.sentence('In an ideal transformer, the voltage ratio follows the turns ratio.','THE TURNS RATIO',Write(eq))
-        self.sentence('Fewer secondary turns mean a lower winding voltage.','20 TURNS  →  5 TURNS')
-        self.sentence('Real phone chargers rectify the mains and then switch at high frequency.','SMALL CORE  /  FAST SWITCHING')
-        self.sentence('Watch the full video for the rest of the story.','WATCH THE FULL EPISODE')
-        self.clear_foreground()
+        self.card('THE MAGNETIC JUMP')
+        coils=transformer_full(7).shift(UP*1.3);self.add(coils);self.frame_act(.8,UP*1.2)
+        self.say('Did you know an isolated charger has no direct wire connection from the wall to your phone cord?',sfx='whoosh')
+        self.say('Proper insulation helps protect you from the mains.')
+        self.clear_act()
+        coils=transformer_full(7).shift(UP*1.2);rings=create_3d_magnetic_rings(UP*1.2,6,1.6);self.add(coils,rings)
+        self.say('Changing current creates a magnetic field in the first winding.')
+        self.say('That changing field induces voltage in the separate second winding.')
+        self.clear_act()
+        wave=giant_wave('ac',CORAL,7,3).shift(UP*.4);eq=formula('transformer',52).move_to(UP*3.1)
+        self.add(wave)
+        self.say('In an ideal transformer, the voltage ratio follows the turns ratio.',Write(eq))
+        small=giant_wave('ac',LIME,7,1.2).shift(UP*.4)
+        self.say('Fewer secondary turns mean a lower winding voltage.',ReplacementTransform(wave,small))
+        self.say('Real phone chargers rectify the mains and switch at high frequency.')
+        self.say('Watch the full video for the complete story.')
+        self.clear_act()
 
 
-class Short03_DiamondBridge(PortraitStudio):
+class Short03_DiamondBridge(PortraitFilm):
     def construct(self):
-        self.title('SHORT 03','THE DIODE DIAMOND')
-        bridge,diodes,positive,negative=bridge_unit(.8);bridge.move_to(UP*1.5)
-        self.add(bridge)
-        self.sentence('This classic diamond circuit performs a famous math function in real life.','FOUR DIODES  /  ONE TRICK')
-        self.sentence('A bridge rectifier routes both input halves through a load in one direction.','THE BRIDGE RECTIFIER')
-        red=ContinuousFlowStream(positive,CORAL,18,.28)
-        self.sentence('On one half-cycle, two diodes conduct along the red path.','POSITIVE HALF  /  RED PATH',FadeIn(red),diodes[0].animate.set_color(CORAL),diodes[3].animate.set_color(CORAL))
-        blue=ContinuousFlowStream(negative,BLUE_C,18,.28)
-        self.sentence('When the input reverses, the blue pair takes over.','NEGATIVE HALF  /  BLUE PATH',FadeOut(red),FadeIn(blue),diodes[0].animate.set_color(WHITE),diodes[3].animate.set_color(WHITE),diodes[1].animate.set_color(BLUE_C),diodes[2].animate.set_color(BLUE_C))
-        self.sentence('The load current still goes in the same direction.','SAME OUTPUT POLARITY')
-        wave=wave_card('ac',CORAL,5.8,1.2).move_to(DOWN*2)
-        self.sentence('The paths represent conventional current, rather than individual electrons.','CONVENTIONAL CURRENT',FadeIn(wave))
-        rect=wave_card('rect',CYAN,5.8,1.2).move_to(wave)
-        self.sentence('Ideally, negative valleys flip upward: that is the absolute value function.','FLIP THE VALLEYS',ReplacementTransform(wave,rect))
-        self.sentence('A capacitor can then smooth the resulting ripples.','SMOOTH THE RIPPLES')
-        self.sentence('Watch the full video for the real charger story.','WATCH THE FULL EPISODE')
-        self.clear_foreground()
+        self.card('THE DIODE DIAMOND')
+        bridge,diodes,pos,neg=bridge_unit(1.35);bridge.shift(UP*1.3);self.add(bridge)
+        self.say('This classic diamond circuit performs a famous math function in real life.')
+        self.say('Four diodes form a bridge rectifier that routes current through the load.')
+        self.clear_act()
+        bridge,diodes,pos,neg=bridge_unit(1.35);bridge.shift(UP*1.3);self.add(bridge);self.frame_act(.78,UP*1.2)
+        dot=Dot(pos.get_start(),radius=.12,color=CORAL);self.add(dot)
+        with self.voiceover(text='On one half-cycle, current follows the red path.') as tracker:
+            self.play(MoveAlongPath(dot,pos),self.camera.frame.animate.move_to(UP*1.3+RIGHT*.3),run_time=tracker.duration*.94,rate_func=linear)
+        self.remove(dot);dot=Dot(neg.get_start(),radius=.12,color=BLUE_C);self.add(dot)
+        with self.voiceover(text='When the input reverses, the blue path keeps the load current moving the same way.') as tracker:
+            self.play(MoveAlongPath(dot,neg),self.camera.frame.animate.move_to(UP*1.3+LEFT*.3),run_time=tracker.duration*.94,rate_func=linear)
+        self.say('These dots represent conventional current, not individual electrons.')
+        self.clear_act()
+        wave=giant_wave('ac',BLUE_C,7,3).shift(UP*.3);self.add(wave)
+        rect=giant_wave('rect',CYAN,7,3).shift(UP*.3)
+        self.say('Ideally the negative valleys flip upward: that is the absolute value function.',ReplacementTransform(wave,rect))
+        self.say('A capacitor can then smooth the resulting ripples.')
+        self.say('Watch the full video for the real charger story.')
+        self.clear_act()
