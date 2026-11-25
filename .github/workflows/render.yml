@@ -16,9 +16,10 @@ jobs:
   render:
     name: Render ${{ matrix.scene }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 180
     strategy:
       fail-fast: false
+      max-parallel: 4
       matrix:
         include:
           - {file: ep01_long_video, scene: Ch1_TheHookAndACvsDC, orientation: landscape}
@@ -45,6 +46,7 @@ jobs:
         run: |
           python src/run_checked.py python -m unittest discover -s tests -v
           python src/generate_ep01_svgs.py
+          python src/audio_design.py
       - name: Render landscape at 1080p
         if: matrix.orientation == 'landscape'
         run: python src/run_checked.py manim -qh --disable_caching --progress_bar none src/${{ matrix.file }}.py ${{ matrix.scene }}
@@ -92,6 +94,17 @@ jobs:
           merge-multiple: true
       - name: Create final MP4s and subtitles
         run: python src/run_checked.py python src/package_ep01.py
+      - name: Create contact sheets and enforce motion audit
+        run: python src/run_checked.py python src/visual_audit.py
+      - name: Upload audit diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ep01-audit-diagnostics
+          path: |
+            output/ep01_phone_charger/motion_audit_report.md
+            output/ep01_phone_charger/visual_contact_sheet*.png
+          if-no-files-found: ignore
       - name: Upload final episode
         uses: actions/upload-artifact@v4
         with:

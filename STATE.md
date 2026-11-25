@@ -23,3 +23,10 @@
 - The sandbox cannot reach Debian mirrors, Edge TTS, or GitHub's artifact blob
   storage; rendering and downloading the final artifact are done via GitHub.
   Edge TTS and Hugging Face model availability are external dependencies.
+
+## Studio VFX overhaul
+
+The branch now includes a neon motion engine, procedural audio, per-sentence
+choreography, and an FFmpeg contact-sheet / overlapping-window motion audit.
+A new Actions render must pass the audit before its artifact is published.
+The earlier artifact above is the pre-overhaul cut, not the studio version.

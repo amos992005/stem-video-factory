@@ -43,3 +43,14 @@ five landscape and three portrait scene MP4s in `staging/`, then runs
 `python src/package_ep01.py`. Packaging requires FFmpeg with libass/libx264,
 and internet access for the initial Whisper model download. The voiceover
 service times animations to clip durations; bookmark timing is not implemented.
+
+## Studio visuals and motion audit
+
+The studio version uses `src/vfx_engine.py` and `src/studio_components.py` for
+procedural neon, flowing current indicators, sparks and 3D-projected coils.
+`src/audio_design.py` synthesizes the underscore and effects; the packaging
+job mixes the underscore at -20 dB gain beneath the narration. The final
+artifact includes contact sheets and `motion_audit_report.md`. The audit samples
+5 fps, thresholds adjacent grayscale frames and checks every overlapping
+2-second window; the report describes its metric and limitations. A passing
+motion metric is not a substitute for editorial review of images or captions.

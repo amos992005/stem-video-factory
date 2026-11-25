@@ -5,3 +5,5 @@ media/
 output/*
 !output/.gitkeep
 assets/svg/*.svg
+
+assets/audio/ep01/
