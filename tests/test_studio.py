@@ -33,6 +33,15 @@ class StudioTests(unittest.TestCase):
 if __name__=='__main__': unittest.main()
 
 class CompositionTests(unittest.TestCase):
+    def test_contact_sheet_cells(self):
+        from visual_audit import split_sheet
+        grid=np.zeros((1080,1600),np.uint8)
+        grid[180:360,320:640]=123
+        frames=split_sheet(grid)
+        self.assertEqual(len(frames),30)
+        self.assertEqual(frames[6][20,20],123)
+        self.assertEqual(frames[0][20,20],0)
+
     def test_layout_flags_fixed_template(self):
         from visual_audit import composition_pairs, MIN_DIVERSITY
         frame=np.zeros((180,320),np.uint8);frame[30:100,40:100]=200

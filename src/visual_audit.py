@@ -46,11 +46,19 @@ def composition_pairs(frames):
     return [(i,i+2,float(np.abs(descriptors[i]-descriptors[i+2]).sum()/2)) for i in range(28)]
 
 
-def contact_samples(decoded):
-    n=len(decoded)
-    if n<30: raise ValueError('Video is too short for a 30-frame contact sheet')
-    return [decoded[min(n-1,int((i+.5)*n/30))] for i in range(30)]
 
+def sheet_samples(path):
+    """Decode the actual landscape contact sheet into its thirty 320×180 cells."""
+    command=['ffmpeg','-v','error','-i',str(path),'-vf','scale=1600:1080,format=gray','-frames:v','1','-f','rawvideo','-']
+    data=subprocess.run(command,check=True,stdout=subprocess.PIPE).stdout
+    expected=1600*1080
+    if len(data)!=expected: raise ValueError('Could not decode the contact sheet')
+    return split_sheet(np.frombuffer(data,dtype=np.uint8).reshape(1080,1600))
+
+
+def split_sheet(sheet):
+    if sheet.shape!=(1080,1600): raise ValueError('Unexpected contact sheet dimensions')
+    return [sheet[row*180:(row+1)*180,col*320:(col+1)*320] for row in range(6) for col in range(5)]
 
 def duration(path):
     data=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(path)]))
@@ -95,9 +103,9 @@ def audit(directory,strict=True):
             failed.append(video.name+' (motion)')
             details.append(f'**{video.name} flagged window starts (seconds):** '+', '.join(f'{t:.1f}' for t,_ in bad[:100])+(' …' if len(bad)>100 else ''))
         if video==videos[0]:
-            pairs=composition_pairs(contact_samples(decoded))
+            pairs=composition_pairs(sheet_samples(directory/'visual_contact_sheet_16x9.png'))
             bad_pairs=[(i,j,v) for i,j,v in pairs if v<MIN_DIVERSITY]
-            details.append(f'**Contact-sheet composition:** minimum {min(v for _,_,v in pairs):.3f}; {len(bad_pairs)} / {len(pairs)} pairs below {MIN_DIVERSITY:.2f}: {"FAIL" if bad_pairs else "PASS"}.')
+            details.append(f'**Landscape contact-sheet composition:** minimum {min(v for _,_,v in pairs):.3f}; {len(bad_pairs)} / {len(pairs)} pairs below {MIN_DIVERSITY:.2f}: {"FAIL" if bad_pairs else "PASS"}.')
             if bad_pairs:
                 details.append('Flagged pairs (1-based): '+', '.join(f'{i+1}–{j+1} ({v:.3f})' for i,j,v in bad_pairs))
                 failed.append(video.name+' (composition)')

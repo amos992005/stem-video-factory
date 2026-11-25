@@ -8,8 +8,6 @@ legibility and avoid violent full-screen flashes.
 from pathlib import Path
 import numpy as np
 from manim import *
-from manim_voiceover import VoiceoverScene
-from edge_tts_service import EdgeTTSService
 
 BACKGROUND = '#050814'
 MUTED = '#A6BBD0'
@@ -169,54 +167,3 @@ def live_grid(width,height):
     contour.add_updater(lambda m,dt: m.rotate(.035*dt))
     return VGroup(grid,contour)
 
-
-class StudioScene(VoiceoverScene, MovingCameraScene):
-    """Voiceover scene with persistent motion, short beats and restrained camera moves."""
-    speech_rate='+25%'
-    portrait=False
-
-    def setup(self):
-        super().setup()
-        self.camera.background_color=BACKGROUND
-        self.set_speech_service(EdgeTTSService(rate=self.speech_rate))
-        self.backdrop=live_grid(config.frame_width,config.frame_height)
-        self.add(self.backdrop)
-        self.current_kicker=None
-        self.beat_index=0
-
-    def sentence(self,text,kicker,*animations,sfx=None,shake=False):
-        """One short narration beat, always with a new callout and camera movement."""
-        new=tag(kicker,GOLD,22 if not self.portrait else 23)
-        new.move_to(DOWN*(3.23 if not self.portrait else 4.30))
-        change=FadeIn(new,shift=UP*.08) if self.current_kicker is None else ReplacementTransform(self.current_kicker,new)
-        self.current_kicker=new
-        self.beat_index+=1
-        with self.voiceover(text=text) as tracker:
-            if sfx:
-                sound=SOUND_DIR / f'{sfx}.wav'
-                if not sound.exists(): raise FileNotFoundError(sound)
-                self.add_sound(str(sound),gain=-15)
-            duration=max(.12,min(1.25,tracker.duration*.38))
-            camera_move=self.camera.frame.animate.move_to(RIGHT*(.055 if self.beat_index%2 else -.055))
-            self.play(change,*animations,camera_move,run_time=duration)
-            if shake:
-                frame=self.camera.frame
-                base=frame.get_center().copy()
-                def shake_frame(m,alpha):
-                    m.move_to(base + RIGHT*(.09*np.sin(alpha*12*PI)*(1-alpha)) + UP*(.05*np.sin(alpha*16*PI)*(1-alpha)))
-                self.play(UpdateFromAlphaFunc(frame,shake_frame),run_time=min(.45,max(.1,tracker.get_remaining_duration()*.3)))
-            # The voiceover context waits out the clip; updater-driven layers keep moving.
-
-    def clear_foreground(self):
-        foreground=[m for m in self.mobjects if m is not self.backdrop and m is not self.camera.frame]
-        if foreground:
-            self.play(*[FadeOut(m) for m in foreground],run_time=.45)
-        self.current_kicker=None
-
-    def title(self,chapter,title):
-        small=tag('E P  0 1   /   '+chapter,CYAN,17)
-        big=heading(title,35 if not self.portrait else 40)
-        group=VGroup(small,big).arrange(DOWN,buff=.12)
-        group.move_to(UP*(3.15 if not self.portrait else 5.65))
-        self.add(group)
-        return group

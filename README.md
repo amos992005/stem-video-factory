@@ -11,9 +11,10 @@ The **Render Episode 01** GitHub Actions workflow automatically starts on a
 relevant push, or can be started via **Actions → Render Episode 01 → Run
 workflow** on the branch with these files. It renders eight scenes in parallel
 at 1080p, concatenates the chapters, transcribes with faster-whisper `base.en`,
-burns the Shorts' captions, and verifies dimensions and audio streams. Download
+burns word-highlighted captions into all four videos, and verifies dimensions and audio streams. Download
 **ep01-phone-charger-videos** from the successful run's Artifacts section.
-The ZIP contains four MP4s and four SRT subtitle files under
+The ZIP contains four MP4s, four editable SRTs, four ASS files, contact sheets
+and the audit report under
 `output/ep01_phone_charger/`, plus this README. Automated captions should be
 reviewed before publishing.
 Artifacts expire after 30 days; Actions availability and quotas depend on plan.
@@ -52,5 +53,7 @@ procedural neon, flowing current indicators, sparks and 3D-projected coils.
 job mixes the underscore at -20 dB gain beneath the narration. The final
 artifact includes contact sheets and `motion_audit_report.md`. The audit samples
 5 fps, thresholds adjacent grayscale frames and checks every overlapping
-2-second window; the report describes its metric and limitations. A passing
-motion metric is not a substitute for editorial review of images or captions.
+2-second window above the subtitle region, requiring at least 2.5% changed
+pixels. A separate comparison checks the actual 30-frame landscape sheet for
+layout changes. The report describes the metrics and limitations; passing is
+not a substitute for editorial review of images or captions.
