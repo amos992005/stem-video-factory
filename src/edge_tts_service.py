@@ -15,9 +15,10 @@ class EdgeTTSService(SpeechService):
     This service does not currently supply word boundaries for bookmark timing.
     """
 
-    def __init__(self, voice="en-US-ChristopherNeural", **kwargs):
+    def __init__(self, voice="en-US-ChristopherNeural", rate="+0%", **kwargs):
         super().__init__(**kwargs)
         self.voice = voice
+        self.rate = rate
 
     def generate_from_text(self, text, cache_dir=None, path=None, **kwargs):
         if kwargs:
@@ -25,7 +26,7 @@ class EdgeTTSService(SpeechService):
         cache_dir = Path(self.cache_dir if cache_dir is None else cache_dir)
         cache_dir.mkdir(parents=True, exist_ok=True)
         spoken_text = remove_bookmarks(text)
-        input_data = {"input_text": spoken_text, "service": "edge-tts", "voice": self.voice}
+        input_data = {"input_text": spoken_text, "service": "edge-tts", "voice": self.voice, "rate": self.rate}
         if path is None:
             cached = self.get_cached_result(input_data, cache_dir)
             if cached and (cache_dir / cached["original_audio"]).is_file():
@@ -40,7 +41,7 @@ class EdgeTTSService(SpeechService):
         fd, temp_name = tempfile.mkstemp(suffix=".mp3", dir=destination.parent)
         os.close(fd)
         try:
-            edge_tts.Communicate(spoken_text, self.voice).save_sync(temp_name)
+            edge_tts.Communicate(spoken_text, self.voice, rate=self.rate).save_sync(temp_name)
             os.replace(temp_name, destination)
         finally:
             Path(temp_name).unlink(missing_ok=True)

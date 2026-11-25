@@ -77,10 +77,12 @@ def bridge_diagram(scale=1.0):
 
 
 class EpisodeScene(VoiceoverScene):
+    speech_rate = "+25%"
+
     def setup(self):
         super().setup()
         self.camera.background_color = INK
-        self.set_speech_service(EdgeTTSService())
+        self.set_speech_service(EdgeTTSService(rate=self.speech_rate))
 
     def beat(self, narration, *animations):
         with self.voiceover(text=narration) as tracker:

@@ -27,7 +27,7 @@ class PipelineTests(unittest.TestCase):
                 communicate.return_value.save_sync.side_effect = save_audio
                 result = service.generate_from_text("Hello world")
                 self.assertEqual((Path(tmp) / result["original_audio"]).read_bytes(), b"mock audio")
-                communicate.assert_called_once_with("Hello world", "en-US-ChristopherNeural")
+                communicate.assert_called_once_with("Hello world", "en-US-ChristopherNeural", rate="+0%")
                 (Path(tmp) / "cache.json").write_text(json.dumps([result]))
                 service.generate_from_text("Hello world")
                 self.assertEqual(communicate.call_count, 1)

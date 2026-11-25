@@ -14,6 +14,8 @@ def heading(top, title):
 
 
 class Short01_ACvsDC(EpisodeScene):
+    speech_rate = '+15%'
+
     def construct(self):
         h=heading('PHONE CHARGER  /  01','AC vs DC')
         warning=words('NEVER CONNECT\nA BATTERY TO MAINS', 29, RED_C, weight=BOLD, line_spacing=.9).move_to(UP*2.8)
@@ -33,6 +35,8 @@ class Short01_ACvsDC(EpisodeScene):
 
 
 class Short02_WirelessTransformer(EpisodeScene):
+    speech_rate = '+15%'
+
     def construct(self):
         h=heading('PHONE CHARGER  /  02','The magnetic jump')
         trans=svg('transformer',5.5).move_to(UP*1.5)
@@ -47,6 +51,8 @@ class Short02_WirelessTransformer(EpisodeScene):
 
 
 class Short03_DiamondBridge(EpisodeScene):
+    speech_rate = '+15%'
+
     def construct(self):
         h=heading('PHONE CHARGER  /  03','The diode diamond')
         circuit,ds,redpath,bluepath=bridge_diagram(.9)
