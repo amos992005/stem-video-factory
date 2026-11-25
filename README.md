@@ -13,7 +13,9 @@ workflow** on the branch with these files. It renders eight scenes in parallel
 at 1080p, concatenates the chapters, transcribes with faster-whisper `base.en`,
 burns the Shorts' captions, and verifies dimensions and audio streams. Download
 **ep01-phone-charger-videos** from the successful run's Artifacts section.
-The ZIP contains four ready-to-play MP4s and their four SRT subtitle files.
+The ZIP contains four MP4s and four SRT subtitle files under
+`output/ep01_phone_charger/`, plus this README. Automated captions should be
+reviewed before publishing.
 Artifacts expire after 30 days; Actions availability and quotas depend on plan.
 
 The render needs outbound access to Microsoft's Edge TTS and Hugging Face's

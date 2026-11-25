@@ -96,6 +96,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ep01-phone-charger-videos
-          path: output/ep01_phone_charger/
+          # Include a root-level manifest so the ZIP preserves output/... paths.
+          path: |
+            README.md
+            output/ep01_phone_charger/
           if-no-files-found: error
           retention-days: 30
