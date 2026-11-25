@@ -19,9 +19,12 @@ def label(text, color=TEAL_C, size=21):
     return words(text, size, color, weight=BOLD)
 
 
-def svg(name, width=4.5):
+def svg(name, width=4.5, max_height=3.2):
     generate()
-    return SVGMobject(str(SVG_DIR / f'{name}.svg')).scale_to_fit_width(width)
+    obj = SVGMobject(str(SVG_DIR / f'{name}.svg')).scale_to_fit_width(width)
+    if obj.height > max_height:
+        obj.scale_to_fit_height(max_height)
+    return obj
 
 
 def formula(key, size=35):
@@ -86,8 +89,16 @@ class EpisodeScene(VoiceoverScene):
 
     def beat(self, narration, *animations):
         with self.voiceover(text=narration) as tracker:
-            if animations:
-                self.play(*animations, run_time=max(0.1, tracker.duration * 0.96))
+            # Establish diagrams and captions quickly, then keep them readable.
+            # Motion paths and trackers may run for the rest of the narration.
+            moving = [a for a in animations if isinstance(a, MoveAlongPath) or type(a).__name__ == '_AnimationBuilder']
+            static = [a for a in animations if a not in moving]
+            used = 0.0
+            if static:
+                used = min(1.25, tracker.duration * .25)
+                self.play(*static, run_time=max(.1, used))
+            if moving:
+                self.play(*moving, run_time=max(.1, tracker.duration * .96 - used))
 
     def clear_scene(self):
         if self.mobjects:

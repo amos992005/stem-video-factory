@@ -53,9 +53,9 @@ class Ch3_OneWayValveDiode(EpisodeScene):
         stop=label('REVERSE BLOCKED',RED_C,20).next_to(arrow,DOWN,buff=.12)
         half=graph('half',5.1,2.3).move_to(gr)
         eq=formula('half',27).next_to(gr,DOWN,buff=.25)
-        self.beat('Imagine a turnstile: current can pass forward, but the reverse half-cycle is blocked. On the graph the negative troughs disappear, leaving gaps between the positive humps. The ideal mathematical model is the maximum of zero and the input sine wave.',GrowArrow(arrow),FadeIn(stop),Transform(gr,half),Write(eq))
+        self.beat('Imagine a turnstile: current can pass forward, but the reverse half-cycle is blocked. On the graph the negative troughs disappear, leaving gaps between the positive humps. The ideal mathematical model is the maximum of zero and the input sine wave.',FadeOut(text),GrowArrow(arrow),FadeIn(stop),Transform(gr,half),Write(eq))
         warn=words('Half the ideal waveform power reaches the load',21,color=YELLOW_C).to_edge(DOWN,buff=.48)
-        self.beat('With an ideal diode and a resistive load, the average load power is half that of the original sine wave. That is not a universal statement about how much energy every real charger wastes. It is a useful clue that a better rectifier can use both halves of the cycle.',FadeIn(warn))
+        self.beat('With an ideal diode and a resistive load, the average load power is half that of the original sine wave. That is not a universal statement about how much energy every real charger wastes. It is a useful clue that a better rectifier can use both halves of the cycle.',FadeOut(arrow),FadeOut(stop),FadeIn(warn))
         self.clear_scene()
 
 
