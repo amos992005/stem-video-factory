@@ -5,7 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
+sys.path.append(str(Path(__file__).resolve().parents[1] / 'src'))
 from generate_ep01_svgs import generate
 from ep01_math import verify, LATEX
 from package_ep01 import captions, timestamp, write_srt, write_ass
