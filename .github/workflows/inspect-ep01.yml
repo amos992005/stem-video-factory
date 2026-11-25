@@ -21,11 +21,14 @@ jobs:
           run-id: ${{ inputs.run_id || '45676925635' }}
           github-token: ${{ github.token }}
           path: video
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Report metadata and frames
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
+          trap 'echo "::error::$(tail -c 4000 /tmp/inspect-error | sed ":a;N;\$!ba;s/\n/%0A/g")"' ERR
+          python - 2>/tmp/inspect-error <<'PY'
           import base64, json, pathlib, subprocess
           for p in sorted(pathlib.Path('video').glob('*.mp4')):
               data=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(p)]))
