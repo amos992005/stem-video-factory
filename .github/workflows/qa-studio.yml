@@ -1,0 +1,36 @@
+name: Temporary studio preview
+on:
+  push:
+    paths: ['.github/workflows/qa-studio.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        scene: [Ch1_TheHookAndACvsDC, Ch2_TheWirelessJumpTransformer, Ch4_TheMagicDiamondBridge, Short01_ACvsDC, Short03_DiamondBridge]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ep01-scene-${{ matrix.scene }}
+          run-id: 45688471530
+          github-token: ${{ github.token }}
+          path: scene
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Preview frames
+        env:
+          SCENE: ${{ matrix.scene }}
+        run: |
+          python - <<'PY'
+          import os,base64,pathlib,json,subprocess
+          name=os.environ['SCENE']; p=pathlib.Path('scene')/(name+'.mp4')
+          d=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(p)])); duration=float(d['format']['duration'])
+          print(f'::notice title=Duration::{name}: {duration:.2f}s')
+          for i,f in enumerate([.2,.5,.8]):
+              image=f'/tmp/f{i}.jpg'; size='scale=180:-2' if name.startswith('Short') else 'scale=320:-2'
+              subprocess.run(['ffmpeg','-v','error','-ss',str(f*duration),'-i',str(p),'-frames:v','1','-vf',size,'-q:v','25','-y',image],check=True)
+              b64=base64.b64encode(pathlib.Path(image).read_bytes()).decode()
+              for part in range((len(b64)+2999)//3000): print(f'::notice title=FRAME {name} {i} {part}::{b64[part*3000:(part+1)*3000]}')
+          PY
