@@ -30,7 +30,13 @@ class Ch1_TheHookAndACvsDC(StudioScene):
         self.sentence('Your phone expects carefully controlled direct current instead.','A ONE-WAY FLOW',FadeIn(right),FadeIn(dc),Create(path2),FadeIn(stream2))
         self.sentence('A USB charger often starts at five volts, while the phone controls its own battery.','USB OUTPUT ≠ BATTERY VOLTAGE')
         brick=wireframe_brick().move_to(ORIGIN)
-        self.sentence('That tiny charger is a safety barrier and a power converter.','LET’S OPEN THE MODEL',FadeOut(left),FadeOut(right),FadeOut(ac),FadeOut(dc),FadeOut(path1),FadeOut(path2),FadeOut(stream1),FadeOut(stream2),FadeIn(brick),sfx='whoosh')
+        # Orbiting energy tracks keep the cutaway active while the stages are explained.
+        orbit=VGroup(*[DashedVMobject(Ellipse(width=3.5+i*.6,height=2.0+i*.4,color=c,stroke_width=3),num_dashes=30) for i,c in enumerate((CYAN,LIME,GOLD))])
+        for i,ring in enumerate(orbit):
+            ring.add_updater(lambda m,dt,i=i: m.rotate((.48 if i%2==0 else -.35)*dt))
+        route=RoundedRectangle(width=2.7,height=1.5,corner_radius=.18).set_opacity(0)
+        energy=ContinuousFlowStream(route,CYAN,24,speed=.24)
+        self.sentence('That tiny charger is a safety barrier and a power converter.','LET’S OPEN THE MODEL',FadeOut(left),FadeOut(right),FadeOut(ac),FadeOut(dc),FadeOut(path1),FadeOut(path2),FadeOut(stream1),FadeOut(stream2),FadeIn(brick),FadeIn(orbit),FadeIn(energy),sfx='whoosh')
         stages=VGroup(*[tag(s,c,20) for s,c in [('RECTIFY',CORAL),('SWITCH',GOLD),('ISOLATE',CYAN),('REGULATE',LIME)]]).arrange(RIGHT,buff=.5).move_to(DOWN*1.65)
         self.sentence('Its real stages rectify, switch, isolate, and regulate the electrical energy.','FOUR STAGES',FadeIn(stages,shift=UP*.2))
         self.sentence('We will explore a simpler model, and then connect it back to real chargers.','FOLLOW THE ENERGY')
