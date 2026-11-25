@@ -157,7 +157,14 @@ class Ch5_TheCapacitorIron(FilmScene):
         count=Integer(85,font_size=54,color=WHITE).move_to(battery.get_center());pct=Text('%',font_size=38,color=WHITE).next_to(count,RIGHT,buff=.08)
         self.say('Inside the phone, another charging circuit manages and protects the battery.',FadeIn(count),FadeIn(pct))
         self.say('The illustration represents the battery charging toward one hundred percent.',count.animate.set_value(100))
-        self.say('Real switching chargers use more stages than this classroom model.')
+        # A genuine recomposition: the charger safety shield replaces the battery
+        # and regulator, rather than relying on tiny background motion.
+        shield=Polygon(UP*2.4+LEFT*2.1,UP*2.4+RIGHT*2.1,RIGHT*1.8+DOWN*.65,DOWN*2.0,LEFT*1.8+DOWN*.65,
+                       color=CYAN,stroke_width=7,fill_color='#10334A',fill_opacity=.75).shift(UP*.4)
+        lock=VGroup(RoundedRectangle(width=2.2,height=1.5,corner_radius=.18,color=GOLD,stroke_width=7),
+                    Arc(radius=.7,start_angle=0,angle=PI,color=GOLD,stroke_width=7).shift(UP*.75)).shift(UP*.35)
+        safety=VGroup(add_neon_glow(shield,CYAN,3,20),add_neon_glow(lock,GOLD,2,14))
+        self.say('Real switching chargers use more stages than this classroom model.',FadeOut(regulator),FadeOut(beam),FadeOut(battery),FadeOut(count),FadeOut(pct),FadeIn(safety))
         self.say('Never open or modify a plugged-in charger: mains voltage is dangerous.')
         self.say('Subscribe for more hidden engineering all around you.')
         self.clear_act()
