@@ -17,7 +17,6 @@ jobs:
           python - <<'PY'
           import re
           raw=open('/tmp/job.log',errors='replace').read()
-          lines=[x for x in raw.splitlines() if re.search(r'(error|exception|no points|traceback|runtimeerror|failed)',x,re.I)]
-          s='\n'.join(lines)[-3000:]
+          lines=raw.splitlines(); indexes=[i for i,x in enumerate(lines) if 'ep01_long_video' in x or 'zip() argument' in x]; s='\n'.join('\n'.join(lines[max(0,i-2):i+8]) for i in indexes)[-3000:]
           print('::error title=Diagnostic::'+s.replace('%','%25').replace('\r','%0D').replace('\n','%0A'))
           PY
