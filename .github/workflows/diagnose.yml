@@ -9,14 +9,44 @@ jobs:
   diagnostic:
     runs-on: ubuntu-24.04
     steps:
-      - name: Tail failed scene log
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ep01-phone-charger-videos
+          run-id: 45708962277
+          github-token: ${{ github.token }}
+          path: deliver
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Verify report, captions and media
         run: |
-          gh api --allow-escape-sequences repos/${{ github.repository }}/actions/jobs/139527081449/logs > /tmp/job.log 2>/tmp/fetch.err || { echo "::error title=Log fetch::$(cat /tmp/fetch.err)"; exit 1; }
           python - <<'PY'
-          import re
-          raw=open('/tmp/job.log',errors='replace').read()
-          lines=raw.splitlines(); indexes=[i for i,x in enumerate(lines) if 'ep01_long_video' in x or 'zip() argument' in x]; s='\n'.join('\n'.join(lines[max(0,i-2):i+8]) for i in indexes)[-3000:]
-          print('::error title=Diagnostic::'+s.replace('%','%25').replace('\r','%0D').replace('\n','%0A'))
+          import pathlib,json,subprocess
+          p=pathlib.Path('deliver/output/ep01_phone_charger'); assert p.is_dir()
+          videos=list(sorted(p.glob('*.mp4'))); assert len(videos)==4
+          assert len(list(p.glob('*.ass')))==4 and len(list(p.glob('*.srt')))==4
+          report=(p/'motion_audit_report.md').read_text(); assert 'FAIL' not in report
+          print('::notice title=Visual audit::'+report.replace('%','%25').replace('\n','%0A'))
+          for f in videos:
+              data=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration:stream=codec_type,width,height','-of','json',str(f)]))
+              v=next(s for s in data['streams'] if s['codec_type']=='video');assert any(s['codec_type']=='audio' for s in data['streams'])
+              ass=(p/(f.stem+'.ass')).read_text(); lines=[line for line in ass.splitlines() if line.startswith('Dialogue:')]
+              assert lines and all(line.count(r'{\1c&H20D7FF&}')==1 for line in lines)
+              print(f'::notice title=Video::{f.name} {v["width"]}x{v["height"]} {float(data["format"]["duration"]):.2f}s; {len(lines)} word highlights')
+          PY
+      - name: Preview landscape contact sheet
+        run: |
+          python - <<'PY'
+          import pathlib,base64,subprocess
+          source='deliver/output/ep01_phone_charger/visual_contact_sheet_16x9.png';dest='/tmp/sheet.jpg'
+          subprocess.run(['ffmpeg','-v','error','-i',source,'-vf','scale=600:-2','-frames:v','1','-q:v','25','-y',dest],check=True)
+          data=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
+          for n in range((len(data)+2999)//3000): print(f'::notice title=SHEET {n}::{data[n*3000:(n+1)*3000]}')
+          PY
+      - name: Preview landscape subtitle frame
+        run: |
+          python - <<'PY'
+          import pathlib,base64,subprocess
+          source='deliver/output/ep01_phone_charger/full_youtube_video_16x9.mp4';dest='/tmp/frame.jpg'
+          subprocess.run(['ffmpeg','-v','error','-ss','45','-i',source,'-frames:v','1','-vf','scale=480:-2','-q:v','20','-y',dest],check=True)
+          data=base64.b64encode(pathlib.Path(dest).read_bytes()).decode()
+          for n in range((len(data)+2999)//3000): print(f'::notice title=FRAME {n}::{data[n*3000:(n+1)*3000]}')
           PY
