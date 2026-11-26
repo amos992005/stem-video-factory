@@ -110,7 +110,7 @@ def render_beat(task):
     graph=(f"[0:v]zoompan=z='{z}':x='iw/2-iw/zoom/2+12*sin(on/36)+{shake}':"
            f"y='ih/2-ih/zoom/2+16*cos(on/47)+{shake}':d=1:s=1080x1920:fps=30,vignette=PI/5[bg];"
            f"[1:v]scale=1080:1920:flags=bilinear[fx];[bg][fx]overlay=0:0:shortest=1,"
-           f"fade=t=in:st=0:d=0.2:color=white,setpts=PTS+{start}/TB,ass='{ass}',setpts=PTS-{start}/TB[v]")
+           f"fade=t=in:st=0:d=0.2:color=white,settb=1/30,setpts=PTS+{round(start*30)},ass='{ass}',setpts=PTS-{round(start*30)}[v]")
     cmd=['ffmpeg','-v','error','-y','-filter_complex_threads','1','-loop','1','-framerate','30','-i',str(backdrop),
          '-f','rawvideo','-pixel_format','rgba','-video_size',f'{W}x{H}','-framerate','30','-i','pipe:0',
          '-filter_complex',graph,'-map','[v]','-frames:v',str(frames),'-r','30','-an','-c:v','libx264','-threads','2','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',str(dest)]
@@ -128,8 +128,10 @@ def verify(video, timeline):
     expected_frames=sum(beat['frames'] for beat in timeline)
     with av.open(str(video)) as container:
         v=next(s for s in container.streams if s.type=='video')
+        actual=(v.width,v.height,str(v.average_rate),str(v.base_rate),v.frames)
+        print(f'Observed video (width, height, average rate, base rate, frames): {actual}',flush=True)
         if (v.width,v.height,str(v.average_rate))!=(1080,1920,'30'):
-            raise RuntimeError('Wrong video dimensions or frame rate')
+            raise RuntimeError(f'Wrong video dimensions or frame rate: {actual}')
         if v.frames!=expected_frames:raise RuntimeError(f'Expected {expected_frames} frames, got {v.frames}')
         if not any(s.type=='audio' for s in container.streams):raise RuntimeError('Missing narration/audio')
         duration=container.duration/1_000_000
@@ -162,13 +164,23 @@ def build(outdir='output/pilot',cache='assets/ai_cache',workers=2):
             paths=[tmp/f'beat_{i}.mp4' for i in range(7)]
         listing=tmp/'concat.txt';listing.write_text(''.join(f"file '{p}'\n" for p in paths))
         video=outdir/'short_01_pilot_9x16.mp4';duration=sum(x['frames'] for x in timeline)/30
+        # Concat-copy can retain tiny timestamp discontinuities between MP4
+        # shots. Normalize explicitly to 30 fps and exactly the planned frame
+        # count; tpad only supplies a final held frame if a source timestamp is
+        # marginally short. This costs an extra encode but guarantees CFR.
+        total_frames=sum(x['frames'] for x in timeline)
+        cfr=f'fps=30,tpad=stop_mode=clone:stop_duration=1,trim=end_frame={total_frames},setpts=N/(30*TB)'
         run('ffmpeg','-v','error','-y','-f','concat','-safe','0','-i',listing,'-i',tmp/'mix.wav',
-            '-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-b:a','192k','-t',f'{duration:.6f}','-movflags','+faststart',video)
-        verify(video,timeline)
+            '-map','0:v:0','-map','1:a:0','-vf',cfr,'-r','30','-frames:v',total_frames,
+            '-c:v','libx264','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',
+            '-c:a','aac','-b:a','192k','-t',f'{duration:.6f}','-movflags','+faststart',video)
+        # The sheet remains available as a diagnostic even if validation fails.
         sheet=outdir/'pilot_contact_sheet.png'
         run('ffmpeg','-v','error','-y','-i',video,'-vf',f'fps=16/{duration:.6f},scale=270:480:flags=lanczos,tile=4x4:nb_frames=16','-frames:v','1','-update','1',sheet)
-        metadata={'renderer':'Flux' if use_flux else 'Three.js WebGL', 'duration':duration, 'video_size':[1080,1920], 'fps':30, 'timeline':timeline, 'render_seconds':time.monotonic()-started}
+        metadata={'renderer':'Flux' if use_flux else 'Three.js WebGL', 'duration':duration, 'video_size':[1080,1920], 'fps':30, 'timeline':timeline, 'render_seconds':time.monotonic()-started,'verification':'pending'}
         (outdir/'render_metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+        verify(video,timeline)
+        metadata['verification']='passed';(outdir/'render_metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
         print(f'Pilot created in {metadata["render_seconds"]:.1f}s using {metadata["renderer"]}; duration {duration:.2f}s',flush=True)
 
 if __name__=='__main__':

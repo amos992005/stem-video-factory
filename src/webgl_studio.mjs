@@ -23,7 +23,8 @@ try{
   console.log('WebGL device:',renderer);
   for(const beat of config.timeline){
     const dest=path.join(config.tmp,`beat_${beat.index}.mp4`);
-    const vf=`scale=1080:1920:flags=bicubic,fade=t=in:st=0:d=0.2:color=white,setpts=PTS+${beat.start}/TB,ass='${config.ass}',setpts=PTS-${beat.start}/TB`;
+    const startFrame=Math.round(beat.start*30);
+    const vf=`scale=1080:1920:flags=bicubic,fade=t=in:st=0:d=0.2:color=white,settb=1/30,setpts=PTS+${startFrame},ass='${config.ass}',setpts=PTS-${startFrame}`;
     const args=['-v','error','-y','-f','image2pipe','-vcodec','mjpeg','-framerate','30','-i','pipe:0','-vf',vf,'-frames:v',String(beat.frames),'-r','30','-an','-c:v','libx264','-threads','2','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',dest];
     const ff=spawn('ffmpeg',args,{stdio:['pipe','ignore','inherit']});
     let writeError=null;ff.stdin.on('error',e=>{writeError=e});
