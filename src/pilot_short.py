@@ -10,12 +10,13 @@ from comic_cutout_studio import FPS, Studio, prepare
 from sfx_engine import mix
 
 SCRIPT=(
-"Connect a phone battery straight to the wall, and it could catch fire!",
-"Inside your charger, energy crosses an air gap without wires touching.",
-"US wall power alternates sixty times a second, like a wild firehose.",
-"A transformer passes energy across that gap and changes the voltage.",
-"Diodes guide current one way. A capacitor smooths the output.",
-"Now your phone gets usable power. Follow Dr. Volt for more!",
+"Connect your phone battery to the wall, and it could catch fire!",
+"Chargers transfer energy across an insulating gap, without wires touching.",
+"US wall power alternates sixty times a second, like a firehose.",
+"Batteries need a calm, low-voltage, one-way flow.",
+"A transformer transfers energy magnetically and changes the voltage.",
+"Diodes guide current; a capacitor smooths the output.",
+"Now your phone gets usable power. Follow Dr. Volt!",
 )
 
 def run(*args):subprocess.run([str(x) for x in args],check=True,stdout=subprocess.DEVNULL)
@@ -76,8 +77,20 @@ def captions(tmp,timeline):
         aligned=align_source(SCRIPT[beat['index']],words,0,1,beat['start'],duration=beat['duration'])
         beat['cues']={w.text.strip('.,!?;:').lower():w.start for w in aligned}
         groups.extend(group_words(aligned,portrait=True))
-    ass=tmp/'pilot.ass';write_ass(ass,groups,portrait=True,margin_v=220)
+    ass=tmp/'pilot.ass';write_ass(ass,groups,portrait=True,margin_v=140)
     ass.write_text(ass.read_text().replace(r'{\1c&H20D7FF&}',r'{\1c&H00E6FF&}'))
+    # Hold each caption event until the next one, including sentence pauses,
+    # and hold the final line through the short padded tail. No overlaps.
+    lines=ass.read_text().splitlines(); indices=[i for i,l in enumerate(lines) if l.startswith('Dialogue:')]
+    for j,idx in enumerate(indices):
+        fields=lines[idx].split(',',3)
+        if j==0: fields[1]='0:00:00.00'
+        if j+1<len(indices):fields[2]=lines[indices[j+1]].split(',',3)[1]
+        else:
+            from subtitle_engine import timestamp
+            fields[2]=timestamp(sum(b['duration'] for b in timeline),True)
+        lines[idx]=','.join(fields)
+    ass.write_text('\n'.join(lines)+'\n')
     entries=[]
     for line in ass.read_text().splitlines():
         if line.startswith('Dialogue:'):
@@ -85,7 +98,7 @@ def captions(tmp,timeline):
             def sec(v):h,m,s=v.split(':');return int(h)*3600+int(m)*60+float(s)
             entries.append((sec(fields[1]),sec(fields[2])))
     if any(a[1]>b[0]+1e-8 for a,b in zip(entries,entries[1:])):raise ValueError('Caption events overlap')
-    print(f'Whisper-timed ASS: {len(entries)} events, zero temporal overlaps, MarginV=220.',flush=True)
+    print(f'Whisper-timed ASS: {len(entries)} events, zero temporal overlaps, MarginV=140.',flush=True)
     return ass
 
 
@@ -129,7 +142,7 @@ def build(outdir='output/pilot',workers=2):
         verify(video,timeline)
         metadata={'engine':'AI comic cutouts / rembg / OpenCV 2.5D','duration':duration,'fps':FPS,'frames':sum(b['frames'] for b in timeline),
                   'scenes':[{k:v for k,v in b.items() if k!='audio'} for b in timeline],
-                  'narration':'Edge Andrew +12%', 'extra_tempo':1.0, 'max_visual_beat_seconds':1.45,'captions':'faster-whisper tiny.en word timestamps, exact script alignment',
+                  'narration':'Edge Andrew +12%', 'extra_tempo':1.0, 'captions':'faster-whisper tiny.en word timestamps, exact script alignment',
                   'render_seconds':time.monotonic()-start,'verification':'passed'}
         (outdir/'render_metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
         print(f'Comic pilot completed in {metadata["render_seconds"]:.1f}s. Duration: {duration:.2f}s.',flush=True)
