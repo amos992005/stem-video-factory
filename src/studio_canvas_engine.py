@@ -129,7 +129,7 @@ def scene_art(scene,variant,portrait):
         for i,x in enumerate((160,330,600,750)):
             a.ellipse((x,326,x+70,396),GOLD if i%2==0 else CORAL,INK,4);a.ellipse((x+20,345,x+28,353),INK);a.ellipse((x+44,345,x+52,353),INK)
         if scene=='turnstile':
-            a.rect((450,235,505,480),(223,239,245,255),INK,r=12);a.line([(475,350),(545,280)],WHITE,22);a.line([(475,350),(410,285)],WHITE,22);a.line([(475,350),(475,440)],WHITE,22)
+            a.rect((450,235,505,480),(223,239,245,255),INK,r=12)
             a.ellipse((565,190,630,255),(76,238,155,255));a.text((596,222),'✓',35,INK)
             a.ellipse((352,190,417,255),CORAL);a.text((384,222),'×',45,WHITE)
     elif scene in ('diamond','traffic'):
@@ -265,14 +265,35 @@ def render_shot(task):
     yexpr=f'{cy:.1f}-{amp:.1f}*sin(PI*{flow})'
     xexpr2=f'{x0:.1f}+{x1-x0:.1f}*mod(t*{speed}+0.5,1)'
     yexpr2=f'{cy:.1f}+{amp:.1f}*sin(PI*mod(t*{speed}+0.5,1))'
+    # A separate mechanical layer gives the diode a swinging gate and the
+    # reservoir a moving waterline rather than implying action by camera alone.
+    action=Image.new('RGBA',(300,300));ad=ImageDraw.Draw(action,'RGBA')
+    if scene=='turnstile':
+        for endpoint in ((150,32),(48,208),(252,208)):
+            ad.line((150,150,*endpoint),fill=(240,252,255,255),width=26)
+            ad.ellipse((endpoint[0]-13,endpoint[1]-13,endpoint[0]+13,endpoint[1]+13),fill=(240,252,255,255))
+        ad.ellipse((124,124,176,176),fill=(255,212,78,255),outline=(17,28,58,255),width=5)
+        aw=int(bw*.20);ah=aw
+        ax=bx+bw*.475;ay=by+bh*.50
+        action_filter=f"[3:v]scale={aw}:{ah},rotate=angle='0.9*sin(t*2.2)':ow=rotw(iw):oh=roth(ih):c=none[act];[b2][act]overlay=x='{ax:.1f}-w/2':y='{ay:.1f}-h/2':shortest=1[animated];"
+    elif scene in ('tower','battery','celebrate'):
+        ad.rounded_rectangle((15,118,285,165),radius=20,fill=(116,244,253,220))
+        ad.line([(25,128),(70,121),(110,133),(150,121),(190,133),(230,121),(275,129)],fill=(242,255,255,230),width=8)
+        aw=int(bw*.21);ah=int(bh*.20)
+        ax=bx+bw*.29;ay=by+bh*.37
+        action_filter=f"[3:v]scale={aw}:{ah}[act];[b2][act]overlay=x='{ax:.1f}':y='{ay:.1f}+{bh*.045:.1f}*sin(t*1.4)':shortest=1[animated];"
+    else:
+        action_filter='[b2]null[animated];'
+    action_path=tmp/f'action_{index:03}.png';action.save(action_path)
     filt=(f'[0:v]scale={w}:{h},zoompan=z=\'{z}\':x=\'iw/2-iw/zoom/2+12*sin(on/75)\':'
           f'y=\'ih/2-ih/zoom/2+8*cos(on/80)\':d=1:s={w}x{h}:fps=30[bg];'
           f'[2:v]split=2[o1][o2];[bg][o1]overlay=x=\'{xexpr}\':y=\'{yexpr}\':shortest=1[b1];'
           f'[b1][o2]overlay=x=\'{xexpr2}\':y=\'{yexpr2}\':shortest=1[b2];'
-          f'[1:v]scale={hw}:{hh}[host];[b2][host]overlay=x=\'{hx}\':y=\'{hy}+7*sin(t*2.1)\':shortest=1,ass={ass}[v]')
+          +action_filter+f'[1:v]scale={hw}:{hh}[host];[animated][host]overlay=x=\'{hx}\':y=\'{hy}+7*sin(t*2.1)\':shortest=1,ass={ass}[v]')
     cmd=['ffmpeg','-hide_banner','-loglevel','error','-y','-filter_complex_threads','1','-loop','1','-framerate','30','-i',str(base),
          '-f','rawvideo','-pixel_format','rgba','-video_size','440x560','-framerate','30','-i','pipe:0',
          '-loop','1','-framerate','30','-i',str(orb_path),
+         '-loop','1','-framerate','30','-i',str(action_path),
          '-filter_complex',filt,'-map','[v]','-t',f'{length:.6f}','-r','30','-an','-c:v','libx264','-threads','2','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',str(dest)]
     proc=subprocess.Popen(cmd,stdin=subprocess.PIPE)
     try:
