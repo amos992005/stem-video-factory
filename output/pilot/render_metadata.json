@@ -12,7 +12,7 @@
       "cues": {
         "connect": 0.0,
         "your": 0.24,
-        "phone": 0.62,
+        "phone": 0.56,
         "battery": 0.84,
         "to": 1.06,
         "the": 1.28,
@@ -34,9 +34,9 @@
         "transfer": 3.44,
         "energy": 4.04,
         "across": 4.4399999999999995,
-        "an": 5.08,
+        "an": 5.0600000000000005,
         "insulating": 5.38,
-        "gap": 5.720000000000001,
+        "gap": 5.74,
         "without": 6.140000000000001,
         "wires": 6.720000000000001,
         "touching": 7.08
@@ -99,10 +99,10 @@
       "duration": 3.3666666666666667,
       "cues": {
         "diodes": 18.5,
-        "guide": 19.16,
+        "guide": 19.14,
         "current": 19.38,
         "a": 20.16,
-        "capacitor": 20.2,
+        "capacitor": 20.22,
         "smooths": 20.66,
         "the": 21.38,
         "output": 21.52
@@ -129,6 +129,6 @@
   "narration": "Edge Andrew +12%",
   "extra_tempo": 1.0,
   "captions": "faster-whisper tiny.en word timestamps, exact script alignment",
-  "render_seconds": 115.68883495,
+  "render_seconds": 90.172659268,
   "verification": "passed"
 }

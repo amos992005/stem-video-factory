@@ -10,8 +10,8 @@ Style: Default,DejaVu Sans,62,&H00FFFFFF,&H00FFFFFF,&H00140805,&H80000000,-1,0,0
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,0:00:00.24,Default,,0,0,0,,{\1c&H00E6FF&}Connect{\1c&HFFFFFF&} your phone battery
-Dialogue: 0,0:00:00.24,0:00:00.62,Default,,0,0,0,,Connect {\1c&H00E6FF&}your{\1c&HFFFFFF&} phone battery
-Dialogue: 0,0:00:00.62,0:00:00.84,Default,,0,0,0,,Connect your {\1c&H00E6FF&}phone{\1c&HFFFFFF&} battery
+Dialogue: 0,0:00:00.24,0:00:00.56,Default,,0,0,0,,Connect {\1c&H00E6FF&}your{\1c&HFFFFFF&} phone battery
+Dialogue: 0,0:00:00.56,0:00:00.84,Default,,0,0,0,,Connect your {\1c&H00E6FF&}phone{\1c&HFFFFFF&} battery
 Dialogue: 0,0:00:00.84,0:00:01.06,Default,,0,0,0,,Connect your phone {\1c&H00E6FF&}battery{\1c&HFFFFFF&}
 Dialogue: 0,0:00:01.06,0:00:01.28,Default,,0,0,0,,{\1c&H00E6FF&}to{\1c&HFFFFFF&} the wall, and
 Dialogue: 0,0:00:01.28,0:00:01.38,Default,,0,0,0,,to {\1c&H00E6FF&}the{\1c&HFFFFFF&} wall, and
@@ -24,10 +24,10 @@ Dialogue: 0,0:00:02.60,0:00:03.00,Default,,0,0,0,,it could catch {\1c&H00E6FF&}f
 Dialogue: 0,0:00:03.00,0:00:03.44,Default,,0,0,0,,{\1c&H00E6FF&}Chargers{\1c&HFFFFFF&} transfer energy
 Dialogue: 0,0:00:03.44,0:00:04.04,Default,,0,0,0,,Chargers {\1c&H00E6FF&}transfer{\1c&HFFFFFF&} energy
 Dialogue: 0,0:00:04.04,0:00:04.44,Default,,0,0,0,,Chargers transfer {\1c&H00E6FF&}energy{\1c&HFFFFFF&}
-Dialogue: 0,0:00:04.44,0:00:05.08,Default,,0,0,0,,{\1c&H00E6FF&}across{\1c&HFFFFFF&} an insulating gap,
-Dialogue: 0,0:00:05.08,0:00:05.38,Default,,0,0,0,,across {\1c&H00E6FF&}an{\1c&HFFFFFF&} insulating gap,
-Dialogue: 0,0:00:05.38,0:00:05.72,Default,,0,0,0,,across an {\1c&H00E6FF&}insulating{\1c&HFFFFFF&} gap,
-Dialogue: 0,0:00:05.72,0:00:06.14,Default,,0,0,0,,across an insulating {\1c&H00E6FF&}gap,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:04.44,0:00:05.06,Default,,0,0,0,,{\1c&H00E6FF&}across{\1c&HFFFFFF&} an insulating gap,
+Dialogue: 0,0:00:05.06,0:00:05.38,Default,,0,0,0,,across {\1c&H00E6FF&}an{\1c&HFFFFFF&} insulating gap,
+Dialogue: 0,0:00:05.38,0:00:05.74,Default,,0,0,0,,across an {\1c&H00E6FF&}insulating{\1c&HFFFFFF&} gap,
+Dialogue: 0,0:00:05.74,0:00:06.14,Default,,0,0,0,,across an insulating {\1c&H00E6FF&}gap,{\1c&HFFFFFF&}
 Dialogue: 0,0:00:06.14,0:00:06.72,Default,,0,0,0,,{\1c&H00E6FF&}without{\1c&HFFFFFF&} wires touching.
 Dialogue: 0,0:00:06.72,0:00:07.08,Default,,0,0,0,,without {\1c&H00E6FF&}wires{\1c&HFFFFFF&} touching.
 Dialogue: 0,0:00:07.08,0:00:07.47,Default,,0,0,0,,without wires {\1c&H00E6FF&}touching.{\1c&HFFFFFF&}
@@ -58,11 +58,11 @@ Dialogue: 0,0:00:17.21,0:00:17.55,Default,,0,0,0,,energy magnetically {\1c&H00E6
 Dialogue: 0,0:00:17.55,0:00:17.85,Default,,0,0,0,,{\1c&H00E6FF&}changes{\1c&HFFFFFF&} the voltage.
 Dialogue: 0,0:00:17.85,0:00:18.07,Default,,0,0,0,,changes {\1c&H00E6FF&}the{\1c&HFFFFFF&} voltage.
 Dialogue: 0,0:00:18.07,0:00:18.50,Default,,0,0,0,,changes the {\1c&H00E6FF&}voltage.{\1c&HFFFFFF&}
-Dialogue: 0,0:00:18.50,0:00:19.16,Default,,0,0,0,,{\1c&H00E6FF&}Diodes{\1c&HFFFFFF&} guide current;
-Dialogue: 0,0:00:19.16,0:00:19.38,Default,,0,0,0,,Diodes {\1c&H00E6FF&}guide{\1c&HFFFFFF&} current;
+Dialogue: 0,0:00:18.50,0:00:19.14,Default,,0,0,0,,{\1c&H00E6FF&}Diodes{\1c&HFFFFFF&} guide current;
+Dialogue: 0,0:00:19.14,0:00:19.38,Default,,0,0,0,,Diodes {\1c&H00E6FF&}guide{\1c&HFFFFFF&} current;
 Dialogue: 0,0:00:19.38,0:00:20.16,Default,,0,0,0,,Diodes guide {\1c&H00E6FF&}current;{\1c&HFFFFFF&}
-Dialogue: 0,0:00:20.16,0:00:20.20,Default,,0,0,0,,{\1c&H00E6FF&}a{\1c&HFFFFFF&} capacitor smooths the
-Dialogue: 0,0:00:20.20,0:00:20.66,Default,,0,0,0,,a {\1c&H00E6FF&}capacitor{\1c&HFFFFFF&} smooths the
+Dialogue: 0,0:00:20.16,0:00:20.22,Default,,0,0,0,,{\1c&H00E6FF&}a{\1c&HFFFFFF&} capacitor smooths the
+Dialogue: 0,0:00:20.22,0:00:20.66,Default,,0,0,0,,a {\1c&H00E6FF&}capacitor{\1c&HFFFFFF&} smooths the
 Dialogue: 0,0:00:20.66,0:00:21.38,Default,,0,0,0,,a capacitor {\1c&H00E6FF&}smooths{\1c&HFFFFFF&} the
 Dialogue: 0,0:00:21.38,0:00:21.52,Default,,0,0,0,,a capacitor smooths {\1c&H00E6FF&}the{\1c&HFFFFFF&}
 Dialogue: 0,0:00:21.52,0:00:21.87,Default,,0,0,0,,{\1c&H00E6FF&}output.{\1c&HFFFFFF&}

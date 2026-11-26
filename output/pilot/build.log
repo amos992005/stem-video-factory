@@ -1,4 +1,4 @@
-Comic cutout pilot run 45885130745, revision c4882e1eb5671e9ae0a4f04eb5d1a63088be1ae2
+Comic cutout pilot run 45885528156, revision 3415113fc09eef91a17b228782ae375799163a6e
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Using cached pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -186,14 +186,14 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.473s
+Ran 13 tests in 0.442s
 
 OK
 Validated 11 original AI-illustrated PNGs; no fallback.
-Edge voice scene 2 received.
 Edge voice scene 1 received.
-Edge voice scene 3 received.
+Edge voice scene 2 received.
 Edge voice scene 4 received.
+Edge voice scene 3 received.
 Edge voice scene 5 received.
 Edge voice scene 6 received.
 Edge voice scene 7 received.
@@ -213,6 +213,6 @@ Rendered 300/756 frames.
 Rendered 450/756 frames.
 Rendered 600/756 frames.
 Rendered 750/756 frames.
-Comic composite frames and encode: 51.5s.
+Comic composite frames and encode: 50.7s.
 Video stream: (1080, 1920, '30', 756) audio streams: 1
-Comic pilot completed in 115.7s. Duration: 25.20s.
+Comic pilot completed in 90.2s. Duration: 25.20s.
