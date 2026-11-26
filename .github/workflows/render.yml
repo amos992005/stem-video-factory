@@ -1,11 +1,11 @@
-name: Render fast 3D pilot
+name: Render AI-illustrated studio pilot
 on:
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
   pilot:
-    name: Render one narrated pilot
+    name: Generate ten AI shots and edit one pilot
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
@@ -23,40 +23,35 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-fast-pilot-pip-${{ hashFiles('requirements.txt') }}
-      - uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-pilot-node-${{ hashFiles('package-lock.json') }}
-      - uses: actions/cache@v4
-        with:
-          path: assets/ai_cache
-          key: ${{ runner.os }}-pilot-flux-art-${{ hashFiles('src/ai_asset_generator.py') }}
-      - name: Install renderer dependencies
+          key: ${{ runner.os }}-studio-pilot-pip-${{ hashFiles('requirements.txt') }}
+      - name: Install tools
         shell: bash
         run: |
           set -o pipefail
           python -m pip install -r requirements.txt 2>&1 | tee -a output/pilot/build.log
-          npm ci --no-audit --no-fund 2>&1 | tee -a output/pilot/build.log
           mkdir -p "$RUNNER_TEMP/pilot-bin"
           ln -s "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$RUNNER_TEMP/pilot-bin/ffmpeg"
           echo "$RUNNER_TEMP/pilot-bin" >> "$GITHUB_PATH"
-          echo "Chrome: $(command -v google-chrome-stable || command -v google-chrome || command -v chromium || echo not-found)" | tee -a output/pilot/build.log
-      - name: Test and render one pilot
+      - name: Test and render studio pilot
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         shell: bash
         run: |
           set -o pipefail
           python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v 2>&1 | tee -a output/pilot/build.log
-          timeout 360s python -u src/pilot_compositor.py --workers 2 2>&1 | tee -a output/pilot/build.log
+          timeout 360s python -u src/studio_editor.py 2>&1 | tee -a output/pilot/build.log
       - name: Upload pilot and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ep01-fast-pilot
-          path: output/pilot/
+          path: |
+            output/pilot/
+            assets/pilot_shots/
           if-no-files-found: warn
           retention-days: 30
-      - name: Commit diagnostic log and contact sheet to this branch
+      - name: Commit diagnostic log and valid AI shots to this branch
         if: always()
         env:
           BRANCH: ${{ github.ref_name }}
@@ -72,11 +67,18 @@ jobs:
           for file in output/pilot/pilot_contact_sheet.png output/pilot/render_metadata.json output/pilot/pilot_captions.ass; do
             if test -f "$file"; then git add -f "$file"; fi
           done
+          # Partial successes are useful too. Only decoded, correctly sized JPEGs
+          # are committed; failures remain visible in the log and artifacts.
+          for file in assets/pilot_shots/shot_{01..10}.jpg; do
+            if test -f "$file" && python -c 'import sys; sys.path.insert(0,"src"); from ai_asset_generator import valid_shot; sys.exit(0 if valid_shot(sys.argv[1]) else 1)' "$file"; then
+              git add -f "$file"
+            fi
+          done
           if git diff --cached --quiet; then exit 0; fi
           git fetch origin "$BRANCH"
           if test "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA"; then
             echo 'Branch advanced during this run; refusing to overwrite it. Diagnostics remain in the artifact.'
             exit 0
           fi
-          git commit -m "Record pilot diagnostics for run $GITHUB_RUN_ID"
+          git commit -m "Record pilot diagnostics and AI cache for run $GITHUB_RUN_ID"
           git push origin "HEAD:$BRANCH"

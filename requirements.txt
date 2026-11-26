@@ -1,5 +1,6 @@
 Pillow>=11,<13
 numpy>=2,<3
 edge-tts>=7,<8
+aiohttp>=3.10,<4
 imageio-ffmpeg>=0.6,<1
 av>=14,<19

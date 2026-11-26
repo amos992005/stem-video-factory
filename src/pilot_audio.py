@@ -126,7 +126,7 @@ def build_voice(tmp):
     print(f'Total narration: {len(voice)/RATE:.2f}s, extra tempo {ratio:.2f}x',flush=True)
     return voice,ass,timeline
 
-def synth_sfx(timeline=None):
+def synth_sfx(timeline=None,shot_starts=None):
     """Deterministic transition accents, explosion, spray and glass, in seconds."""
     timeline=timeline or [{'start':i*BEAT,'duration':BEAT} for i in range(7)]
     mix=np.zeros(round((timeline[-1]['start']+timeline[-1]['duration'])*RATE),dtype=np.float32);rng=np.random.default_rng(7403)
@@ -134,8 +134,15 @@ def synth_sfx(timeline=None):
         i=round(at*RATE);length=min(len(sound),len(mix)-i)
         if length>0:mix[i:i+length]+=np.asarray(sound[:length],dtype=np.float32)*vol
     def timebase(d):return np.arange(round(d*RATE),dtype=np.float32)/RATE
-    for at in (beat['start'] for beat in timeline[1:]):
-        t=timebase(.35);noise=rng.normal(0,1,len(t));add(at,noise*np.sin(np.pi*t/.35)**2,.07)
+    transitions=shot_starts[1:] if shot_starts else [beat['start'] for beat in timeline[1:]]
+    for at in transitions:
+        # A J-cut: the rising whoosh begins 220ms BEFORE the picture transition.
+        t=timebase(.22);noise=rng.normal(0,1,len(t));add(max(0,at-.22),noise*(t/.22)**1.4,.075)
+        t=timebase(.32);add(at,np.sin(2*np.pi*(65*t+20*np.log1p(t*12)))*np.exp(-t*12),.16)
+    if shot_starts:
+        for at in (shot_starts[1],shot_starts[9]):
+            t=timebase(1.5);hum=np.sin(2*np.pi*(110*t+35*t*t))*np.sin(np.pi*t/1.5)**2
+            add(at,hum,.065)
     t=timebase(2.4);add(0,np.sin(2*np.pi*(70*t+130*t*t))*np.minimum(1,t/2.4)*.12)
     t=timebase(1.8);boom=np.sin(2*np.pi*(43*t+20*np.log1p(t*8)))*np.exp(-t*3.2);crackle=rng.normal(size=len(t))*np.exp(-t*7);add(timeline[1]['start'],boom*.43+crackle*.12)
     t=timebase(2.6);spray=rng.normal(size=len(t));spray=np.convolve(spray,np.ones(5)/5,mode='same');add(timeline[2]['start'],spray*np.sin(np.pi*t/2.6)**1.5,.18)
@@ -144,8 +151,8 @@ def synth_sfx(timeline=None):
         t=timebase(2.4);pad=sum(np.sin(2*np.pi*f*t)*np.sin(np.pi*t/2.4)**2 for f in (261.63,329.63,392,523.25));add(at,pad,.055)
     return mix
 
-def mix_and_envelope(voice,tmp,timeline=None):
-    mixed=voice*.82+synth_sfx(timeline);peak=max(1.,float(np.max(np.abs(mixed)))/.94);write_wav(Path(tmp)/'mix.wav',mixed/peak)
+def mix_and_envelope(voice,tmp,timeline=None,shot_starts=None):
+    mixed=voice*.82+synth_sfx(timeline,shot_starts);peak=max(1.,float(np.max(np.abs(mixed)))/.94);write_wav(Path(tmp)/'mix.wav',mixed/peak)
     # Normalize RMS robustly for animated cutout squash/stretch.
     n=RATE//30;rms=np.sqrt(np.mean(voice[:len(voice)//n*n].reshape(-1,n)**2,axis=1))
     return np.clip(rms/.13,0,1)

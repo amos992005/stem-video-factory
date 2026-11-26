@@ -10,7 +10,8 @@ import subprocess
 import json
 from pathlib import Path
 import numpy as np
-from studio_canvas_engine import FULL, SHORTS
+from package_ep01 import FULL, SHORTS as LEGACY_SHORTS
+SHORTS=tuple(LEGACY_SHORTS.values())
 
 FPS=5
 WIDTH=320
