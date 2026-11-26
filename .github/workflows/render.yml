@@ -1,13 +1,13 @@
-name: Render nine-scene vector pilot
+name: Render stickman and vector icon pilot
 on:
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
   pilot:
-    name: Render native SVG vector pilot
+    name: Render native stickman vector pilot
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,13 +25,14 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.cache/huggingface/hub
-          key: ${{ runner.os }}-vector-pilot-${{ hashFiles('requirements.txt') }}
+            assets/vector_props
+          key: ${{ runner.os }}-vector-pilot-${{ hashFiles('requirements.txt', 'assets/vector_props/*.svg') }}
       - name: Install vector rendering and audio tools
         shell: bash
         run: |
           set -o pipefail
-          if ! ldconfig -p | grep -F 'libcairo.so.2' > /dev/null; then
-            sudo apt-get update && sudo apt-get install -y libcairo2
+          if ! ldconfig -p | grep -F 'libcairo.so.2' > /dev/null || ! ldconfig -p | grep -F 'libEGL.so.1' > /dev/null || ! ldconfig -p | grep -F 'libGL.so.1' > /dev/null; then
+            sudo apt-get update && sudo apt-get install -y libcairo2 libegl1 libgl1
           fi
           python -m pip install -r requirements.txt 2>&1 | tee -a output/pilot/build.log
           mkdir -p "$RUNNER_TEMP/pilot-bin"
@@ -42,12 +43,12 @@ jobs:
         run: |
           set -o pipefail
           python -m unittest tests.test_vector_studio tests.test_subtitle_engine -v 2>&1 | tee -a output/pilot/build.log
-          timeout 2400s python -u src/pilot_short.py --workers 2 2>&1 | tee -a output/pilot/build.log
+          timeout 780s python -u src/pilot_short.py --workers 1 2>&1 | tee -a output/pilot/build.log
       - name: Upload pilot and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: vector-pilot
+          name: stickman-vector-pilot
           path: output/pilot/
           if-no-files-found: warn
           retention-days: 30

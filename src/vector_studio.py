@@ -1,220 +1,245 @@
-"""Original SVG vector scenes: hierarchical host rig, animated props and camera.
+"""Native stickman animation and cached Twemoji/Iconify SVG scene graph.
 
-All shapes are SVG paths, gradients and strokes; no raster artwork or external
-image generation. 30fps cannot depict a literal 60Hz oscillation (Nyquist), so
-Sparky's fast alternating motion is a deliberately visible *symbolic* cycle.
+Icons are parsed once as Skia SVG DOMs and drawn as vector paths every frame.
+All round/oval primitive drawing below belongs to the stickman, particle VFX,
+or the background, never to a phone, plug, glass, valve, magnet or other prop.
+AC oscillation is represented symbolically: 60 Hz cannot be sampled at 30 fps.
 """
 from __future__ import annotations
-import math, html
-import numpy as np
+import math
+from pathlib import Path
+import skia
 
-W,H,FPS=540,960,30
-DEFS='''<defs>
-<linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0B1026"/><stop offset=".52" stop-color="#151E3F"/><stop offset="1" stop-color="#090D1E"/></linearGradient>
-<linearGradient id="hair" x2=".8" y2="1"><stop stop-color="#83ffff"/><stop offset=".35" stop-color="#00F2FE"/><stop offset="1" stop-color="#0072FF"/></linearGradient>
-<linearGradient id="skin" x2="1" y2=".9"><stop stop-color="#ffe0ba"/><stop offset=".55" stop-color="#f5b98f"/><stop offset="1" stop-color="#df8a73"/></linearGradient>
-<linearGradient id="coat" x2="1" y2="1"><stop stop-color="#ffffff"/><stop offset=".5" stop-color="#e4f4ff"/><stop offset="1" stop-color="#a6c6e3"/></linearGradient>
-<linearGradient id="aqua" x2="1" y2="1"><stop stop-color="#00F5A0"/><stop offset=".5" stop-color="#25f3db"/><stop offset="1" stop-color="#00a8f5"/></linearGradient>
-<linearGradient id="hot" x2="1" y2="1"><stop stop-color="#ff477e"/><stop offset=".55" stop-color="#ff5c42"/><stop offset="1" stop-color="#ffb629"/></linearGradient>
-<linearGradient id="copper" x2="1" y2="0"><stop stop-color="#8a3b32"/><stop offset=".24" stop-color="#ffca72"/><stop offset=".5" stop-color="#d97244"/><stop offset=".78" stop-color="#ffd08a"/><stop offset="1" stop-color="#884331"/></linearGradient>
-<linearGradient id="glass" x2="1" y2="1"><stop stop-color="#eaffff" stop-opacity=".75"/><stop offset=".4" stop-color="#5ad8ef" stop-opacity=".12"/><stop offset="1" stop-color="#c4fcff" stop-opacity=".45"/></linearGradient>
-<linearGradient id="panel" x2="0" y2="1"><stop stop-color="#344775"/><stop offset="1" stop-color="#192746"/></linearGradient>
-<radialGradient id="halo"><stop stop-color="#25e7ff" stop-opacity=".27"/><stop offset="1" stop-color="#25e7ff" stop-opacity="0"/></radialGradient>
-<radialGradient id="fire"><stop stop-color="#fff7a5"/><stop offset=".4" stop-color="#ffba44"/><stop offset=".76" stop-color="#ff4a52"/><stop offset="1" stop-color="#fa3464" stop-opacity="0"/></radialGradient>
-</defs>'''
+FPS=30;W=540;H=960
+ROOT=Path(__file__).resolve().parents[1]/'assets'/'vector_props'
+ICONS=('phone','battery','plug','explosion','faucet','glass','truck','droplet','sunglasses','magnet','cyclone',
+       'mdi-heating-coil','mdi-valve-open','mdi-valve-closed','mdi-power-plug','mdi-sine-wave','mdi-current-ac',
+       'mdi-current-dc','mdi-arrow-right','mdi-pipe-valve','mdi-power-plug-battery')
+PALETTES=(('#101937','#293263'),('#111935','#133d55'),('#261832','#493555'),('#0a2734','#165354'),
+          ('#151a3e','#204157'),('#241633','#403253'),('#102940','#195351'))
+TITLES=('A DANGEROUS SHORTCUT','THE AIR GAP','WALL POWER','A GENTLE CURRENT','01  TRANSFORMER','02  DIODE','03  CAPACITOR')
 
-def path(d,fill='none',stroke='none',sw=1,extra=''):
-    return f'<path d="{d}" fill="{fill}" stroke="{stroke}" stroke-width="{sw}" stroke-linecap="round" stroke-linejoin="round" {extra}/>'
-def text(x,y,s,size=18,color='#e8f9ff',anchor='start',weight=700,extra=''):
-    return f'<text x="{x}" y="{y}" fill="{color}" font-size="{size}" font-family="DejaVu Sans, sans-serif" font-weight="{weight}" text-anchor="{anchor}" {extra}>{html.escape(str(s))}</text>'
-def circ(x,y,r,fill,extra=''):
-    return f'<circle cx="{x}" cy="{y}" r="{r}" fill="{fill}" {extra}/>'
-def rect(x,y,w,h,r,fill,extra=''):
-    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{r}" fill="{fill}" {extra}/>'
-def group(content,transform='',extra=''):
-    return f'<g transform="{transform}" {extra}>{content}</g>'
-def line(x1,y1,x2,y2,color,width=2,opacity=1):
-    return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" stroke-width="{width}" opacity="{opacity}" stroke-linecap="round"/>'
-def glowpath(d,color='#58f7ff',width=5):
-    return path(d,'none',color,width*4,'opacity=".11"')+path(d,'none',color,width*2,'opacity=".2"')+path(d,'none',color,width)
-def label(x,y,s,color='#71f5f5',size=15):
-    w=max(55,13*len(s)*size/20+22)
-    return rect(x,y,w,29,14,'#142b49','stroke="#3b7893" stroke-width="1"')+text(x+12,y+20,s,size,color)
 
-def spring_angles(targets,frames,k=60,c=13):
-    """Integrate theta''=-k(theta-target)-c*theta' at 30fps."""
+def color(value,alpha=255):
+    value=value.lstrip('#');value=''.join(c*2 for c in value) if len(value)==3 else value
+    return skia.ColorSetARGB(max(0,min(255,int(alpha))),int(value[0:2],16),int(value[2:4],16),int(value[4:6],16))
+
+def fill(value,alpha=255):return skia.Paint(Color=color(value,alpha),AntiAlias=True)
+def stroke(value,width=3,alpha=255):
+    return skia.Paint(Color=color(value,alpha),AntiAlias=True,Style=skia.Paint.kStroke_Style,
+                      StrokeWidth=width,StrokeCap=skia.Paint.kRound_Cap,StrokeJoin=skia.Paint.kRound_Join)
+
+def path(points,close=False):
+    p=skia.Path();p.moveTo(*points[0])
+    for pt in points[1:]:p.lineTo(*pt)
+    if close:p.close()
+    return p
+
+def curve(a,b,c,d):
+    p=skia.Path();p.moveTo(*a);p.cubicTo(*b,*c,*d);return p
+
+def spring_series(targets,k=48,c=12):
+    """Integrate damped spring x''=-k(x-target)-c*x' at 30 fps."""
     x=float(targets[0]);v=0.;out=[]
-    for target in targets[:frames]:
+    for target in targets:
         for _ in range(4):
             dt=1/(FPS*4);v+=(-k*(x-target)-c*v)*dt;x+=v*dt
         out.append(x)
     return out
 
-def arm(side,shoulder,elbow):
-    # Articulated upper arm and forearm are nested at their actual joints.
-    skin=path('M -12 0 Q -21 31 -17 58 Q -12 68 -2 65 L 10 57 Q 8 27 11 0 Z','url(#coat)','#6e93b4',2)
-    fore=path('M -10 0 Q -16 29 -10 49 L 8 52 Q 17 35 10 0 Z','url(#coat)','#7898b0',2)
-    hand=path('M -9 47 Q -15 61 -8 68 Q 0 73 8 65 L 14 57 Q 17 48 8 46 Z','url(#skin)','#d79176',1)
-    nested=skin+group(fore+hand,f'translate(0 59) rotate({elbow:.2f})')
-    return group(nested,f'translate({side*49} -12) rotate({shoulder:.2f})')
-
-def host(x,y,scale,t,amp,left,right,scene):
-    bob=3*math.sin(t*2.7);tilt=4*math.sin(t*1.6)+( -8*math.exp(-max(t-.8,0)*3) if scene==0 and t>.8 else 0)
-    blink=abs(math.sin((t+scene*.17)*math.pi/2.8))<.055
-    iris=-3 if scene in (1,3,5,7,8) else 4
-    # Visemes derived from frame RMS (the words themselves stay in subtitles).
-    if amp<.08:mouth=path('M -8 25 Q 0 32 8 25','none','#8d4650',2.4)
-    elif amp<.22:mouth='<ellipse cx="0" cy="28" rx="7" ry="4" fill="#78364d"/>'
-    elif amp<.45:mouth='<ellipse cx="0" cy="28" rx="11" ry="7" fill="#78364d"/>'+path('M -6 27 Q 0 29 6 27','none','#fff',2)
-    elif amp<.7:mouth='<ellipse cx="0" cy="28" rx="9" ry="10" fill="#78364d"/>'
-    else:mouth='<ellipse cx="0" cy="28" rx="8" ry="12" fill="#54263d"/>'
-    eyes=(path('M -24 4 q 7 5 14 0 M 10 4 q 7 5 14 0','none','#513b50',3) if blink else
-          '<ellipse cx="-17" cy="4" rx="9" ry="11" fill="white"/><ellipse cx="17" cy="4" rx="9" ry="11" fill="white"/>'+circ(-17+iris,5,4,'#173456')+circ(17+iris,5,4,'#173456')+circ(-15+iris,2,1.4,'white')+circ(19+iris,2,1.4,'white'))
-    face=('<ellipse cx="0" cy="6" rx="42" ry="49" fill="url(#skin)" stroke="#b9706e" stroke-width="2"/>'
-        +path('M -39 -19 L -43 -48 L -28 -43 L -25 -69 L -9 -52 L 6 -77 L 13 -55 L 35 -67 L 31 -43 L 48 -40 L 37 -15 Q 0 -37 -39 -19 Z','url(#hair)','#00aee5',2)
-        +path('M -37 -16 Q 0 -27 37 -16','none','#22617a',7)
-        +'<ellipse cx="-20" cy="-17" rx="13" ry="10" fill="#19546f" stroke="#82fbff" stroke-width="3"/><ellipse cx="20" cy="-17" rx="13" ry="10" fill="#19546f" stroke="#82fbff" stroke-width="3"/>'
-        +line(-7,-17,7,-17,'#9beeff',3)+path('M -26 -9 Q -18 -14 -10 -10 M 10 -10 Q 18 -14 26 -9','none','#774e55',2.5)+eyes+path('M -2 8 Q -5 16 1 17','none','#c37965',1.5)+mouth)
-    legs=path('M -33 64 L -36 148 Q -35 158 -16 158 L -8 80 L 8 80 L 16 158 Q 35 158 36 148 L 33 64 Z','#24365f','#12213e',2)
-    shoes=path('M -37 148 Q -53 154 -50 163 L -15 163 L -15 151 Z M 15 151 L 15 163 L 50 163 Q 53 154 37 148 Z','#111d39')
-    torso=path('M -48 -18 Q -35 -35 -23 -35 L 23 -35 Q 37 -35 48 -18 L 43 78 Q 0 90 -43 78 Z','url(#coat)','#8baec8',2)
-    torso+=path('M -20 -35 L 0 -17 L 20 -35 L 17 69 L -17 69 Z','url(#aqua)')+path('M -23 -34 L -42 -19 L -20 10 L -28 19 L -8 51 L -5 -20 Z M 23 -34 L 42 -19 L 20 10 L 28 19 L 8 51 L 5 -20 Z','#f3fbff','#a9c9df',1.5)
-    torso+=path('M 20 38 h 13 v 12 h -13 Z','none','#90b8d0',1.5)+circ(-26,20,3,'#12d5e6')
-    body=legs+shoes+arm(-1,left,-26+8*math.sin(t*3))+torso+arm(1,right,22+10*math.sin(t*2.4))+group(face,f'translate(0 -70) rotate({tilt:.2f})')
-    return group(body,f'translate({x} {y+bob:.1f}) scale({scale})')
-
-def sparky(x,y,t,scale=1):
-    angle=4*math.sin(t*16);body=path('M 0 -47 L 13 -25 L 35 -35 L 29 -9 L 49 0 L 27 12 L 34 35 L 10 26 L 0 48 L -12 26 L -37 35 L -29 10 L -48 0 L -28 -10 L -36 -34 L -13 -25 Z','url(#hot)','#ffcf78',2)
-    body+=circ(-14,-7,7,'#fff9ce')+circ(14,-7,7,'#fff9ce')+circ(-12,-7,3,'#7d283a')+circ(16,-7,3,'#7d283a')+path('M -12 13 Q 0 22 12 13','none','#7d283a',3)
-    body+=glowpath('M -53 -28 l -10 12 l 8 4 l -10 13','#ffad54',2)+glowpath('M 52 10 l 10 -12 l -8 -4 l 10 -11','#ffad54',2)
-    return group(body,f'translate({x+5*math.sin(t*11):.1f} {y+4*math.cos(t*9):.1f}) rotate({angle:.1f}) scale({scale})')
-
-def steady(x,y,t,scale=1):
-    body=path('M -37 -8 Q -34 -36 0 -40 Q 34 -36 38 -8 L 30 26 Q 0 41 -30 26 Z','url(#aqua)','#aaffea',2)
-    body+=path('M -30 -10 Q 0 -14 30 -10 L 25 4 Q 0 10 -25 4 Z','#102e4a')+line(-20,-5,-10,-6,'#9bfff4',2)+line(10,-5,20,-6,'#9bfff4',2)+path('M -11 14 Q 0 20 11 14','none','#087c89',2)
-    return group(body,f'translate({x:.1f} {y+3*math.sin(t*2):.1f}) scale({scale})')
-
-def charger(x,y,scale=1):
-    s=rect(-105,-130,210,260,34,'url(#coat)','stroke="#b7e1f0" stroke-width="3"')+rect(-82,-100,164,196,20,'#1b3151','stroke="#7ed9e9" stroke-width="2"')
-    s+=rect(-60,131,18,37,5,'url(#copper)')+rect(40,131,18,37,5,'url(#copper)')
-    for xx in [-54,-18,18,54]:s+=rect(xx-10,-67,21,105,9,'url(#copper)','opacity=".9"')
-    s+=glowpath('M -65 63 H 65','#54f4fd',4)
-    return group(s,f'translate({x} {y}) scale({scale})')
-
-def coil(x,y,turns,scale=1):
-    s=rect(-27,-75,54,150,19,'#344566','stroke="#7d9cb8" stroke-width="2"')
-    for i in range(turns):
-        yy=-67+i*(134/max(turns-1,1));s+=path(f'M -34 {yy:.1f} C -24 {yy-8:.1f} 24 {yy-8:.1f} 34 {yy:.1f} C 23 {yy+8:.1f} -23 {yy+8:.1f} -34 {yy:.1f}','none','url(#copper)',8)
-    return group(s,f'translate({x} {y}) scale({scale})')
-
-def battery(x,y,level=0.6,scale=1):
-    s=rect(-68,-115,136,230,20,'#152b4a','stroke="#a9fbff" stroke-width="4"')+rect(-22,-130,44,15,5,'#a9fbff')
-    s+=rect(-55,99-194*level,110,194*level,12,'url(#aqua)','opacity=".78"')+path('M -4 -32 L -25 5 L -4 5 L -14 36 L 23 -9 L 3 -9 L 12 -32 Z','#f9ffbe')
-    return group(s,f'translate({x} {y}) scale({scale})')
-
-def scene_art(scene,t,duration):
-    u=max(0,min(1,t/max(.1,duration)));s='';phase=t*2.8
-    if scene==0:
-        s+=text(42,115,'THE DIRECT CONNECTION',23,'#a4efff')+label(42,132,'120V AC  →  PHONE','#ffb867',14)
-        s+=battery(366,380,.16,1.13)+glowpath('M 125 357 C 185 300 230 430 292 386','#ff6f54',7)
-        s+=group(rect(-43,-24,86,48,15,'url(#hot)')+rect(36,-13,26,9,4,'#d9efff')+rect(36,6,26,9,4,'#d9efff'),f'translate(142 355) rotate(-10)')
-        s+=sparky(235+20*math.sin(phase*2),365,t,.62)
-        if u>.62:
-            r=40+110*((u-.62)*2%1);s+=f'<circle cx="365" cy="380" r="{r:.1f}" fill="none" stroke="#ffcc70" stroke-width="5" opacity="{max(0,.7-(r/200)):.2f}"/>'+circ(365,380,100,'url(#fire)')
-    elif scene==1:
-        s+=text(42,115,'THE AIR GAP',28,'#b0faff')+label(42,132,'0 WIRES CONNECTED?!','#ffd666',13)
-        s+=charger(280,374,1.25)+coil(214,354,7,.43)+coil(345,354,4,.43)
-        for k in range(3):
-            x=245+((t*65+k*34)%88);s+=f'<ellipse cx="{x:.1f}" cy="354" rx="17" ry="47" fill="none" stroke="#6cfaff" stroke-width="3" opacity=".8"/>'
-        s+=glowpath('M 248 425 Q 281 402 314 425','#79fbff',3)
-    elif scene==2:
-        s+=text(42,115,'WALL POWER',28,'#a5f2ff')+label(42,132,'PUSH ↔ PULL   60 Hz','#ffcf72',14)
-        s+=group(rect(-84,-31,132,62,22,'url(#hot)')+path('M 48 -25 L 95 -42 L 95 42 L 48 25 Z','#ffb66d','#ffce9a',3),f'translate(140 339) rotate(-12)')
-        for k in range(5):
-            yy=327+(k-2)*12;s+=glowpath(f'M 224 {yy} C 292 {yy-55*math.sin(phase):.1f} 347 {yy+48*math.sin(phase):.1f} 434 {yy+8:.1f}','#40daff',2.8)
-        s+=sparky(154,290,t,.62)
-        s+=path('M 386 435 L 395 534 Q 426 545 456 534 L 465 435 Z','url(#glass)','#bafaff',3)+text(425,505,'5V',20,'#eaffff','middle')
-        if u>.55:s+=path('M 420 435 l -10 42 l 14 4 l -10 33 M 433 451 l 15 18 l -12 8 l 10 26','none','#eaffff',3)
-    elif scene==3:
-        s+=text(42,115,'A CALM ONE-WAY FLOW',25,'#a9ffee')+label(42,132,'5V  /  DIRECT CURRENT','#75ffe1',14)
-        s+=group(path('M -105 5 H -20 Q 10 5 10 30 V 46','none','#3ca393',30)+path('M -105 5 H -20 Q 10 5 10 30 V 46','none','#9af8dc',12)+circ(-18,-19,24,'url(#aqua)')+path('M -32 -19 H -4 M -18 -33 V -5','none','#125369',3),f'translate(215 303)')
-        s+=glowpath('M 225 350 Q 225 395 226 455','#79ffe7',10)
-        s+=path('M 159 440 L 174 567 Q 226 582 278 567 L 293 440 Z','url(#glass)','#b2fff4',3)
-        s+=path(f'M 177 {535-75*u:.1f} Q 225 {525-75*u:.1f} 274 {535-75*u:.1f} L 267 559 Q 226 570 183 559 Z','url(#aqua)','none',1,'opacity=".65"')
-        s+=steady(226,391+55*u,t,.5)+label(304,485,f'{int(25+75*u)}%', '#9dfff3',19)
-    elif scene==4:
-        s+=text(42,115,'01  TRANSFORMER',28,'#b9f6ff')+label(42,132,'MAGNETIC AIR GAP','#75f8ff',14)
-        s+=coil(148,380,9,1)+coil(397,380,5,.76)
-        for k in range(4):
-            x=200+((t*72+k*45)%155);s+=f'<ellipse cx="{x:.1f}" cy="380" rx="20" ry="92" fill="none" stroke="#5afaff" stroke-width="3" opacity=".7"/>'
-        s+=text(148,525,'120V AC',16,'#ffcb83','middle')+text(397,525,'5V AC',16,'#8effed','middle')
-        s+=label(181,560,f'{int(120-115*u)} V', '#fff3a4',20)
-    elif scene==5:
-        s+=text(42,115,'02  ONE-WAY DIODE',27,'#b1f7ff')+label(42,132,'FORWARD  /  BLOCKED','#91ffdf',13)
-        forward=math.sin(t*2.2)>0;ang=-34 if forward else 4
-        s+=glowpath('M 55 400 H 480','#4de5ff',8)+rect(214,290,112,220,20,'url(#panel)','stroke="#66cfd6" stroke-width="3"')
-        s+=group(rect(-8,-65,16,130,7,'url(#aqua)')+circ(0,0,12,'#dbfff3'),f'translate(270 400) rotate({ang})')
-        s+=sparky(145+58*math.sin(t*2.2),398,t,.65)
-        s+=label(320,315,'OPEN' if forward else 'BLOCKED!', '#99ffe1' if forward else '#ff9b87',15)
-        for i in range(3):s+=circ(350+(i*45+t*48)%130,400,6,'#8cfaff')
-    elif scene==6:
-        s+=text(42,115,'03  DIODE BRIDGE',28,'#b1f8ff')+label(42,132,'TWO DIRECTIONS → ONE','#c5ffed',13)
-        s+=glowpath('M 65 382 H 143 L 270 255 L 397 382 L 270 509 L 143 382 H 65 M 397 382 H 475','#65eafa',5)
-        for x,y,a in [(206,319,-45),(334,319,45),(206,445,45),(334,445,-45)]:
-            s+=group(path('M -20 -15 L 14 0 L -20 15 Z','url(#aqua)')+line(19,-18,19,18,'#b2fff5',4),f'translate({x} {y}) rotate({a})')
-        for i in range(7):
-            q=(t*.32+i/7)%1;x=150+q*244;y=382+(-1 if i%2 else 1)*120*math.sin(q*math.pi);s+=circ(x,y,5,'#fff5a7')
-        s+=steady(455,382,t,.54)
-    elif scene==7:
-        s+=text(42,115,'04  CAPACITOR',28,'#a8f8ff')+label(42,132,'STORE  /  SMOOTH  /  RELEASE','#95ffde',12)
-        s+=path('M 35 398 C 60 338 85 458 110 398 S 160 338 185 398','none','#ffd277',6)
-        s+=rect(190,276,160,234,45,'url(#panel)','stroke="#7ffbff" stroke-width="4"')
-        s+=rect(203,410-65*(.5+.5*math.sin(phase)),134,87+65*(.5+.5*math.sin(phase)),25,'url(#aqua)','opacity=".72"')
-        s+=path('M 204 305 Q 270 323 336 305','none','#c6ffff',4)+glowpath('M 350 398 H 490','#73ffe1',6)+steady(438,398,t,.55)
-        s+=label(205,531,'5.0V  PURE DC','#9dffe4',14)
-    else:
-        s+=text(42,115,'FOUR TINY MACHINES',28,'#b2f7ff')+label(42,132,'ONE REMARKABLE PLUG','#ffe29c',14)
-        s+=charger(268,374,1.25)
-        for i in range(4):
-            xx=190+i*52;s+=circ(xx,380+8*math.sin(t*3+i),12,'url(#aqua)')+text(xx,386,str(i+1),13,'#102941','middle')
-        s+=glowpath('M 190 428 H 350','#6cfff3',5)+battery(430,480,.95,.55)
-    return s
-
-def background(t,scene):
-    s=rect(0,0,W,H,0,'url(#bg)')+circ(280+30*math.sin(t*.4),320,280,'url(#halo)')
-    for x in range(-120,700,90):s+=path(f'M {x+(t*4)%90:.1f} 0 L {x+160+(t*4)%90:.1f} 960','none','#78b9e3',1,'opacity=".08"')
-    for i in range(20):
-        x=(i*113+39+t*(3+i%4))%540;y=(i*193+28-t*(5+i%5))%830
-        s+=circ(round(x,1),round(y,1),1.2+i%3*.6,'#9beafa',f'opacity="{.15+(i%3)*.08}"')
-    return s
-
-def svg_frame(scene,t,duration,amp,left,right,previous=None):
-    # Transition reveals the next zone over ten frames with a sliding camera.
-    body=scene_art(scene,t,duration)
-    bob_scale=1+.075*min(1,t/max(.1,duration))+.014*math.sin(t*.8+scene)
-    body=group(body,f'translate({270*(1-bob_scale):.2f} {350*(1-bob_scale):.2f}) scale({bob_scale:.4f})')
-    if previous is not None and t<.30:
-        prev,pt,pdur=previous;q=min(1,t/.30);ease=1-(1-q)**3
-        old=group(scene_art(prev,pt,pdur),f'translate({-540*ease:.1f} 0)',f'opacity="{1-ease:.3f}"')
-        body=old+group(body,f'translate({540*(1-ease):.1f} 0)',f'opacity="{ease:.3f}"')
-    # The host animates independently of the illustration. Pose follows the
-    # scene's integrated spring angles rather than snapping on cuts.
-    hx=(170,370,170,370,170,370,170,370,370)[scene]
-    hscale=1.25 if scene in (0,1,8) else 1.12
-    host_layer=host(hx,710,hscale,t,amp,left,right,scene)
-    return f'<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 540 960">{DEFS}{background(t,scene)}{body}{host_layer}</svg>'
+def beat_boundaries(frames,max_frames=45):
+    n=max(1,math.ceil(frames/max_frames))
+    # Integer frame partitions keep each visual beat to at most 1.5 seconds.
+    return [round(i*frames/n) for i in range(n+1)]
 
 def frame_plan(timeline,rms):
-    targets_l=[];targets_r=[]
-    poses=[(48,-85),(-42,102),(70,-50),(-48,85),(36,-105),(72,-73),(-65,75),(20,-90),(-80,110)]
-    frames=sum(x['frames'] for x in timeline)
-    scenes=[]
+    """One rig and camera plan, with spring state continuous across scene cuts."""
+    # [left shoulder, right shoulder, left elbow, right elbow, left knee, right knee]
+    aposes=[(-52,70,-36,24),(-92,56,42,-65),(-25,95,-48,35),(-78,40,36,-45),
+            (-28,90,-44,30),(-90,50,52,-28),(-68,75,-30,35)]
+    targets=[[] for _ in range(10)];records=[]
     for beat in timeline:
-        for j in range(beat['frames']):
-            t=j/FPS;i=beat['index'];left,right=poses[i]
-            targets_l.append(left+12*math.sin(t*1.9));targets_r.append(right+15*math.sin(t*1.55+.7))
-            scenes.append((i,t,beat['duration'],beat['start'],j))
-    left=spring_angles(targets_l,frames);right=spring_angles(targets_r,frames)
-    for i,(scene,t,dur,start,j) in enumerate(scenes):
-        prev=(scene-1,timeline[scene-1]['duration'],timeline[scene-1]['duration']) if scene>0 and j<9 else None
-        yield scene,t,dur,float(rms[min(i,len(rms)-1)]),left[i],right[i],prev
+        i=beat['index'];bounds=beat_boundaries(beat['frames']);n=len(bounds)-1
+        for local in range(beat['frames']):
+            t=local/FPS;cut=min(n-1,next((j for j in range(n) if local<bounds[j+1]),n-1))
+            cut_frame=local-bounds[cut];step=cut%2;scene_phase=local/max(1,beat['frames']-1)
+            l,r,le,re=aposes[i];walk=math.sin(t*4.4)
+            # Gesture goals change at every 1.5–2 second visual beat.
+            variants=(l+step*34+8*math.sin(t*2),r-step*42+10*math.cos(t*2.3),
+                      le+step*22,re-step*25,18*walk,-18*walk,
+                      (-18 if step==0 else 24),(-9 if step==0 else 9),
+                      (1.0 if step==0 else 1.17),
+                      (142 if (i+step)%2==0 else 398))
+            for dest,val in zip(targets,variants):dest.append(val)
+            prev=(i-1,timeline[i-1]['duration']) if i>0 and local<10 else None
+            records.append((i,t,beat['duration'],scene_phase,cut,cut_frame,prev))
+    arrays=[spring_series(x,55 if j<6 else 38,13 if j<6 else 12) for j,x in enumerate(targets)]
+    for i,rec in enumerate(records):
+        yield (*rec,float(rms[min(i,len(rms)-1)]),*(arr[i] for arr in arrays))
+
+class Studio:
+    """Per-process canvas and decoded native-vector icon cache."""
+    def __init__(self,width=1080,height=1920):
+        self.width=width;self.height=height;self.surface=skia.Surface(width,height)
+        self.icons={}
+        for name in ICONS:
+            p=ROOT/(name+'.svg')
+            if not p.is_file():raise FileNotFoundError(f'Missing cached vector icon: {p}')
+            # Skia's SVG parser rejects xml:space on Twemoji's battery; it
+            # has no visual effect for path-only artwork. Keep source untouched.
+            data=p.read_bytes().replace(b' xml:space="preserve"',b'')
+            dom=skia.SVGDOM.MakeFromStream(skia.MemoryStream(data))
+            if dom is None:raise ValueError(f'Invalid SVG icon {p}')
+            dom.setContainerSize(skia.Size(100,100));self.icons[name]=dom
+        font='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+        self.typeface=skia.Typeface.MakeFromFile(font) if Path(font).exists() else skia.Typeface.MakeDefault()
+
+    def text(self,c,s,x,y,size=22,col='#efffff',align='left',alpha=255):
+        font=skia.Font(self.typeface,size);font.setEdging(skia.Font.kAntiAlias)
+        if align=='center':x-=font.measureText(s)/2
+        elif align=='right':x-=font.measureText(s)
+        c.drawString(s,x,y,font,fill(col,alpha))
+
+    def icon(self,c,name,x,y,size,angle=0,opacity=255):
+        c.save();c.translate(x,y);c.rotate(angle);c.scale(size/100,size/100);c.translate(-50,-50)
+        if opacity<255:c.saveLayerAlpha(None,int(opacity))
+        self.icons[name].render(c)
+        if opacity<255:c.restore()
+        c.restore()
+
+    def beam(self,c,p,col='#79fff0',width=4):
+        c.drawPath(p,stroke(col,width*4,35));c.drawPath(p,stroke(col,width*2,65));c.drawPath(p,stroke(col,width,240))
+
+    def background(self,c,scene,t):
+        a,b=PALETTES[scene]
+        paint=skia.Paint(AntiAlias=True)
+        paint.setShader(skia.GradientShader.MakeLinear([(0,0),(W,H)],[color(a),color(b)],None,skia.TileMode.kClamp))
+        c.drawRect(skia.Rect.MakeWH(W,H),paint)
+        # Parallax marks are environmental VFX, not prop geometry.
+        for i in range(14):
+            x=(i*83+16+3*t*(i%3+1))%W;y=(i*157+50-t*(i%4+3))%H
+            c.drawCircle(x,y,1+(i%3)*.35,fill('#87d9ff',45))
+
+    def mascot(self,c,x,y,t,kind='hot',scale=1):
+        c.save();c.translate(x,y);c.scale(scale,scale)
+        cyan=kind=='steady';col='#47ffdc' if cyan else '#ff515c';glow='#b5fff1' if cyan else '#ffd081'
+        # An expressive skeletal character, not an icon or drawn prop.
+        bob=3*math.sin(t*5 if not cyan else t*2)
+        c.translate(0,bob)
+        if not cyan:
+            c.drawPath(path([(0,-49),(10,-28),(27,-36),(22,-14),(34,-5),(20,7),(25,25),(9,20),(-2,41),(-8,21),(-27,26),(-21,6),(-32,-5),(-19,-14),(-24,-34),(-9,-25)],True),fill(col))
+            c.drawCircle(-9,-8,4,fill('#fff6ca'));c.drawCircle(10,-8,4,fill('#fff6ca'))
+            c.drawCircle(-8,-8,2,fill('#582c40'));c.drawCircle(11,-8,2,fill('#582c40'))
+        else:
+            c.drawCircle(0,-20,20,fill(col));self.icon(c,'sunglasses',0,-21,36)
+        for arm in (-1,1):
+            p=curve((arm*13,0),(arm*23,5),(arm*27,16),(arm*33,13+5*math.sin(t*4+arm)))
+            c.drawPath(p,stroke(glow,5));
+            c.drawPath(curve((arm*7,20),(arm*10,30),(arm*13,40),(arm*20,43)),stroke(col,5))
+        c.restore()
+
+    def host(self,c,x,y,t,amp,angles,focus,scene,cut):
+        l,r,le,re,lk,rk=angles
+        # Jump and recoil respond to scene energy; limbs are true chained joints.
+        jump=(max(0,math.sin(t*3.3))**4)*16 if scene in (0,2) else 3*math.sin(t*2.6)
+        headnod=amp*5*math.sin(t*11)+3*math.sin(t*2.5)
+        c.save();c.translate(x,y-jump)
+        white='#efffff';cyan='#75f8ff';glow='#5beeff'
+        body=curve((0,-106),(-8,-79),(7,-52),(0,-20))
+        c.drawPath(body,stroke(glow,17,32));c.drawPath(body,stroke(white,8))
+        def endpoint(p,length,ang):
+            a=math.radians(ang);return (p[0]+length*math.sin(a),p[1]+length*math.cos(a))
+        def bone(start,a1,a2,length1,length2):
+            joint=endpoint(start,length1,a1);end=endpoint(joint,length2,a1+a2)
+            bend=((start[0]+joint[0])/2+4,(start[1]+joint[1])/2)
+            c.drawPath(curve(start,bend,bend,joint),stroke(white,8))
+            mid=((joint[0]+end[0])/2,(joint[1]+end[1])/2-3)
+            c.drawPath(curve(joint,mid,mid,end),stroke(white,7))
+            c.drawCircle(*joint,4,fill(cyan));c.drawCircle(*end,4.2,fill(white))
+        bone((-5,-92),l,le,53,49);bone((5,-92),r,re,53,49)
+        bone((-5,-20),-15+lk,lk*.6,55,54);bone((5,-20),15+rk,rk*.6,55,54)
+        # White/cyan glowing head with subtle brows; no mouth, nose or clothes.
+        c.drawCircle(0,-143+headnod,42,fill(glow,35));c.drawCircle(0,-143+headnod,34,fill('#eeffff'))
+        c.save();c.translate(0,headnod)
+        c.drawPath(path([(-32,-156),(-30,-187),(-18,-180),(-13,-199),(-2,-183),(12,-201),(15,-182),(29,-187),(33,-156),(22,-165),(-23,-165)],True),fill('#00e8f7'))
+        blink=abs(math.sin(math.pi*(t+scene*.43)/2.8))<.06
+        px=max(-4,min(4,(focus[0]-x)/40));py=max(-3,min(3,(focus[1]-(y-143))/55))
+        for sx in (-13,13):
+            if blink:c.drawLine(sx-7,-143,sx+7,-143,stroke('#223b59',3))
+            else:
+                c.drawOval(skia.Rect.MakeXYWH(sx-7,-153,14,19),fill('#183c5a'))
+                c.drawCircle(sx+px*.4,-144+py*.4,3,fill('#fff'))
+            brow=-164-(5 if (scene==0 and cut>0) else 0)
+            c.drawPath(curve((sx-7,brow+1),(sx-3,brow-2),(sx+3,brow-2),(sx+7,brow+1)),stroke('#2b5970',2.5))
+        c.restore();c.restore()
+
+    def art(self,c,scene,t,duration,phase,cut):
+        u=max(0,min(1,phase));wave=math.sin(t*3);sec=cut%2
+        if scene==0:
+            self.icon(c,'phone',358 if not sec else 356,342 if not sec else 315,245 if not sec else 290,-6+wave*2)
+            self.icon(c,'plug',195+min(t*25,60),330,140,38+wave*3)
+            self.beam(c,curve((105,475),(150,435),(165,360),(230,360)),'#ff7055',5)
+            self.mascot(c,260+26*math.sin(t*5),340,t,'hot',.65)
+            if sec or u>.6:self.icon(c,'explosion',351,350,185+24*math.sin(t*8))
+            self.text(c,'DO NOT CONNECT',270,173,21,'#ffd0ae','center')
+        elif scene==1:
+            if not sec:self.icon(c,'mdi-power-plug-battery',290,335,255,-5+wave*2)
+            else:self.icon(c,'magnet',280,325,195,90+5*wave)
+            for x in (174,393):self.icon(c,'mdi-heating-coil',x,380,120 if x==174 else 90,90)
+            for i in range(3):
+                x=230+(t*60+i*32)%100;c.drawOval(skia.Rect.MakeXYWH(x-10,322,20,111),stroke('#84fbff',2,175))
+            self.text(c,'AIR GAP',270,225,22,'#9bfaff','center')
+        elif scene==2:
+            self.icon(c,'truck',180 if not sec else 145,336,190,-4+3*wave)
+            self.mascot(c,180,270,t,'hot',.65)
+            self.icon(c,'glass',390,450,175,4*math.sin(t*3) if sec else 0)
+            for j in range(5):
+                x=260+(j*42+t*48)%190;y=355+24*math.sin(t*5-j*.8)
+                self.icon(c,'droplet',x,y,32+j*2,90)
+            self.text(c,'60 CYCLES / SECOND',270,190,19,'#ffe2a1','center')
+        elif scene==3:
+            self.icon(c,'faucet',220 if not sec else 185,305,200,-3*wave)
+            self.icon(c,'glass',332,460,190)
+            for i in range(4):self.icon(c,'droplet',300,355+(t*90+i*30)%100,25)
+            self.mascot(c,305,405,t,'steady',.55)
+            if sec:self.icon(c,'battery',433,325,122,4*wave)
+            self.text(c,'ONE WAY  •  LOW VOLTAGE',270,185,18,'#9fffe6','center')
+        elif scene==4:
+            self.icon(c,'mdi-heating-coil',160 if not sec else 137,360,190,90)
+            self.icon(c,'mdi-heating-coil',407 if not sec else 417,360,135,90)
+            for i in range(5):
+                x=230+(t*85+i*26)%95;c.drawOval(skia.Rect.MakeXYWH(x-12,300,24,125),stroke('#63f5ff',3,180))
+            self.icon(c,'magnet',270,475,100,20*math.sin(t*2))
+            self.text(c,'ENERGY CROSSES THE GAP',270,190,18,'#b5faff','center')
+        elif scene==5:
+            opened=math.sin(t*2.3)>0;self.icon(c,'mdi-valve-open' if opened else 'mdi-valve-closed',300,357,260,0)
+            self.mascot(c,150+35*math.sin(t*2.3),354,t,'hot',.85)
+            self.icon(c,'mdi-arrow-right',440,350,80)
+            self.text(c,'OPEN' if opened else 'BLOCKED!',320,200,25,'#a7ffdd' if opened else '#ff9a9d','center')
+        else:
+            self.icon(c,'battery',220 if not sec else 165,335,220,-6+wave*3)
+            self.icon(c,'phone',385,365,210,5-wave*2)
+            self.beam(c,curve((280,390),(320,380),(350,395),(410,385)),'#78ffe0',5)
+            self.mascot(c,302+30*math.sin(t),405,t,'steady',.6)
+            self.text(c,'5V DC  •  SMOOTH & STEADY',270,190,19,'#b9fff0','center')
+
+    def frame(self,plan):
+        scene,t,dur,phase,cut,cut_frame,prev,amp,l,r,le,re,lk,rk,camx,camy,zoom,hostx=plan
+        c=self.surface.getCanvas();c.clear(skia.ColorBLACK);c.save();c.scale(self.width/W,self.height/H)
+        self.background(c,scene,t)
+        # Artwork shifts between zones on scene change; camera offset/zoom are
+        # spring-integrated and also change on every <=1.5s visual beat.
+        c.save();c.translate(270+camx,380+camy);c.scale(zoom,zoom);c.translate(-270,-380)
+        if prev and t<.3:
+            q=1-math.exp(-10*t)*(1+10*t);q=max(0,min(1,q));old,old_dur=prev
+            c.save();c.translate(-540*q,0);self.art(c,old,old_dur,old_dur,1,1);c.restore()
+            c.save();c.translate(540*(1-q),0);self.art(c,scene,t,dur,phase,cut);c.restore()
+        else:self.art(c,scene,t,dur,phase,cut)
+        c.restore()
+        # Text is scene-specific, not part of any prop drawing.
+        self.text(c,TITLES[scene],270,98,25,'#e8fbff','center')
+        self.host(c,hostx,715,t,amp,(l,r,le,re,lk,rk),(300,350),scene,cut)
+        if scene==6:
+            self.text(c,'Twemoji © Twitter & contributors · CC BY 4.0',270,927,9,'#b7d9e7','center',200)
+            self.text(c,'Material Design Icons / Pictogrammers · Apache 2.0',270,943,9,'#b7d9e7','center',200)
+        c.restore();return self.surface.makeImageSnapshot().tobytes()

@@ -13,7 +13,7 @@ def make_sfx(timeline,length):
     for beat in timeline[1:]:
         tt=t(.36);add(max(0,beat['start']-.22),noise(.36)*np.sin(np.pi*tt/.36)**2,.19)
     # Explosion, zap, shattering, magnetic hum, metallic turnstile and chime.
-    tt=t(.8);add(timeline[0].get('cues',{}).get('boom',timeline[0]['start']+timeline[0]['duration']*.68),np.sin(2*np.pi*(53*tt+10*np.log1p(tt*10)))*np.exp(-tt*5)+noise(.8)*np.exp(-tt*11)*.4,.52)
+    tt=t(.8);add(timeline[0].get('cues',{}).get('fire',timeline[0]['start']+timeline[0]['duration']*.68),np.sin(2*np.pi*(53*tt+10*np.log1p(tt*10)))*np.exp(-tt*5)+noise(.8)*np.exp(-tt*11)*.4,.52)
     for scene in (0,1,2,4):
         tt=t(.4);add(timeline[scene]['start']+.45,noise(.4)*np.exp(-tt*10)*np.sin(2*np.pi*(500*tt+1300*tt*tt)),.22)
     tt=t(1.2);glass=sum(np.sin(2*np.pi*f*tt)*np.exp(-tt*d) for f,d in [(1412,4),(2320,6),(3460,8),(4320,10)])
@@ -24,7 +24,7 @@ def make_sfx(timeline,length):
         if at<timeline[5]['start']+timeline[5]['duration']:
             tt=t(.16);add(at,(np.sin(2*np.pi*960*tt)+.7*np.sin(2*np.pi*1780*tt))*np.exp(-tt*28),.17)
     tt=t(1.0);chime=sum(np.sin(2*np.pi*f*tt)*np.exp(-tt*(2+i)) for i,f in enumerate((523.25,659.25,783.99)))
-    add(timeline[8]['start']+.5,chime,.16)
+    add(timeline[-1]['start']+.5,chime,.16)
     return out
 
 def mix(voice,timeline):

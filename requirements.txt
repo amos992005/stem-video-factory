@@ -7,3 +7,4 @@ av>=14,<19
 resvg-py>=0.2,<1
 CairoSVG>=2.7,<3
 faster-whisper>=1.1,<2
+skia-python>=138,<145
