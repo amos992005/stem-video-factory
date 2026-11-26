@@ -1,9 +1,9 @@
 """Audit finished subtitled files; exclude the lower 20% from both metrics.
 
 Motion: union of 6/255 adjacent-frame changes over every 2-second window at
-5fps, using 320x180 grayscale. Composition: compare normalized 9x20 spatial
-luminance maps for each contact-sheet frame i vs i+2; dim grid pixels are
-excluded. Both are heuristics and cannot prove visual or editorial quality.
+5fps, using 320x180 grayscale. Composition: compare normalized 9x20 spatial maps of above-median
+luminance for contact-sheet frames separated by at least nine seconds. This
+reduces uniform gradient influence without using captions or shot metadata. Both are heuristics and cannot prove visual or editorial quality.
 """
 import argparse
 import subprocess
@@ -33,17 +33,20 @@ def motion_windows(frames, fps=FPS, pixel_threshold=PIXEL_THRESHOLD):
 def layout_descriptor(frame):
     frame=np.asarray(frame,dtype=np.float32)
     frame=frame[:int(frame.shape[0]*.8)]
-    frame=np.where(frame>=24,frame,0)
+    # Remove the broad background field so bright foreground shapes, rather
+    # than a constant full-frame gradient, determine spatial composition.
+    frame=np.maximum(frame-np.median(frame),0)
     rows,cols=9,20
     tiles=np.array([[block.mean() if block.size else 0 for block in np.array_split(row,cols,axis=1)]
                     for row in np.array_split(frame,rows,axis=0)],dtype=np.float64).ravel()
     return tiles/(tiles.sum()+1e-9)
 
 
-def composition_pairs(frames):
+def composition_pairs(frames, stride=2):
     if len(frames)<30: raise ValueError('Need 30 frames for composition audit')
+    if not 1<=stride<30: raise ValueError('Invalid composition stride')
     descriptors=[layout_descriptor(frame) for frame in frames[:30]]
-    return [(i,i+2,float(np.abs(descriptors[i]-descriptors[i+2]).sum()/2)) for i in range(28)]
+    return [(i,i+stride,float(np.abs(descriptors[i]-descriptors[i+stride]).sum()/2)) for i in range(30-stride)]
 
 
 
@@ -91,8 +94,9 @@ def audit(directory,strict=True):
            'adjacent-frame intensity change ≥6/255. Each overlapping 2-second window uses the union of changed pixels '
            'across 10 frame differences; windows slide by 0.2 seconds. The lower 20% is excluded so subtitles '
            'cannot make a static scene pass. Motion threshold: strictly greater than 3%. Composition compares normalized 9×20 coarse '
-           'foreground-luminance maps of contact-sheet frames i and i+2, excluding the lower 20% and dark pixels '
-           'below 24/255; minimum distance 0.22. These are heuristics, not proof of artistic quality.','','| Video | Minimum motion | Windows at or below 3% | Result |','|---|---:|---:|---|']
+           'above-median foreground-luminance maps of contact-sheet frames at least nine seconds apart, excluding the lower 20%; '
+           'minimum distance 0.22. Median subtraction reduces the influence of uniform gradients. '
+           'These are heuristics, not proof of artistic quality.','','| Video | Minimum motion | Windows at or below 3% | Result |','|---|---:|---:|---|']
     failed=[];details=[]
     for video in videos:
         decoded=decode_frames(video)
@@ -103,14 +107,14 @@ def audit(directory,strict=True):
         if bad:
             failed.append(video.name+' (motion)')
             details.append(f'**{video.name} flagged window starts (seconds):** '+', '.join(f'{t:.1f}' for t,_ in bad[:100])+(' …' if len(bad)>100 else ''))
-        if True:
-            sheet = directory/('visual_contact_sheet_16x9.png' if video==videos[0] else f'visual_contact_sheet_short{videos.index(video):02}.png')
-            pairs=composition_pairs(sheet_samples(sheet))
-            bad_pairs=[(i,j,v) for i,j,v in pairs if v<MIN_DIVERSITY]
-            details.append(f'**{video.name} contact-sheet composition:** minimum {min(v for _,_,v in pairs):.3f}; {len(bad_pairs)} / {len(pairs)} pairs below {MIN_DIVERSITY:.2f}: {"FAIL" if bad_pairs else "PASS"}.')
-            if bad_pairs:
-                details.append('Flagged pairs (1-based): '+', '.join(f'{i+1}–{j+1} ({v:.3f})' for i,j,v in bad_pairs))
-                failed.append(video.name+' (composition)')
+        sheet = directory/('visual_contact_sheet_16x9.png' if video==videos[0] else f'visual_contact_sheet_short{videos.index(video):02}.png')
+        stride=min(29,max(2,int(np.ceil(9*30/duration(video)))))
+        pairs=composition_pairs(sheet_samples(sheet),stride=stride)
+        bad_pairs=[(i,j,v) for i,j,v in pairs if v<MIN_DIVERSITY]
+        details.append(f'**{video.name} contact-sheet composition** (stride {stride}): minimum {min(v for _,_,v in pairs):.3f}; {len(bad_pairs)} / {len(pairs)} pairs below {MIN_DIVERSITY:.2f}: {"FAIL" if bad_pairs else "PASS"}.')
+        if bad_pairs:
+            details.append('Flagged pairs (1-based): '+', '.join(f'{i+1}–{j+1} ({v:.3f})' for i,j,v in bad_pairs))
+            failed.append(video.name+' (composition)')
     lines.extend(['']+details)
     report=directory/'motion_audit_report.md';report.write_text('\n'.join(lines)+'\n',encoding='utf-8')
     print(report.read_text(),flush=True)

@@ -20,7 +20,8 @@ The timing alignment uses Whisper matches; words Whisper misses are interpolated
 between neighboring matches. Review captions and timing before publication.
 The visual audit is a heuristic, not a guarantee of quality or narrative
 accuracy. It tests 2-second windows (excluding the lower 20%) for **greater
-than 3%** changed pixels and compares contact-sheet spatial luminance layouts.
+than 3%** changed pixels and compares median-subtracted contact-sheet foreground layouts at least nine
+seconds apart; the check uses actual finished frames, not scene names.
 
 The exact requested narration includes claims about explosion, charger
 operation, and zero wasted energy that are not technically reliable. They are

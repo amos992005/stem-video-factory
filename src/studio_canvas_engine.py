@@ -83,10 +83,17 @@ def coil(a,x,y,s=1,color=GOLD):
     for i in range(5):a.ellipse((x+(i*25)*s,y-45*s,x+(i*25+53)*s,y+75*s),None,color,12)
     a.line([(x+150*s,y+10*s),(x+210*s,y+10*s)],(255,174,88,255),15)
 
+
+def layout_box(portrait, variant):
+    """Reframe each shot as a deliberate wide, detail, or offset composition."""
+    if portrait:
+        return [(20,130,1040,790),(-215,120,1430,1085),(-215,280,1210,920),(65,120,1240,940)][variant%4]
+    return [(160,60,1600,930),(-150,-90,2100,1220),(-140,80,1580,920),(450,10,1530,890)][variant%4]
+
 def scene_art(scene,variant,portrait):
     w,h=(1080,1920) if portrait else (1920,1080); im=background(w,h,variant+list(POSE_FOR).index(scene))
     # Portrait deliberately reflows the scene above the host and caption zone.
-    box=(20,160,1040,790) if portrait else (160,60,1600,930)
+    box=layout_box(portrait,variant)
     a=Art(im,box)
     if scene in ('charger','explosion'):
         charger(a,160,230,1.3);phone(a,660,210,1.35,False)
@@ -161,6 +168,8 @@ def host_sprite(pose,mouth=0,blink=False):
     # Face, ears, facial highlights and electric-cyan hair.
     d.ellipse((88,138,145,204),fill=(225,157,113),outline=INK,width=5);d.ellipse((294,138,351,204),fill=(225,157,113),outline=INK,width=5)
     d.rounded_rectangle((112,57,326,308),radius=92,fill=(237,175,129),outline=INK,width=7)
+    d.ellipse((132,72,235,131),fill=(255,220,184,78))
+    d.arc((124,68,315,301),95,170,fill=(184,111,86,105),width=10)
     d.ellipse((128,169,160,201),fill=(255,192,151,100));d.ellipse((278,169,308,201),fill=(255,192,151,100))
     d.polygon([(108,138),(78,95),(127,102),(109,40),(159,63),(174,9),(207,55),(244,4),(260,59),(310,25),(303,85),(352,71),(324,133),(291,100),(151,104)],fill=(32,217,236),outline=INK,width=6)
     d.line([(131,75),(166,82),(181,38)],fill=(160,253,255),width=6)
@@ -236,7 +245,7 @@ def render_shot(task):
     pose=POSE_FOR[scene]; sprites={(m,b):host_sprite(pose,m,b).tobytes() for m in range(5) for b in (False,True)}
     # Host is independently arranged in each aspect ratio; captions remain clear.
     hw,hh=(432,550) if portrait else (385,490)
-    hx,hy=('45','1120') if portrait else (('80','H-h-105') if variant%2==0 else ('W-w-70','H-h-105'))
+    hx,hy=((('45','1120') if variant%2==0 else ('W-w-45','1120')) if portrait else (('80','H-h-105') if variant%2==0 else ('W-w-70','H-h-105')))
     # The mouth coordinates in the image stream change every frame. Camera
     # motion and host bob are continuous and do not depend on subtitles.
     z="1.025+0.014*sin(on/100)"
@@ -246,7 +255,7 @@ def render_shot(task):
     for rr,alpha in [(42,12),(34,22),(27,48),(20,110),(12,255)]:
         od.ellipse((44-rr,44-rr,44+rr,44+rr),fill=(255,226,100,alpha))
     orb_path=tmp/f'orb_{index:03}.png';orb.save(orb_path)
-    bx,by,bw,bh=(20,160,1040,790) if portrait else (160,60,1600,930)
+    bx,by,bw,bh=layout_box(portrait,variant)
     # Coordinates follow the native portrait layout, not a cropped landscape.
     x0=bx+bw*.10;x1=bx+bw*.88;cy=by+bh*.50
     amp=bh*.24 if scene in ('diamond','traffic') else bh*.035

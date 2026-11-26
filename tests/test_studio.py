@@ -48,6 +48,12 @@ class CompositionTests(unittest.TestCase):
         pairs=composition_pairs([frame.copy() for _ in range(30)])
         self.assertTrue(all(value < MIN_DIVERSITY for _,_,value in pairs))
 
+    def test_composition_stride_and_background_baseline(self):
+        from visual_audit import composition_pairs, layout_descriptor
+        frame=np.full((180,320),40,np.uint8);frame[20:70,20:80]=200
+        self.assertEqual(len(composition_pairs([frame]*30, stride=7)),23)
+        np.testing.assert_allclose(layout_descriptor(frame),layout_descriptor(frame+10),atol=1e-9)
+
     def test_layout_ignores_subtitle_zone(self):
         from visual_audit import layout_descriptor
         a=np.zeros((180,320),np.uint8);a[20:80,40:100]=200
