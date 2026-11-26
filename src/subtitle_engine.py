@@ -93,12 +93,15 @@ Style: Default,DejaVu Sans,{font_size},&H00FFFFFF,&H00FFFFFF,&H00140805,&H800000
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 '''
     events=[]
-    for group in groups:
+    for group_index,group in enumerate(groups):
+        next_group_start=groups[group_index+1][0].start if group_index+1<len(groups) else float('inf')
         for i,word in enumerate(group):
             start=word.start
-            # Hold the highlight until the next word starts; clamp pathological
-            # overlapping timestamps so ASS events do not overlap.
-            end=group[i+1].start if i+1<len(group) else word.end
+            # Bound each karaoke event by the next word AND next line. Some TTS
+            # providers report unexpectedly long word durations; without this,
+            # old caption lines remain visible underneath later lines.
+            next_word_start=group[i+1].start if i+1<len(group) else next_group_start
+            end=min(next_word_start,next_group_start,word.end+.12,start+.8)
             start_cs=round(start*100); end_cs=max(start_cs+1,round(end*100))
             parts=[]
             for j,wrd in enumerate(group):

@@ -5,7 +5,7 @@ Pollinations; numpy generates the requested foreground particle VFX. Pillow is
 used to resample and composite the AI character cutouts.
 """
 from __future__ import annotations
-import argparse, concurrent.futures, json, math, subprocess, tempfile, time
+import argparse, concurrent.futures, json, math, shutil, subprocess, tempfile, time
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -151,6 +151,7 @@ def build(outdir='output/pilot',cache='assets/ai_cache',workers=2):
                 use_flux=False;print(f'Pollinations unavailable; switching to Three.js WebGL: {exc}',flush=True)
             voice,ass,timeline=voice_job.result()
         rms=mix_and_envelope(voice,tmp,timeline);add_impact_words(ass,timeline)
+        shutil.copyfile(ass,outdir/'pilot_captions.ass')
         if use_flux:
             tasks=[(i,cache,tmp,rms,ass,timeline[i]) for i in range(7)]
             with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:paths=list(pool.map(render_beat,tasks))

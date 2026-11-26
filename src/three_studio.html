@@ -62,7 +62,8 @@ function build(i){reset(stage);reset(objects);if(bot)scene.remove(bot);particles
 }
 function render(i,t,amp,local){if(i!==beatNo)build(i);
  camera.position.x=.12*Math.sin(t*.7);camera.position.z=8.3-.55*Math.min(1,local/3);camera.lookAt(0,.45,0);
- bot.position.y=-1.15+.07*Math.sin(t*3)+.12*amp;bot.rotation.z=.08*Math.sin(t*2);bot.scale.set(.73*(1-.04*amp),.73*(1+.06*amp),.73);
+ const spring=1-Math.exp(-6*local)*(Math.cos(10*local)+.12*Math.sin(10*local));
+ bot.position.x=(i%2?-1:1)*(1.05+2*(1-spring));bot.position.y=-1.15+.07*Math.sin(t*3)+.12*amp;bot.rotation.z=.08*Math.sin(t*2);bot.scale.set(.73*(1-.04*amp),.73*(1+.06*amp),.73);
  botHead.rotation.z=.11*Math.sin(t*2.4);botArmL.rotation.z=.3*Math.sin(t*3);botArmR.rotation.z=-.5-.3*Math.sin(t*2.4);
  particles.forEach(p=>{p.m.position.y=-1.2+((p.y+1.2+t*.25+p.n*.04)%4.6);p.m.material.emissiveIntensity=1+Math.sin(t*3+p.n)*.5});
  for(const o of moving){let n=o.n||0,r=rand(n+8),q=(t*.8+rand(n+1))%1;

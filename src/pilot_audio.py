@@ -80,11 +80,14 @@ def align_source(text,events,trim,ratio,offset,duration=BEAT):
             end=max(end,start+.01*(j-i));step=(end-start)/(j-i)
             for n in range(i,j):result[n]=(start+(n-i)*step,start+(n-i+1)*step)
     words=[]
-    for token,(start,end) in zip(tokens,result):
-        start=max(0.,min(duration-.01,(start-trim)/ratio));end=max(start+.01,min(duration,(end-trim)/ratio))
-        if words:start=max(start,words[-1].start+.01)
-        end=max(start+.01,end)
-        words.append(Word(token,offset+start,offset+min(duration,end)))
+    for i,(token,(start,end)) in enumerate(zip(tokens,result)):
+        # Reserve at least 10 ms for every remaining token so pathological Edge
+        # timestamps cannot spill this sentence into the next beat.
+        latest=duration-.01*(len(tokens)-i)
+        start=max(0.,min(latest,(start-trim)/ratio))
+        if words:start=min(latest,max(start,words[-1].start-offset+.01))
+        end=min(duration,max(start+.01,(end-trim)/ratio))
+        words.append(Word(token,offset+start,offset+end))
     return words
 
 def build_voice(tmp):
@@ -106,11 +109,19 @@ def build_voice(tmp):
         run('ffmpeg','-v','error','-y','-i',trim,'-af',tempo_filters(ratio)+f',adelay=40,apad,atrim=0:{length:.9f}','-ac','1','-ar',RATE,'-c:a','pcm_s16le',adjusted)
         beat=read_wav(adjusted);target=frames*(RATE//30)
         beat=np.pad(beat,(0,max(0,target-len(beat))))[:target];audios.append(beat)
-        all_words+=align_source(SCRIPT[i],events,trim_time,ratio,start+.04,duration=length-.04)
+        words=align_source(SCRIPT[i],events,trim_time,ratio,start+.04,duration=length-.04)
+        if any(w.start < start or w.end > start+length+1e-6 or w.end<=w.start for w in words):
+            raise ValueError(f'Invalid caption timing in beat {i+1}')
+        all_words+=words
         timeline.append({'index':i,'start':start,'duration':length,'frames':frames})
         print(f'Beat {i+1}: natural {raw_duration:.2f}s, extra tempo {ratio:.2f}x, slot {length:.2f}s',flush=True)
     voice=np.concatenate(audios);write_wav(tmp/'voice.wav',voice)
-    groups=group_words(all_words,portrait=True);ass=tmp/'pilot.ass'
+    # Never let a caption group bridge two independently timed beats.
+    groups=[]
+    for beat in timeline:
+        words=[w for w in all_words if beat['start'] <= w.start < beat['start']+beat['duration']]
+        groups.extend(group_words(words,portrait=True))
+    ass=tmp/'pilot.ass'
     write_ass(ass,groups,portrait=True,margin_v=480)
     print(f'Total narration: {len(voice)/RATE:.2f}s, extra tempo {ratio:.2f}x',flush=True)
     return voice,ass,timeline

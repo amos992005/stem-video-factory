@@ -30,6 +30,14 @@ class SubtitleTests(unittest.TestCase):
         words=collect_words([SimpleNamespace(words=samples)])
         self.assertLessEqual(words[0].end,words[1].start)
 
+    def test_late_word_duration_cannot_overlap_following_line(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp)/'x.ass'
+            write_ass(p,[[Word('first',0,50)],[Word('second',.5,50)]],True)
+            events=[x for x in p.read_text().splitlines() if x.startswith('Dialogue:')]
+            self.assertIn('0:00:00.00,0:00:00.50',events[0])
+            self.assertIn('0:00:00.50,0:00:01.30',events[1])
+
     def test_empty_and_markup(self):
         with self.assertRaises(RuntimeError): collect_words([])
         with tempfile.TemporaryDirectory() as tmp:

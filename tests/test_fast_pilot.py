@@ -41,6 +41,16 @@ class PilotTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'x.ass';write_ass(p,[aligned],True,margin_v=480)
             self.assertIn(',80,80,480,1',p.read_text());self.assertIn(r'{\1c&H20D7FF&}',p.read_text())
+    def test_nonzero_beat_offset_is_applied_only_once(self):
+        events=[Word('one',.1,.3),Word('two',.4,.6),Word('three',.7,.9)]
+        words=align_source('one two three',events,0,1,20,duration=2)
+        self.assertEqual([round(w.start,2) for w in words],[20.1,20.4,20.7])
+
+    def test_extreme_timestamps_stay_inside_beat(self):
+        words=align_source('one two three four', [Word('one',99,150)],0,1,7,duration=2)
+        self.assertTrue(all(7 <= w.start < w.end <= 9 for w in words))
+        self.assertTrue(all(a.start < b.start for a,b in zip(words,words[1:])))
+
     def test_audio_trim_tempo_and_sfx(self):
         sample=np.r_[np.zeros(RATE//2),np.ones(RATE)*.1,np.zeros(RATE//2)]
         a,b=silence_bounds(sample);self.assertGreater(a,0);self.assertLess(b,len(sample));self.assertEqual(tempo_filters(4),'atempo=2.000000000,atempo=2.000000000')
