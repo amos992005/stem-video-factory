@@ -1,4 +1,4 @@
-Pilot run 45799603860, revision 312e5b567f115daf37001a3e61b04aa69398d56d
+Pilot run 45801513380, revision 0e7fa8508cc95136d8b79c10615e29672a841ef5
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Using cached pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -54,7 +54,7 @@ Installing collected packages: typing-extensions, tabulate, propcache, Pillow, n
 
 Successfully installed Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 attrs-26.1.0 av-18.1.1 certifi-2026.11.20 edge-tts-7.3.1 frozenlist-1.8.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 propcache-0.5.4 tabulate-0.10.0 typing-extensions-4.16.0 yarl-1.25.1
 
-added 82 packages in 2s
+added 82 packages in 3s
 Chrome: /usr/bin/google-chrome-stable
 test_audio_trim_tempo_and_sfx (tests.test_fast_pilot.PilotTests.test_audio_trim_tempo_and_sfx) ... ok
 test_cache_and_validation (tests.test_fast_pilot.PilotTests.test_cache_and_validation) ... ok
@@ -71,14 +71,15 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.062s
+Ran 13 tests in 0.049s
 
 OK
 WARNING:root:dr_volt_pointing.png attempt 1/1: HTTP Error 402: Payment Required
-WARNING:root:beat7_magnetic_canyon.jpg attempt 1/1: HTTP Error 402: Payment Required
-WARNING:root:beat5_gentle_stream.jpg attempt 1/1: HTTP Error 402: Payment Required
-WARNING:root:beat4_shattered_glass.jpg attempt 1/1: HTTP Error 402: Payment Required
 WARNING:root:beat3_firehose.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat5_gentle_stream.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat7_magnetic_canyon.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat4_shattered_glass.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:dr_volt_shocked.png attempt 1/1: Chroma screen could not be extracted (background coverage -0.0%)
 WARNING:root:dr_volt_curious.png attempt 1/1: HTTP Error 402: Payment Required
 WARNING:root:dr_volt_mindblown.png attempt 1/1: HTTP Error 402: Payment Required
 Beat 1: natural 4.73s, extra tempo 1.08x, slot 4.50s
@@ -89,33 +90,26 @@ Beat 5: natural 4.83s, extra tempo 1.08x, slot 4.57s
 Beat 6: natural 5.43s, extra tempo 1.08x, slot 5.13s
 Beat 7: natural 6.43s, extra tempo 1.08x, slot 6.07s
 Total narration: 35.33s, extra tempo 1.08x
-WARNING:root:beat6_charger_factory.jpg attempt 1/1: HTTP Error 402: Payment Required
-WARNING:root:dr_volt_shocked.png attempt 1/1: Chroma screen could not be extracted (background coverage -0.0%)
+WARNING:root:beat6_charger_factory.jpg attempt 1/1: HTTP Error 503: Service Unavailable
 Pollinations unavailable; switching to Three.js WebGL: Could not obtain all required AI art:
 dr_volt_pointing.png: Pollinations failed for dr_volt_pointing.png: HTTP Error 402: Payment Required
-beat7_magnetic_canyon.jpg: Pollinations failed for beat7_magnetic_canyon.jpg: HTTP Error 402: Payment Required
-beat5_gentle_stream.jpg: Pollinations failed for beat5_gentle_stream.jpg: HTTP Error 402: Payment Required
-beat4_shattered_glass.jpg: Pollinations failed for beat4_shattered_glass.jpg: HTTP Error 402: Payment Required
 beat3_firehose.jpg: Pollinations failed for beat3_firehose.jpg: HTTP Error 402: Payment Required
+beat5_gentle_stream.jpg: Pollinations failed for beat5_gentle_stream.jpg: HTTP Error 402: Payment Required
+beat7_magnetic_canyon.jpg: Pollinations failed for beat7_magnetic_canyon.jpg: HTTP Error 402: Payment Required
+beat4_shattered_glass.jpg: Pollinations failed for beat4_shattered_glass.jpg: HTTP Error 402: Payment Required
+dr_volt_shocked.png: Pollinations failed for dr_volt_shocked.png: Chroma screen could not be extracted (background coverage -0.0%)
 dr_volt_curious.png: Pollinations failed for dr_volt_curious.png: HTTP Error 402: Payment Required
 dr_volt_mindblown.png: Pollinations failed for dr_volt_mindblown.png: HTTP Error 402: Payment Required
-beat6_charger_factory.jpg: Pollinations failed for beat6_charger_factory.jpg: HTTP Error 402: Payment Required
-dr_volt_shocked.png: Pollinations failed for dr_volt_shocked.png: Chroma screen could not be extracted (background coverage -0.0%)
+beat6_charger_factory.jpg: Pollinations failed for beat6_charger_factory.jpg: HTTP Error 503: Service Unavailable
 WebGL renderer using browser /usr/bin/google-chrome-stable at 360x640, final output 1080x1920
 WebGL device: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
-Rendered 3D beat 1: 135 frames in 18.6s
-Rendered 3D beat 2: 109 frames in 15.3s
-Rendered 3D beat 3: 203 frames in 25.0s
-Rendered 3D beat 4: 140 frames in 36.6s
-Rendered 3D beat 5: 137 frames in 38.0s
-Rendered 3D beat 6: 154 frames in 20.0s
-Rendered 3D beat 7: 182 frames in 24.6s
-::error title=Pilot generation failed::Wrong video dimensions or frame rate
-Traceback (most recent call last):
-  File "/home/runner/work/stem-video-factory/stem-video-factory/src/pilot_compositor.py", line 178, in <module>
-    build(a.output,a.cache,a.workers)
-  File "/home/runner/work/stem-video-factory/stem-video-factory/src/pilot_compositor.py", line 167, in build
-    verify(video,timeline)
-  File "/home/runner/work/stem-video-factory/stem-video-factory/src/pilot_compositor.py", line 132, in verify
-    raise RuntimeError('Wrong video dimensions or frame rate')
-RuntimeError: Wrong video dimensions or frame rate
+Rendered 3D beat 1: 135 frames in 15.5s
+Rendered 3D beat 2: 109 frames in 13.4s
+Rendered 3D beat 3: 203 frames in 21.0s
+Rendered 3D beat 4: 140 frames in 30.0s
+Rendered 3D beat 5: 137 frames in 30.7s
+Rendered 3D beat 6: 154 frames in 16.6s
+Rendered 3D beat 7: 182 frames in 20.8s
+Observed video (width, height, average rate, base rate, frames): (1080, 1920, '30', '30', 1060)
+Verified 1080x1920, 30 fps, 1060 frames, 35.33 seconds, audio
+Pilot created in 182.0s using Three.js WebGL; duration 35.33s
