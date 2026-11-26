@@ -1,4 +1,4 @@
-Comic cutout pilot run 45869416715, revision d14497954e7785fef850c783b48726938f45f6ad
+Comic cutout pilot run 45885130745, revision c4882e1eb5671e9ae0a4f04eb5d1a63088be1ae2
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Using cached pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -172,10 +172,13 @@ Installing collected packages: flatbuffers, urllib3, typing-extensions, truststo
 Successfully installed Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 anyio-4.16.0 attrs-26.1.0 av-18.1.1 certifi-2026.11.20 charset_normalizer-3.5.3 click-8.5.1 ctranslate2-4.9.1 edge-tts-7.3.1 faster-whisper-1.2.1 filelock-4.3.1 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.2 httpx2-2.16.2 huggingface-hub-2.5.0 idna-3.20 imageio-2.38.2 imageio-ffmpeg-0.8.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 lazy-loader-0.6 llvmlite-0.50.0 multidict-7.2.1 networkx-3.6.1 numba-0.68.1 numpy-2.4.6 onnxruntime-1.32.0 opencv-python-headless-4.14.0.94 packaging-26.4 platformdirs-4.14.8 pooch-1.9.0 propcache-0.5.4 protobuf-7.36.2 pymatting-1.1.16 pyyaml-6.0.4 referencing-0.37.0 rembg-2.0.88 requests-2.34.2 rpds-py-2026.9.1 scikit-image-0.26.0 scipy-1.17.1 tabulate-0.10.0 tifffile-2026.3.3 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 urllib3-2.8.0 yarl-1.25.1
 test_frames_change_and_size (tests.test_comic_cutout.ComicTest.test_frames_change_and_size) ... ok
 test_missing_artwork_is_fatal (tests.test_comic_cutout.ComicTest.test_missing_artwork_is_fatal) ... ok
-test_mix_six_scenes (tests.test_comic_cutout.ComicTest.test_mix_six_scenes) ... ok
-test_required_artwork (tests.test_comic_cutout.ComicTest.test_required_artwork) ... Validated 8 original AI-illustrated PNGs; no fallback.
+test_mix_seven_scenes (tests.test_comic_cutout.ComicTest.test_mix_seven_scenes) ... ok
+test_prop_safe_bounds_extreme_aspects (tests.test_comic_cutout.ComicTest.test_prop_safe_bounds_extreme_aspects) ... ok
+test_required_artwork (tests.test_comic_cutout.ComicTest.test_required_artwork) ... Validated 11 original AI-illustrated PNGs; no fallback.
 ok
 test_script (tests.test_comic_cutout.ComicTest.test_script) ... ok
+test_seven_prop_assets_are_used (tests.test_comic_cutout.ComicTest.test_seven_prop_assets_are_used) ... ok
+test_small_islands_removed_and_two_main_components_retained (tests.test_comic_cutout.ComicTest.test_small_islands_removed_and_two_main_components_retained) ... ok
 test_empty_and_markup (tests.test_subtitle_engine.SubtitleTests.test_empty_and_markup) ... ok
 test_group_size_and_punctuation (tests.test_subtitle_engine.SubtitleTests.test_group_size_and_punctuation) ... ok
 test_late_word_duration_cannot_overlap_following_line (tests.test_subtitle_engine.SubtitleTests.test_late_word_duration_cannot_overlap_following_line) ... ok
@@ -183,32 +186,33 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.411s
+Ran 13 tests in 0.473s
 
 OK
-Validated 8 original AI-illustrated PNGs; no fallback.
+Validated 11 original AI-illustrated PNGs; no fallback.
 Edge voice scene 2 received.
 Edge voice scene 1 received.
+Edge voice scene 3 received.
 Edge voice scene 4 received.
 Edge voice scene 5 received.
 Edge voice scene 6 received.
-Edge voice scene 3 attempt 1/4: NoAudioReceived: No audio was received. Please verify that your parameters are correct.
-Edge voice scene 3 received.
-Scene 1: 3.37s
-Scene 2: 4.13s
-Scene 3: 4.50s
-Scene 4: 4.00s
-Scene 5: 4.27s
-Scene 6: 4.73s
-Edge en-US-AndrewMultilingualNeural +12%: natural 23.89s, final 25.00s.
+Edge voice scene 7 received.
+Scene 1: 3.00s
+Scene 2: 4.47s
+Scene 3: 4.20s
+Scene 4: 2.97s
+Scene 5: 3.87s
+Scene 6: 3.37s
+Scene 7: 3.33s
+Edge en-US-AndrewMultilingualNeural +12%: natural 25.10s, final 25.20s.
 Loading faster-whisper tiny.en (CPU/int8) for word timing.
-Whisper-timed ASS: 68 events, zero temporal overlaps, MarginV=220.
-Rendering 750 native comic cutout frames at 1080×1920.
-Rendered 150/750 frames.
-Rendered 300/750 frames.
-Rendered 450/750 frames.
-Rendered 600/750 frames.
-Rendered 750/750 frames.
-Comic composite frames and encode: 45.6s.
-Video stream: (1080, 1920, '30', 750) audio streams: 1
-Comic pilot completed in 92.8s. Duration: 25.00s.
+Whisper-timed ASS: 66 events, zero temporal overlaps, MarginV=140.
+Rendering 756 native comic cutout frames at 1080×1920.
+Rendered 150/756 frames.
+Rendered 300/756 frames.
+Rendered 450/756 frames.
+Rendered 600/756 frames.
+Rendered 750/756 frames.
+Comic composite frames and encode: 51.5s.
+Video stream: (1080, 1920, '30', 756) audio streams: 1
+Comic pilot completed in 115.7s. Duration: 25.20s.
