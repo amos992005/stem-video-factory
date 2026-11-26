@@ -95,36 +95,196 @@ async def post(session,url,headers,payload,deadline,secrets,model):
             error=f'{model}: {safe_error(str(exc),*secrets)}';print(error,flush=True);raise ImageGenerationError(error) from exc
     raise ImageGenerationError(f'{model}: retry exhausted')
 
+# These are requested provider/model combinations, not claims of availability.
+HF_MODELS=(
+    *(("black-forest-labs/FLUX.1-schnell",provider) for provider in ("auto","fal-ai","together","nebius","replicate")),
+    ("stabilityai/stable-diffusion-xl-base-1.0","hf-inference"),
+    ("stabilityai/stable-diffusion-xl-base-1.0","auto"),
+    ("PlaygroundAI/playground-v2.5-1024px-aesthetic","hf-inference"),
+    ("ByteDance/SDXL-Lightning","hf-inference"),
+)
+SPACES=("black-forest-labs/FLUX.1-schnell","multimodalart/FLUX.1-merged",
+        "stabilityai/stable-diffusion-3.5-large-turbo","prodia/fast-stable-diffusion")
+
+
+def inference_worker(prompt,path,token,deadline):
+    # Run in an isolated process: sync clients and provider discovery can block
+    # beyond their own HTTP timeout, so the parent can terminate them reliably.
+    from huggingface_hub import InferenceClient
+    for model,provider in HF_MODELS:
+        remaining=deadline-time.monotonic()
+        if remaining<=.15:break
+        print(f'Trying HF provider={provider} model={model}',flush=True)
+        try:
+            client=InferenceClient(api_key=token,provider=provider,timeout=min(remaining,2.5))
+            image=client.text_to_image(prompt,model=model,width=768,height=1344)
+            data=io.BytesIO();image.save(data,format='PNG');save_image(data.getvalue(),path)
+            print(f'Generated {path.name} with HF {provider} {model}',flush=True);return
+        except Exception as exc:
+            status=getattr(getattr(exc,'response',None),'status_code',None)
+            print(safe_error(f'HF {provider} {model}: '+(f'HTTP {status}: ' if status else '')+f'{type(exc).__name__}: {exc}',token),flush=True)
+    raise ImageGenerationError('HF provider attempts exhausted or timed out')
+
+
+def space_arguments(spec,prompt):
+    """Build kwargs from live schema; reject unknown mandatory inputs."""
+    args={};saw_prompt=False
+    for p in spec.get('parameters',[]):
+        name=p.get('parameter_name') or p.get('name')
+        if not name: return None
+        label=(name+' '+str(p.get('label',''))).lower().replace('-','_')
+        if 'negative' in label and 'prompt' in label:args[name]='blurry, distorted, text, watermark'
+        elif 'prompt' in label or name in ('text','text_input'):
+            args[name]=prompt;saw_prompt=True
+        elif name in ('width','image_width'):args[name]=768
+        elif name in ('height','image_height'):args[name]=1344
+        elif name in ('num_inference_steps','steps','num_steps'):args[name]=4
+        elif name in ('randomize_seed','random_seed'):args[name]=True
+        elif name in ('seed','random_seed_value'):args[name]=42
+        elif name in ('guidance_scale','guidance'):args[name]=3.5
+        elif p.get('parameter_has_default',False):continue
+        else:return None
+    outputs=spec.get('returns',[])
+    image_output=any(any(kind in str(p).lower() for kind in ('image','gallery','filepath','file')) for p in outputs)
+    return args if saw_prompt and image_output else None
+
+
+def space_result_file(result,root):
+    """Only load files that gradio_client itself downloaded to its temp dir."""
+    if isinstance(result,(tuple,list)):
+        for item in result:
+            found=space_result_file(item,root)
+            if found:return found
+    elif isinstance(result,dict):
+        for key in ('path','image','url','data'):
+            if key in result:
+                found=space_result_file(result[key],root)
+                if found:return found
+    elif isinstance(result,str):
+        p=Path(result)
+        try:
+            if p.resolve().is_relative_to(root.resolve()) and p.is_file():return p
+        except OSError:pass
+    return None
+
+
+def spaces_worker(prompt,path,token,deadline):
+    import tempfile
+    from gradio_client import Client
+    for space in SPACES:
+        if deadline-time.monotonic()<=.15:break
+        print(f'Trying HF Space {space}',flush=True)
+        try:
+            with tempfile.TemporaryDirectory(prefix='pilot-gradio-') as d:
+                # hf_token is accepted by older versions; current versions use token.
+                try:client=Client(space,hf_token=token,verbose=False,download_files=d)
+                except TypeError:client=Client(space,token=token,verbose=False,download_files=d)
+                try:info=client.view_api(return_format='dict',print_info=False)
+                except TypeError:info=client.view_api(return_format='dict')
+                endpoints=info.get('named_endpoints',{})
+                candidates=[]
+                for name,spec in endpoints.items():
+                    args=space_arguments(spec,prompt)
+                    if args is not None:candidates.append((name,args))
+                if not candidates:raise ImageGenerationError('No compatible text-to-image named endpoint in live Space schema')
+                # Prefer common inference routes but always use discovered names.
+                candidates.sort(key=lambda item: 0 if item[0] in ('/infer','/predict','/generate') else 1)
+                for name,args in candidates:
+                    try:
+                        result=client.predict(api_name=name,**args)
+                        image=space_result_file(result,Path(d))
+                        if not image:raise ImageGenerationError('Space returned no downloadable image file')
+                        save_image(image.read_bytes(),path)
+                        print(f'Generated {path.name} with Space {space} endpoint {name}',flush=True);return
+                    except Exception as exc:
+                        print(safe_error(f'Space {space} endpoint {name}: {type(exc).__name__}: {exc}',token),flush=True)
+        except Exception as exc:
+            status=getattr(getattr(exc,'response',None),'status_code',None)
+            print(safe_error(f'Space {space}: '+(f'HTTP {status}: ' if status else '')+f'{type(exc).__name__}: {exc}',token),flush=True)
+    raise ImageGenerationError('HF Space attempts exhausted or timed out')
+
+
+async def isolated_worker(kind,index,prompt,directory,token,deadline,phase_seconds):
+    import sys
+    remaining=min(phase_seconds,deadline-time.monotonic())
+    if remaining<=.15:return False
+    path=shot_path(directory,index)
+    env=os.environ.copy();env['HF_TOKEN']=token
+    cmd=[sys.executable,str(Path(__file__).resolve()),'--worker',kind,'--index',str(index),
+         '--directory',str(directory),'--worker-deadline',str(time.monotonic()+remaining)]
+    proc=await asyncio.create_subprocess_exec(*cmd,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT,env=env)
+    async def read_output():
+        while True:
+            line=await proc.stdout.readline()
+            if not line:break
+            print(safe_error(line.decode('utf8','replace').rstrip(),token,os.environ.get('GEMINI_API_KEY','')),flush=True)
+    reader=asyncio.create_task(read_output())
+    try:
+        await asyncio.wait_for(proc.wait(),timeout=max(.01,min(remaining,deadline-time.monotonic())))
+    except (asyncio.TimeoutError,asyncio.CancelledError):
+        try:proc.kill()
+        except ProcessLookupError:pass
+        await proc.wait()
+        print(f'{kind} {path.name}: phase deadline reached; worker terminated',flush=True)
+        if asyncio.current_task().cancelling():raise
+    finally:
+        await reader
+        path.with_suffix('.tmp').unlink(missing_ok=True)
+    return valid_shot(path)
+
+
+async def horde_request(session,method,url,deadline,**kwargs):
+    remaining=deadline-time.monotonic()
+    if remaining<=.05:raise ImageGenerationError('AI Horde generation deadline exceeded')
+    async with session.request(method,url,timeout=aiohttp.ClientTimeout(total=min(remaining,3)),**kwargs) as response:
+        body=await response.read()
+        if response.status>=400:
+            raise ImageGenerationError(f'AI Horde HTTP {response.status}: {body.decode("utf8","replace")[:1200]}')
+        return body
+
+
+async def horde_one(session,index,prompt,directory,deadline):
+    base='https://aihorde.net/api/v2';headers={'apikey':'0000000000','Client-Agent':'stem-video-factory:1.0:github.com/amos992005/stem-video-factory'}
+    payload={'prompt':prompt,'params':{'width':576,'height':1024,'steps':4,'n':1},
+             'models':['AlbedoBase XL (SDXL)','SDXL 1.0'],'nsfw':False,'censor_nsfw':True}
+    job=None
+    try:
+        response=await horde_request(session,'POST',base+'/generate/async',deadline,headers=headers,json=payload)
+        job=json.loads(response)['id'];print(f'AI Horde accepted {shot_path(directory,index).name}',flush=True)
+        while deadline-time.monotonic()>1.1:
+            await asyncio.sleep(1)
+            check=json.loads(await horde_request(session,'GET',base+'/generate/check/'+job,deadline,headers=headers))
+            if check.get('faulted'):raise ImageGenerationError(f'AI Horde job faulted: {check}')
+            if check.get('done'):
+                result=json.loads(await horde_request(session,'GET',base+'/generate/status/'+job,deadline,headers=headers))
+                generations=result.get('generations',[])
+                if not generations or generations[0].get('censored'):raise ImageGenerationError('AI Horde returned no usable image')
+                img=generations[0].get('img','')
+                if img.startswith('https://'):
+                    blob=await horde_request(session,'GET',img,deadline)
+                else:blob=base64.b64decode(img,validate=True)
+                save_image(blob,shot_path(directory,index));job=None
+                print(f'Generated shot_{index:02}.jpg with AI Horde',flush=True);return True
+        raise ImageGenerationError('AI Horde job did not finish before deadline')
+    except (aiohttp.ClientError,asyncio.TimeoutError,ValueError,KeyError,ImageGenerationError) as exc:
+        print(f'AI Horde shot_{index:02}: {type(exc).__name__}: {exc}',flush=True);return False
+    finally:
+        if job:
+            # Do not leave anonymous volunteer GPU jobs queued after our deadline.
+            try:
+                async with session.delete(base+'/generate/status/'+job,headers=headers,timeout=aiohttp.ClientTimeout(total=.4)):pass
+            except (aiohttp.ClientError,asyncio.TimeoutError):pass
+
+
 async def generate_one(session,index,prompt,directory,key,hf,deadline):
     path=shot_path(directory,index)
     if valid_shot(path):print(f'Cached {path.name}',flush=True);return path
-    errors=[];secrets=(key,hf)
-    for model in MODELS:
-        if deadline-time.monotonic()<.2:break
-        endpoint=f'https://generativelanguage.googleapis.com/v1beta/models/{model}'
-        if model.startswith('imagen'):
-            url=endpoint+':predict';payload={'instances':[{'prompt':prompt}],'parameters':{'sampleCount':1,'aspectRatio':'9:16'}}
-        else:
-            url=endpoint+':generateContent';payload={'contents':[{'parts':[{'text':'Generate a vertical 9:16 3D animated movie frame: '+prompt}]}], 'generationConfig':{'responseModalities':['TEXT','IMAGE']}}
-            if model.startswith(('gemini-3','gemini-2.5')):payload['generationConfig']['imageConfig']={'aspectRatio':'9:16'}
-        try:
-            result=await post(session,url,{'x-goog-api-key':key,'Content-Type':'application/json'},payload,deadline,secrets,model)
-            save_image(result,path);print(f'Generated {path.name} with {model}',flush=True);return path
-        except ImageGenerationError as exc:
-            errors.append(str(exc))
-            # If Google rate-limits, promptly try the optional authenticated HF
-            # backend rather than waiting out the whole deadline.
-            if 'HTTP 429' in str(exc) and hf:
-                try:
-                    blob=await post(session,'https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell',{'Authorization':f'Bearer {hf}'},{'inputs':prompt,'parameters':{'width':768,'height':1344}},deadline,secrets,'HF')
-                    save_image(blob,path);print(f'Generated {path.name} with HF FLUX.1-schnell',flush=True);return path
-                except ImageGenerationError as backup:errors.append(str(backup))
-    if hf and deadline-time.monotonic()>.2:
-        try:
-            blob=await post(session,'https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell',{'Authorization':f'Bearer {hf}'},{'inputs':prompt,'parameters':{'width':768,'height':1344}},deadline,secrets,'HF')
-            save_image(blob,path);print(f'Generated {path.name} with HF FLUX.1-schnell',flush=True);return path
-        except ImageGenerationError as exc:errors.append(str(exc))
-    raise ImageGenerationError(f'{path.name}: all available image providers failed: '+ ' | '.join(errors))
+    if hf:
+        if await isolated_worker('providers',index,prompt,directory,hf,deadline,7):return path
+        if await isolated_worker('spaces',index,prompt,directory,hf,deadline,4):return path
+    else:print(f'{path.name}: HF_TOKEN is not set; trying AI Horde',flush=True)
+    if await horde_one(session,index,prompt,directory,deadline):return path
+    raise ImageGenerationError(f'{path.name}: no provider returned a validated AI image before deadline')
 
 async def generate_all(directory=SHOT_DIR,key=None,hf=None,budget=BUDGET):
     directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
@@ -132,7 +292,7 @@ async def generate_all(directory=SHOT_DIR,key=None,hf=None,budget=BUDGET):
     if not missing:print('All ten cached AI shots are valid; no image API call required.',flush=True);return directory
     key=key if key is not None else os.environ.get('GEMINI_API_KEY','')
     hf=hf if hf is not None else os.environ.get('HF_TOKEN','')
-    if not key:raise ImageGenerationError('GEMINI_API_KEY is not set and cache is incomplete')
+    if not hf and not key:raise ImageGenerationError('No API credential is configured and cache is incomplete')
     deadline=time.monotonic()+budget
     async with aiohttp.ClientSession() as session:
         tasks=[asyncio.create_task(generate_one(session,i,SHOTS[i-1],directory,key,hf,deadline)) for i in missing]
@@ -151,6 +311,14 @@ async def generate_all(directory=SHOT_DIR,key=None,hf=None,budget=BUDGET):
     return directory
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--check-cache',action='store_true');parser.add_argument('--directory',default=str(SHOT_DIR));a=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--check-cache',action='store_true');parser.add_argument('--directory',default=str(SHOT_DIR))
+    parser.add_argument('--worker',choices=('providers','spaces'));parser.add_argument('--index',type=int);parser.add_argument('--worker-deadline',type=float);a=parser.parse_args()
     if a.check_cache:raise SystemExit(0 if cache_complete(a.directory) else 1)
-    asyncio.run(generate_all(a.directory))
+    if a.worker:
+        try:
+            token=os.environ.get('HF_TOKEN','');path=shot_path(a.directory,a.index)
+            (inference_worker if a.worker=='providers' else spaces_worker)(SHOTS[a.index-1],path,token,a.worker_deadline)
+        except Exception as exc:
+            print(safe_error(f'{type(exc).__name__}: {exc}',os.environ.get('HF_TOKEN',''),os.environ.get('GEMINI_API_KEY','')),flush=True)
+            raise SystemExit(1)
+    else:asyncio.run(generate_all(a.directory))

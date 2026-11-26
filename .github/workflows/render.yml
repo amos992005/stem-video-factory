@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          python -m pip install -r requirements.txt 2>&1 | tee -a output/pilot/build.log
+          python -m pip install -r requirements.txt 'huggingface_hub>=0.28.0' gradio_client 2>&1 | tee -a output/pilot/build.log
           mkdir -p "$RUNNER_TEMP/pilot-bin"
           ln -s "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$RUNNER_TEMP/pilot-bin/ffmpeg"
           echo "$RUNNER_TEMP/pilot-bin" >> "$GITHUB_PATH"
