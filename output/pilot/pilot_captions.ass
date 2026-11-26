@@ -1,0 +1,125 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+ScaledBorderAndShadow: yes
+WrapStyle: 2
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,DejaVu Sans,62,&H00FFFFFF,&H00FFFFFF,&H00140805,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,2,80,80,480,1
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.04,0:00:00.12,Default,,0,0,0,,{\1c&H20D7FF&}What{\1c&HFFFFFF&} would actually happen
+Dialogue: 0,0:00:00.12,0:00:00.21,Default,,0,0,0,,What {\1c&H20D7FF&}would{\1c&HFFFFFF&} actually happen
+Dialogue: 0,0:00:00.21,0:00:00.46,Default,,0,0,0,,What would {\1c&H20D7FF&}actually{\1c&HFFFFFF&} happen
+Dialogue: 0,0:00:00.46,0:00:00.86,Default,,0,0,0,,What would actually {\1c&H20D7FF&}happen{\1c&HFFFFFF&}
+Dialogue: 0,0:00:00.86,0:00:00.94,Default,,0,0,0,,{\1c&H20D7FF&}if{\1c&HFFFFFF&} you bypassed your
+Dialogue: 0,0:00:00.94,0:00:01.13,Default,,0,0,0,,if {\1c&H20D7FF&}you{\1c&HFFFFFF&} bypassed your
+Dialogue: 0,0:00:01.13,0:00:01.66,Default,,0,0,0,,if you {\1c&H20D7FF&}bypassed{\1c&HFFFFFF&} your
+Dialogue: 0,0:00:01.66,0:00:01.73,Default,,0,0,0,,if you bypassed {\1c&H20D7FF&}your{\1c&HFFFFFF&}
+Dialogue: 0,0:00:01.73,0:00:01.97,Default,,0,0,0,,{\1c&H20D7FF&}phone{\1c&HFFFFFF&} charger and wired
+Dialogue: 0,0:00:01.97,0:00:02.55,Default,,0,0,0,,phone {\1c&H20D7FF&}charger{\1c&HFFFFFF&} and wired
+Dialogue: 0,0:00:02.66,0:00:02.74,Default,,0,0,0,,phone charger {\1c&H20D7FF&}and{\1c&HFFFFFF&} wired
+Dialogue: 0,0:00:02.74,0:00:03.15,Default,,0,0,0,,phone charger and {\1c&H20D7FF&}wired{\1c&HFFFFFF&}
+Dialogue: 0,0:00:03.15,0:00:03.23,Default,,0,0,0,,{\1c&H20D7FF&}your{\1c&HFFFFFF&} battery straight to
+Dialogue: 0,0:00:03.23,0:00:03.74,Default,,0,0,0,,your {\1c&H20D7FF&}battery{\1c&HFFFFFF&} straight to
+Dialogue: 0,0:00:03.74,0:00:04.02,Default,,0,0,0,,your battery {\1c&H20D7FF&}straight{\1c&HFFFFFF&} to
+Dialogue: 0,0:00:04.02,0:00:04.08,Default,,0,0,0,,your battery straight {\1c&H20D7FF&}to{\1c&HFFFFFF&}
+Dialogue: 0,0:00:04.08,0:00:04.16,Default,,0,0,0,,{\1c&H20D7FF&}the{\1c&HFFFFFF&} wall?
+Dialogue: 0,0:00:04.16,0:00:04.54,Default,,0,0,0,,the {\1c&H20D7FF&}wall?{\1c&HFFFFFF&}
+Dialogue: 0,0:00:04.54,0:00:04.60,Default,,0,0,0,,{\1c&H20D7FF&}It{\1c&HFFFFFF&} wouldn't charge faster—it
+Dialogue: 0,0:00:04.60,0:00:04.80,Default,,0,0,0,,It {\1c&H20D7FF&}wouldn't{\1c&HFFFFFF&} charge faster—it
+Dialogue: 0,0:00:04.80,0:00:05.13,Default,,0,0,0,,It wouldn't {\1c&H20D7FF&}charge{\1c&HFFFFFF&} faster—it
+Dialogue: 0,0:00:05.13,0:00:05.93,Default,,0,0,0,,It wouldn't charge {\1c&H20D7FF&}faster—it{\1c&HFFFFFF&}
+Dialogue: 0,0:00:06.08,0:00:06.18,Default,,0,0,0,,{\1c&H20D7FF&}would{\1c&HFFFFFF&} violently explode in
+Dialogue: 0,0:00:06.18,0:00:06.64,Default,,0,0,0,,would {\1c&H20D7FF&}violently{\1c&HFFFFFF&} explode in
+Dialogue: 0,0:00:06.64,0:00:07.31,Default,,0,0,0,,would violently {\1c&H20D7FF&}explode{\1c&HFFFFFF&} in
+Dialogue: 0,0:00:07.31,0:00:07.41,Default,,0,0,0,,would violently explode {\1c&H20D7FF&}in{\1c&HFFFFFF&}
+Dialogue: 0,0:00:07.41,0:00:08.16,Default,,0,0,0,,{\1c&H20D7FF&}seconds!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:08.17,0:00:08.52,Default,,0,0,0,,{\1c&H20D7FF&}Why?{\1c&HFFFFFF&} Because wall power
+Dialogue: 0,0:00:08.74,0:00:09.01,Default,,0,0,0,,Why? {\1c&H20D7FF&}Because{\1c&HFFFFFF&} wall power
+Dialogue: 0,0:00:09.01,0:00:09.29,Default,,0,0,0,,Why? Because {\1c&H20D7FF&}wall{\1c&HFFFFFF&} power
+Dialogue: 0,0:00:09.29,0:00:09.65,Default,,0,0,0,,Why? Because wall {\1c&H20D7FF&}power{\1c&HFFFFFF&}
+Dialogue: 0,0:00:09.65,0:00:09.78,Default,,0,0,0,,{\1c&H20D7FF&}is{\1c&HFFFFFF&} like a massive
+Dialogue: 0,0:00:09.78,0:00:09.92,Default,,0,0,0,,is {\1c&H20D7FF&}like{\1c&HFFFFFF&} a massive
+Dialogue: 0,0:00:09.92,0:00:09.96,Default,,0,0,0,,is like {\1c&H20D7FF&}a{\1c&HFFFFFF&} massive
+Dialogue: 0,0:00:09.96,0:00:10.50,Default,,0,0,0,,is like a {\1c&H20D7FF&}massive{\1c&HFFFFFF&}
+Dialogue: 0,0:00:10.50,0:00:11.13,Default,,0,0,0,,{\1c&H20D7FF&}firefighter's{\1c&HFFFFFF&} hose, blasting
+Dialogue: 0,0:00:11.13,0:00:11.73,Default,,0,0,0,,firefighter's {\1c&H20D7FF&}hose,{\1c&HFFFFFF&} blasting
+Dialogue: 0,0:00:11.83,0:00:12.49,Default,,0,0,0,,firefighter's hose, {\1c&H20D7FF&}blasting{\1c&HFFFFFF&}
+Dialogue: 0,0:00:12.49,0:00:12.57,Default,,0,0,0,,{\1c&H20D7FF&}and{\1c&HFFFFFF&} sucking water back
+Dialogue: 0,0:00:12.57,0:00:12.95,Default,,0,0,0,,and {\1c&H20D7FF&}sucking{\1c&HFFFFFF&} water back
+Dialogue: 0,0:00:12.95,0:00:13.21,Default,,0,0,0,,and sucking {\1c&H20D7FF&}water{\1c&HFFFFFF&} back
+Dialogue: 0,0:00:13.21,0:00:13.49,Default,,0,0,0,,and sucking water {\1c&H20D7FF&}back{\1c&HFFFFFF&}
+Dialogue: 0,0:00:13.49,0:00:13.55,Default,,0,0,0,,{\1c&H20D7FF&}and{\1c&HFFFFFF&} forth sixty times
+Dialogue: 0,0:00:13.55,0:00:13.89,Default,,0,0,0,,and {\1c&H20D7FF&}forth{\1c&HFFFFFF&} sixty times
+Dialogue: 0,0:00:13.89,0:00:14.19,Default,,0,0,0,,and forth {\1c&H20D7FF&}sixty{\1c&HFFFFFF&} times
+Dialogue: 0,0:00:14.19,0:00:14.42,Default,,0,0,0,,and forth sixty {\1c&H20D7FF&}times{\1c&HFFFFFF&}
+Dialogue: 0,0:00:14.42,0:00:14.46,Default,,0,0,0,,{\1c&H20D7FF&}a{\1c&HFFFFFF&} second!
+Dialogue: 0,0:00:14.46,0:00:14.94,Default,,0,0,0,,a {\1c&H20D7FF&}second!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:14.94,0:00:15.33,Default,,0,0,0,,{\1c&H20D7FF&}Blast{\1c&HFFFFFF&} a fragile crystal
+Dialogue: 0,0:00:15.33,0:00:15.40,Default,,0,0,0,,Blast {\1c&H20D7FF&}a{\1c&HFFFFFF&} fragile crystal
+Dialogue: 0,0:00:15.40,0:00:16.07,Default,,0,0,0,,Blast a {\1c&H20D7FF&}fragile{\1c&HFFFFFF&} crystal
+Dialogue: 0,0:00:16.07,0:00:16.49,Default,,0,0,0,,Blast a fragile {\1c&H20D7FF&}crystal{\1c&HFFFFFF&}
+Dialogue: 0,0:00:16.49,0:00:16.96,Default,,0,0,0,,{\1c&H20D7FF&}glass{\1c&HFFFFFF&} with that firehose,
+Dialogue: 0,0:00:16.96,0:00:17.07,Default,,0,0,0,,glass {\1c&H20D7FF&}with{\1c&HFFFFFF&} that firehose,
+Dialogue: 0,0:00:17.07,0:00:17.23,Default,,0,0,0,,glass with {\1c&H20D7FF&}that{\1c&HFFFFFF&} firehose,
+Dialogue: 0,0:00:17.23,0:00:18.03,Default,,0,0,0,,glass with that {\1c&H20D7FF&}firehose,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:18.13,0:00:18.24,Default,,0,0,0,,{\1c&H20D7FF&}and{\1c&HFFFFFF&} it shatters instantly!
+Dialogue: 0,0:00:18.24,0:00:18.31,Default,,0,0,0,,and {\1c&H20D7FF&}it{\1c&HFFFFFF&} shatters instantly!
+Dialogue: 0,0:00:18.31,0:00:19.05,Default,,0,0,0,,and it {\1c&H20D7FF&}shatters{\1c&HFFFFFF&} instantly!
+Dialogue: 0,0:00:19.05,0:00:19.61,Default,,0,0,0,,and it shatters {\1c&H20D7FF&}instantly!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:19.61,0:00:19.68,Default,,0,0,0,,{\1c&H20D7FF&}Your{\1c&HFFFFFF&} phone battery needs
+Dialogue: 0,0:00:19.68,0:00:19.92,Default,,0,0,0,,Your {\1c&H20D7FF&}phone{\1c&HFFFFFF&} battery needs
+Dialogue: 0,0:00:19.92,0:00:20.27,Default,,0,0,0,,Your phone {\1c&H20D7FF&}battery{\1c&HFFFFFF&} needs
+Dialogue: 0,0:00:20.27,0:00:20.48,Default,,0,0,0,,Your phone battery {\1c&H20D7FF&}needs{\1c&HFFFFFF&}
+Dialogue: 0,0:00:20.48,0:00:20.52,Default,,0,0,0,,{\1c&H20D7FF&}a{\1c&HFFFFFF&} calm, one-way stream—like
+Dialogue: 0,0:00:20.52,0:00:21.10,Default,,0,0,0,,a {\1c&H20D7FF&}calm,{\1c&HFFFFFF&} one-way stream—like
+Dialogue: 0,0:00:21.29,0:00:21.70,Default,,0,0,0,,a calm, {\1c&H20D7FF&}one-way{\1c&HFFFFFF&} stream—like
+Dialogue: 0,0:00:21.70,0:00:22.50,Default,,0,0,0,,a calm, one-way {\1c&H20D7FF&}stream—like{\1c&HFFFFFF&}
+Dialogue: 0,0:00:22.66,0:00:22.98,Default,,0,0,0,,{\1c&H20D7FF&}filling{\1c&HFFFFFF&} a glass from
+Dialogue: 0,0:00:22.98,0:00:23.02,Default,,0,0,0,,filling {\1c&H20D7FF&}a{\1c&HFFFFFF&} glass from
+Dialogue: 0,0:00:23.02,0:00:23.40,Default,,0,0,0,,filling a {\1c&H20D7FF&}glass{\1c&HFFFFFF&} from
+Dialogue: 0,0:00:23.40,0:00:23.48,Default,,0,0,0,,filling a glass {\1c&H20D7FF&}from{\1c&HFFFFFF&}
+Dialogue: 0,0:00:23.48,0:00:23.52,Default,,0,0,0,,{\1c&H20D7FF&}a{\1c&HFFFFFF&} gentle tap.
+Dialogue: 0,0:00:23.52,0:00:23.76,Default,,0,0,0,,a {\1c&H20D7FF&}gentle{\1c&HFFFFFF&} tap.
+Dialogue: 0,0:00:23.76,0:00:24.17,Default,,0,0,0,,a gentle {\1c&H20D7FF&}tap.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:24.17,0:00:24.62,Default,,0,0,0,,{\1c&H20D7FF&}Inside{\1c&HFFFFFF&} this tiny plastic
+Dialogue: 0,0:00:24.62,0:00:24.77,Default,,0,0,0,,Inside {\1c&H20D7FF&}this{\1c&HFFFFFF&} tiny plastic
+Dialogue: 0,0:00:24.77,0:00:25.14,Default,,0,0,0,,Inside this {\1c&H20D7FF&}tiny{\1c&HFFFFFF&} plastic
+Dialogue: 0,0:00:25.14,0:00:25.53,Default,,0,0,0,,Inside this tiny {\1c&H20D7FF&}plastic{\1c&HFFFFFF&}
+Dialogue: 0,0:00:25.53,0:00:25.93,Default,,0,0,0,,{\1c&H20D7FF&}brick{\1c&HFFFFFF&} is a secret
+Dialogue: 0,0:00:26.01,0:00:26.08,Default,,0,0,0,,brick {\1c&H20D7FF&}is{\1c&HFFFFFF&} a secret
+Dialogue: 0,0:00:26.08,0:00:26.14,Default,,0,0,0,,brick is {\1c&H20D7FF&}a{\1c&HFFFFFF&} secret
+Dialogue: 0,0:00:26.14,0:00:26.53,Default,,0,0,0,,brick is a {\1c&H20D7FF&}secret{\1c&HFFFFFF&}
+Dialogue: 0,0:00:26.53,0:00:27.14,Default,,0,0,0,,{\1c&H20D7FF&}four-stage{\1c&HFFFFFF&} factory that
+Dialogue: 0,0:00:27.14,0:00:27.75,Default,,0,0,0,,four-stage {\1c&H20D7FF&}factory{\1c&HFFFFFF&} that
+Dialogue: 0,0:00:27.79,0:00:27.90,Default,,0,0,0,,four-stage factory {\1c&H20D7FF&}that{\1c&HFFFFFF&}
+Dialogue: 0,0:00:27.90,0:00:28.21,Default,,0,0,0,,{\1c&H20D7FF&}tames{\1c&HFFFFFF&} that monster hose!
+Dialogue: 0,0:00:28.21,0:00:28.33,Default,,0,0,0,,tames {\1c&H20D7FF&}that{\1c&HFFFFFF&} monster hose!
+Dialogue: 0,0:00:28.33,0:00:28.75,Default,,0,0,0,,tames that {\1c&H20D7FF&}monster{\1c&HFFFFFF&} hose!
+Dialogue: 0,0:00:28.75,0:00:29.31,Default,,0,0,0,,tames that monster {\1c&H20D7FF&}hose!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:29.31,0:00:29.38,Default,,0,0,0,,{\1c&H20D7FF&}And{\1c&HFFFFFF&} in stage one,
+Dialogue: 0,0:00:29.38,0:00:29.46,Default,,0,0,0,,And {\1c&H20D7FF&}in{\1c&HFFFFFF&} stage one,
+Dialogue: 0,0:00:29.46,0:00:29.81,Default,,0,0,0,,And in {\1c&H20D7FF&}stage{\1c&HFFFFFF&} one,
+Dialogue: 0,0:00:29.81,0:00:30.20,Default,,0,0,0,,And in stage {\1c&H20D7FF&}one,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:30.43,0:00:30.49,Default,,0,0,0,,{\1c&H20D7FF&}the{\1c&HFFFFFF&} electricity jumps across
+Dialogue: 0,0:00:30.49,0:00:31.08,Default,,0,0,0,,the {\1c&H20D7FF&}electricity{\1c&HFFFFFF&} jumps across
+Dialogue: 0,0:00:31.08,0:00:31.42,Default,,0,0,0,,the electricity {\1c&H20D7FF&}jumps{\1c&HFFFFFF&} across
+Dialogue: 0,0:00:31.42,0:00:31.92,Default,,0,0,0,,the electricity jumps {\1c&H20D7FF&}across{\1c&HFFFFFF&}
+Dialogue: 0,0:00:31.92,0:00:32.37,Default,,0,0,0,,{\1c&H20D7FF&}thin{\1c&HFFFFFF&} air without touching
+Dialogue: 0,0:00:32.37,0:00:32.88,Default,,0,0,0,,thin {\1c&H20D7FF&}air{\1c&HFFFFFF&} without touching
+Dialogue: 0,0:00:32.89,0:00:33.26,Default,,0,0,0,,thin air {\1c&H20D7FF&}without{\1c&HFFFFFF&} touching
+Dialogue: 0,0:00:33.26,0:00:33.62,Default,,0,0,0,,thin air without {\1c&H20D7FF&}touching{\1c&HFFFFFF&}
+Dialogue: 0,0:00:33.62,0:00:33.70,Default,,0,0,0,,{\1c&H20D7FF&}a{\1c&HFFFFFF&} wire! Follow for
+Dialogue: 0,0:00:33.70,0:00:34.25,Default,,0,0,0,,a {\1c&H20D7FF&}wire!{\1c&HFFFFFF&} Follow for
+Dialogue: 0,0:00:34.51,0:00:34.67,Default,,0,0,0,,a wire! {\1c&H20D7FF&}Follow{\1c&HFFFFFF&} for
+Dialogue: 0,0:00:34.67,0:00:34.76,Default,,0,0,0,,a wire! Follow {\1c&H20D7FF&}for{\1c&HFFFFFF&}
+Dialogue: 0,0:00:34.76,0:00:34.95,Default,,0,0,0,,{\1c&H20D7FF&}part{\1c&HFFFFFF&} two!
+Dialogue: 0,0:00:34.95,0:00:35.34,Default,,0,0,0,,part {\1c&H20D7FF&}two!{\1c&HFFFFFF&}
+Dialogue: 1,0:00:04.78,0:00:05.70,Default,,0,0,0,,{\an5\pos(540,420)\fs92\bord7\1c&H20D7FF&\fscx72\fscy72\t(0,180,\fscx115\fscy115)\fad(50,220)}EXPLODE!
+Dialogue: 1,0:00:08.41,0:00:09.33,Default,,0,0,0,,{\an5\pos(540,420)\fs92\bord7\1c&H20D7FF&\fscx72\fscy72\t(0,180,\fscx115\fscy115)\fad(50,220)}60 TIMES!
+Dialogue: 1,0:00:15.18,0:00:16.10,Default,,0,0,0,,{\an5\pos(540,420)\fs92\bord7\1c&H20D7FF&\fscx72\fscy72\t(0,180,\fscx115\fscy115)\fad(50,220)}SHATTER!
+Dialogue: 1,0:00:19.85,0:00:20.77,Default,,0,0,0,,{\an5\pos(540,420)\fs92\bord7\1c&H20D7FF&\fscx72\fscy72\t(0,180,\fscx115\fscy115)\fad(50,220)}ONE-WAY
+Dialogue: 1,0:00:24.41,0:00:25.33,Default,,0,0,0,,{\an5\pos(540,420)\fs92\bord7\1c&H20D7FF&\fscx72\fscy72\t(0,180,\fscx115\fscy115)\fad(50,220)}FOUR ROOMS
+Dialogue: 1,0:00:29.55,0:00:30.47,Default,,0,0,0,,{\an5\pos(540,420)\fs92\bord7\1c&H20D7FF&\fscx72\fscy72\t(0,180,\fscx115\fscy115)\fad(50,220)}THIN AIR!
