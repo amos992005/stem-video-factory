@@ -118,7 +118,7 @@ def text_fit(frame,text,x,y,max_width,color,scale=1.1,thick=2):
 
 def presenter(frame,img,cx,level,t):
     """Split at the neck and rotate the head about that joint, clipped to presenter zone."""
-    width=540;height=int(width*img.shape[0]/img.shape[1]);top=PRESENTER_TOP+18
+    width=700;height=int(width*img.shape[0]/img.shape[1]);top=PRESENTER_TOP+18
     # The exact fractional neck depends on each AI pose; 30% avoids cutting
     # most faces, while remaining a simple image cut (not a skeletal redraw).
     neck=int(img.shape[0]*.31);head=img[:neck].copy();torso=img[neck:].copy()
@@ -173,14 +173,14 @@ class Studio:
             cv2.circle(frame,(int((x+math.sin(t*.6+n)*8)%540),int((y-t*(3+n%5))%960)),1,(35,89,105),-1,cv2.LINE_AA)
         frame=cv2.resize(frame,(1080,1920))
         rounded(frame,(70,70),(1010,210),28,(25,33,58));rounded(frame,(70,70),(1010,210),28,(82,214,235),3)
-        text_fit(frame,HEADERS[scene],100,130,870,(255,255,255),1.0,2)
+        text_fit(frame,HEADERS[scene],100,135,870,(255,255,255),1.35,3)
         text_fit(frame,BADGES[scene],105,182,870,(95,234,250),.65,2)
         rounded(frame,(70,230),(1010,1080),34,(18,27,58));rounded(frame,(70,230),(1010,1080),34,(38,115,142),4)
         prop=self.stickers[prop_for(scene,local)]
         zoom=.86+.11*(.5+.5*math.sin(t*1.4))
         x,y,w,h=fit_prop(prop,zoom);blend_at(frame,prop,x,y,w,h)
         draw_overlays(frame,scene,t,local)
-        side=260 if scene%2==0 else 820
+        side=360 if scene%2==0 else 720
         presenter(frame,self.stickers[POSES[scene]],side,float(rms),t)
         # A single always-present translucent pill under ASS subtitles.
         overlay=frame.copy();rounded(overlay,(50,1650),(1030,1830),44,(4,10,25))
