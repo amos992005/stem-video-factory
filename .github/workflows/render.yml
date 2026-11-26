@@ -1,13 +1,16 @@
-name: Render stickman and vector icon pilot
+name: Render AI comic cutout pilot
 on:
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
   pilot:
-    name: Render native stickman vector pilot
+    name: Render comic cutout pilot
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -16,7 +19,7 @@ jobs:
         run: |
           mkdir -p output/pilot
           rm -f output/pilot/short_01_pilot_9x16.mp4 output/pilot/pilot_contact_sheet.png output/pilot/render_metadata.json output/pilot/pilot_captions.ass
-          printf 'Vector pilot run %s, revision %s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > output/pilot/build.log
+          printf 'Comic cutout pilot run %s, revision %s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > output/pilot/build.log
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -25,30 +28,27 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.cache/huggingface/hub
-            assets/vector_props
-          key: ${{ runner.os }}-vector-pilot-${{ hashFiles('requirements.txt', 'assets/vector_props/*.svg') }}
-      - name: Install vector rendering and audio tools
+            ~/.u2net
+          key: ${{ runner.os }}-comic-v1-${{ hashFiles('requirements.txt') }}
+      - name: Install rendering and audio tools
         shell: bash
         run: |
           set -o pipefail
-          if ! ldconfig -p | grep -F 'libcairo.so.2' > /dev/null || ! ldconfig -p | grep -F 'libEGL.so.1' > /dev/null || ! ldconfig -p | grep -F 'libGL.so.1' > /dev/null; then
-            sudo apt-get update && sudo apt-get install -y libcairo2 libegl1 libgl1
-          fi
           python -m pip install -r requirements.txt 2>&1 | tee -a output/pilot/build.log
           mkdir -p "$RUNNER_TEMP/pilot-bin"
           ln -s "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$RUNNER_TEMP/pilot-bin/ffmpeg"
           echo "$RUNNER_TEMP/pilot-bin" >> "$GITHUB_PATH"
-      - name: Test and render vector pilot
+      - name: Test and render comic pilot
         shell: bash
         run: |
           set -o pipefail
-          python -m unittest tests.test_vector_studio tests.test_subtitle_engine -v 2>&1 | tee -a output/pilot/build.log
-          timeout 780s python -u src/pilot_short.py --workers 1 2>&1 | tee -a output/pilot/build.log
+          python -m unittest tests.test_comic_cutout tests.test_subtitle_engine -v 2>&1 | tee -a output/pilot/build.log
+          timeout 960s python -u src/pilot_short.py 2>&1 | tee -a output/pilot/build.log
       - name: Upload pilot and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stickman-vector-pilot
+          name: comic-cutout-pilot
           path: output/pilot/
           if-no-files-found: warn
           retention-days: 30
@@ -71,8 +71,8 @@ jobs:
           if git diff --cached --quiet; then exit 0; fi
           git fetch origin "$BRANCH"
           if test "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA"; then
-            echo 'Branch advanced during this run; refusing to overwrite it. Diagnostics remain in the artifact.'
+            echo 'Branch advanced during this run; diagnostics remain in the artifact.'
             exit 0
           fi
-          git commit -m "Record vector pilot diagnostics for run $GITHUB_RUN_ID"
+          git commit -m "Record comic pilot diagnostics for run $GITHUB_RUN_ID"
           git push origin "HEAD:$BRANCH"

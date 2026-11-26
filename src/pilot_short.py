@@ -1,4 +1,4 @@
-"""Render the seven-scene stickman pilot from narration and cached SVG assets."""
+"""Render an AI-illustrated, naturally narrated comic cutout pilot."""
 from __future__ import annotations
 import argparse,asyncio,io,json,math,multiprocessing as mp,os,shutil,subprocess,tempfile,time
 from pathlib import Path
@@ -6,17 +6,16 @@ import numpy as np
 import av
 from pilot_audio import RATE,VOICE,synthesize_one,read_wav,write_wav,silence_bounds,align_source
 from subtitle_engine import Word,collect_words,group_words,write_ass
-from vector_studio import FPS,frame_plan,Studio,beat_boundaries,ROOT,ICONS
+from comic_cutout_studio import FPS, Studio, prepare
 from sfx_engine import mix
 
 SCRIPT=(
-"Connect a battery to the wall, and it could catch fire!",
-"Your charger moves energy across an air gap, without wires touching.",
-"Wall power alternates sixty cycles a second—like a wild firehose.",
-"Your battery needs low-voltage, steady current, flowing one way.",
-"A transformer transfers energy across that gap and changes voltage.",
-"Diodes steer current in one direction, like turnstiles.",
-"A capacitor smooths the flow. Follow for more!",
+"Connect a phone battery straight to the wall, and it could catch fire!",
+"Inside your charger, energy crosses an air gap without wires touching.",
+"Wall power alternates sixty times a second, like a wild firehose.",
+"A transformer passes energy across that gap and changes the voltage.",
+"Diodes guide current one way. A capacitor smooths the output.",
+"Now your phone gets usable power. Follow Dr. Volt for more!",
 )
 
 def run(*args):subprocess.run([str(x) for x in args],check=True,stdout=subprocess.DEVNULL)
@@ -44,15 +43,10 @@ def audio(tmp):
         raw=tmp/f'raw-{i}.wav';run('ffmpeg','-v','error','-y','-i',mp3,'-ac','1','-ar',RATE,'-c:a','pcm_s16le',raw)
         sample=read_wav(raw);start,end=silence_bounds(sample);trimmed.append(sample[start:end])
     natural=sum(len(x)/RATE for x in trimmed)+.07*len(trimmed)
-    # A small additional atempo adjustment, if required, avoids clipping words.
-    # Never use extreme speed to falsely satisfy the target.
-    ratio=max(1.,natural/27.5)
-    if ratio>1.12:raise ValueError(f'Natural narration {natural:.2f}s needs {ratio:.2f}x extra speed; script must be shortened')
+    if natural>28.5:
+        raise ValueError(f'Natural narration {natural:.2f}s exceeds the target. Shorten the script; do not speed up speech.')
     voice_parts=[];timeline=[];position=0
     for i,sample in enumerate(trimmed):
-        source=tmp/f'trim-{i}.wav';write_wav(source,sample)
-        if ratio>1.001:
-            adjusted=tmp/f'tempo-{i}.wav';run('ffmpeg','-v','error','-y','-i',source,'-af',f'atempo={ratio:.8f}','-ar',RATE,'-ac','1','-c:a','pcm_s16le',adjusted);sample=read_wav(adjusted)
         frames=math.ceil((len(sample)/RATE+.07)*FPS);target=frames*(RATE//FPS)
         sample=np.pad(sample,(int(.035*RATE),target-len(sample)-int(.035*RATE)))
         voice_parts.append(sample);timeline.append({'index':i,'start':position/FPS,'frames':frames,'duration':frames/FPS});position+=frames
@@ -61,14 +55,14 @@ def audio(tmp):
     if extra:
         voice_parts[-1]=np.pad(voice_parts[-1],(0,extra*(RATE//FPS)))
         timeline[-1]['frames']+=extra;timeline[-1]['duration']=timeline[-1]['frames']/FPS;position+=extra
-    if position/FPS>28.0:raise ValueError(f'Narration remained too long after bounded tempo adjustment: {position/FPS:.2f}s')
+    if position/FPS>29.0:raise ValueError(f'Natural narration exceeds 29 seconds: {position/FPS:.2f}s')
     for i,(sample,beat) in enumerate(zip(voice_parts,timeline)):
         clip=tmp/f'scene-{i}.wav';write_wav(clip,sample);beat['audio']=str(clip)
-        print(f'Scene {i+1}: {beat["duration"]:.2f}s; visual beats {len(beat_boundaries(beat["frames"]))-1}',flush=True)
+        print(f'Scene {i+1}: {beat["duration"]:.2f}s',flush=True)
     voice=np.concatenate(voice_parts);write_wav(tmp/'voice.wav',voice)
     n=RATE//FPS;rms=np.sqrt(np.mean(voice[:len(voice)//n*n].reshape(-1,n)**2,axis=1));rms=np.clip(rms/.13,0,1)
-    print(f'Edge {VOICE} +12%: natural {natural:.2f}s, extra tempo {ratio:.3f}x, final {len(voice)/RATE:.2f}s.',flush=True)
-    return voice,rms,timeline,ratio
+    print(f'Edge {VOICE} +12%: natural {natural:.2f}s, final {len(voice)/RATE:.2f}s.',flush=True)
+    return voice,rms,timeline
 
 def captions(tmp,timeline):
     from faster_whisper import WhisperModel
@@ -94,33 +88,26 @@ def captions(tmp,timeline):
     print(f'Whisper-timed ASS: {len(entries)} events, zero temporal overlaps, MarginV=220.',flush=True)
     return ass
 
-def validate_props():
-    # Validate locally cached SVGs with CairoSVG once, then retain native
-    # vector paths in Skia SVGDOM during rendering (no per-frame PNG calls).
-    import cairosvg
-    for name in ICONS:
-        data=(ROOT/(name+'.svg')).read_bytes()
-        cairosvg.svg2png(bytestring=data,output_width=24,output_height=24)
-    print(f'Validated {len(ICONS)} locally cached Twemoji/Iconify SVGs with CairoSVG.',flush=True)
 
-
-def render(timeline,rms,ass,mixfile,dest,workers=1):
-    total=sum(b['frames'] for b in timeline);studio=Studio()
+def render(timeline,rms,ass,mixfile,dest,stickers,workers=1):
+    total=sum(b['frames'] for b in timeline);studio=Studio(stickers)
     cmd=['ffmpeg','-hide_banner','-loglevel','error','-y','-f','rawvideo','-pixel_format','bgra','-video_size','1080x1920','-framerate','30','-i','pipe:0',
          '-i',str(mixfile),'-vf',f'ass={ass}', '-map','0:v:0','-map','1:a:0','-frames:v',str(total),
          '-r','30','-c:v','libx264','-threads','2','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',
          '-c:a','aac','-b:a','192k','-movflags','+faststart',str(dest)]
-    print(f'Rendering {total} native SVGDOM vector frames at 1080×1920.',flush=True)
+    print(f'Rendering {total} native comic cutout frames at 1080×1920.',flush=True)
     start=time.monotonic();proc=subprocess.Popen(cmd,stdin=subprocess.PIPE)
     try:
-        for i,plan in enumerate(frame_plan(timeline,rms)):
-            proc.stdin.write(studio.frame(plan))
+        for i in range(total):
+            t=i/FPS
+            scene=next(j for j,b in reversed(list(enumerate(timeline))) if t >= b['start'])
+            proc.stdin.write(studio.frame(t,scene,t-timeline[scene]['start'],rms[i]))
             if (i+1)%150==0:print(f'Rendered {i+1}/{total} frames.',flush=True)
         proc.stdin.close()
         if proc.wait()!=0:raise RuntimeError('FFmpeg encode failed')
     except BaseException:
         proc.kill();proc.wait();raise
-    print(f'Native SVGDOM frames and encode: {time.monotonic()-start:.1f}s.',flush=True)
+    print(f'Comic composite frames and encode: {time.monotonic()-start:.1f}s.',flush=True)
 
 def verify(video,timeline):
     total=sum(x['frames'] for x in timeline)
@@ -132,24 +119,24 @@ def verify(video,timeline):
 
 def build(outdir='output/pilot',workers=2):
     start=time.monotonic();outdir=Path(outdir).resolve();outdir.mkdir(parents=True,exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='vector-pilot-') as d:
-        tmp=Path(d);validate_props();voice,rms,timeline,ratio=audio(tmp);ass=captions(tmp,timeline)
+    with tempfile.TemporaryDirectory(prefix='comic-pilot-') as d:
+        tmp=Path(d);stickers=prepare();voice,rms,timeline=audio(tmp);ass=captions(tmp,timeline)
         write_wav(tmp/'mix.wav',mix(voice,timeline));shutil.copyfile(ass,outdir/'pilot_captions.ass')
-        video=outdir/'short_01_pilot_9x16.mp4';render(timeline,rms,ass,tmp/'mix.wav',video,workers)
+        video=outdir/'short_01_pilot_9x16.mp4';render(timeline,rms,ass,tmp/'mix.wav',video,stickers,workers)
         duration=sum(b['frames'] for b in timeline)/FPS
         sheet=outdir/'pilot_contact_sheet.png'
         run('ffmpeg','-v','error','-y','-i',video,'-vf',f'fps=16/{duration:.6f},scale=270:480:flags=lanczos,tile=4x4:nb_frames=16','-frames:v','1','-update','1',sheet)
         verify(video,timeline)
-        metadata={'engine':'Twemoji/Iconify SVGDOM / Skia native vector rendering','duration':duration,'fps':FPS,'frames':sum(b['frames'] for b in timeline),
+        metadata={'engine':'AI comic cutouts / rembg / OpenCV 2.5D','duration':duration,'fps':FPS,'frames':sum(b['frames'] for b in timeline),
                   'scenes':[{k:v for k,v in b.items() if k!='audio'} for b in timeline],
-                  'narration':'Edge Andrew +12%', 'extra_tempo':ratio, 'max_visual_beat_seconds':1.5,'captions':'faster-whisper tiny.en word timestamps, exact script alignment',
+                  'narration':'Edge Andrew +12%', 'extra_tempo':1.0, 'max_visual_beat_seconds':1.45,'captions':'faster-whisper tiny.en word timestamps, exact script alignment',
                   'render_seconds':time.monotonic()-start,'verification':'passed'}
         (outdir/'render_metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
-        print(f'Vector pilot completed in {metadata["render_seconds"]:.1f}s. Duration: {duration:.2f}s.',flush=True)
+        print(f'Comic pilot completed in {metadata["render_seconds"]:.1f}s. Duration: {duration:.2f}s.',flush=True)
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--output',default='output/pilot');parser.add_argument('--workers',type=int,default=1);args=parser.parse_args()
     try:build(args.output,args.workers)
     except Exception as exc:
         import sys
-        print(f'::error title=Vector pilot failed::{type(exc).__name__}: {exc}',file=sys.stderr,flush=True);raise SystemExit(1)
+        print(f'::error title=Comic pilot failed::{type(exc).__name__}: {exc}',file=sys.stderr,flush=True);raise SystemExit(1)

@@ -10,18 +10,18 @@ def make_sfx(timeline,length):
     def t(d):return np.arange(round(d*RATE),dtype=np.float32)/RATE
     def noise(d):return rng.normal(0,1,round(d*RATE)).astype('float32')
     # J-cut whip-pan before each visible camera transition.
-    for beat in timeline[1:]:
-        tt=t(.36);add(max(0,beat['start']-.22),noise(.36)*np.sin(np.pi*tt/.36)**2,.19)
+    for at in np.arange(1.45,length/RATE,1.45):
+        tt=t(.36);add(max(0,at-.22),noise(.36)*np.sin(np.pi*tt/.36)**2,.19)
     # Explosion, zap, shattering, magnetic hum, metallic turnstile and chime.
     tt=t(.8);add(timeline[0].get('cues',{}).get('fire',timeline[0]['start']+timeline[0]['duration']*.68),np.sin(2*np.pi*(53*tt+10*np.log1p(tt*10)))*np.exp(-tt*5)+noise(.8)*np.exp(-tt*11)*.4,.52)
-    for scene in (0,1,2,4):
+    for scene in (0,1,2,3):
         tt=t(.4);add(timeline[scene]['start']+.45,noise(.4)*np.exp(-tt*10)*np.sin(2*np.pi*(500*tt+1300*tt*tt)),.22)
     tt=t(1.2);glass=sum(np.sin(2*np.pi*f*tt)*np.exp(-tt*d) for f,d in [(1412,4),(2320,6),(3460,8),(4320,10)])
     add(timeline[2]['start']+timeline[2]['duration']*.68,glass,.09)
-    tt=t(min(3,timeline[4]['duration']));add(timeline[4]['start']+.1,np.sin(2*np.pi*92*tt)*np.sin(np.pi*tt/max(tt[-1],.01))**2,.2)
+    tt=t(min(3,timeline[3]['duration']));add(timeline[3]['start']+.1,np.sin(2*np.pi*92*tt)*np.sin(np.pi*tt/max(tt[-1],.01))**2,.2)
     for j in range(5):
-        at=timeline[5]['start']+.4+j*.55
-        if at<timeline[5]['start']+timeline[5]['duration']:
+        at=timeline[4]['start']+.4+j*.55
+        if at<timeline[4]['start']+timeline[4]['duration']:
             tt=t(.16);add(at,(np.sin(2*np.pi*960*tt)+.7*np.sin(2*np.pi*1780*tt))*np.exp(-tt*28),.17)
     tt=t(1.0);chime=sum(np.sin(2*np.pi*f*tt)*np.exp(-tt*(2+i)) for i,f in enumerate((523.25,659.25,783.99)))
     add(timeline[-1]['start']+.5,chime,.16)
