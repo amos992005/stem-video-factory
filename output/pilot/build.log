@@ -1,8 +1,4 @@
-Pilot run 45811851716, revision 8f49a5c464f70e8557bfcfbc264620a8fd3c035f
-Collecting huggingface_hub>=0.28.0
-  Downloading huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
-Collecting gradio_client
-  Downloading gradio_client-2.7.2-py3-none-any.whl.metadata (7.1 kB)
+Vector pilot run 45853507173, revision 5282a91211c491078dd42ec4c18c280a0a7e173e
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -15,6 +11,12 @@ Collecting imageio-ffmpeg<1,>=0.6 (from -r requirements.txt (line 5))
   Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl.metadata (1.5 kB)
 Collecting av<19,>=14 (from -r requirements.txt (line 6))
   Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl.metadata (5.0 kB)
+Collecting resvg-py<1,>=0.2 (from -r requirements.txt (line 7))
+  Downloading resvg_py-0.5.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.9 kB)
+Collecting CairoSVG<3,>=2.7 (from -r requirements.txt (line 8))
+  Downloading cairosvg-2.9.1-py3-none-any.whl.metadata (2.7 kB)
+Collecting faster-whisper<2,>=1.1 (from -r requirements.txt (line 9))
+  Downloading faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
 Collecting certifi>=2023.11.17 (from edge-tts<8,>=7->-r requirements.txt (line 3))
   Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
 Collecting tabulate<1.0.0,>=0.4.4 (from edge-tts<8,>=7->-r requirements.txt (line 3))
@@ -35,59 +37,93 @@ Collecting propcache>=0.2.0 (from aiohttp<4,>=3.10->-r requirements.txt (line 4)
   Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (25 kB)
 Collecting yarl<2.0,>=1.25.1 (from aiohttp<4,>=3.10->-r requirements.txt (line 4))
   Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (111 kB)
-Collecting idna>=2.0 (from yarl<2.0,>=1.25.1->aiohttp<4,>=3.10->-r requirements.txt (line 4))
-  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
-Collecting click<9.0.0,>=8.4.2 (from huggingface_hub>=0.28.0)
-  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
-Collecting filelock>=3.10.0 (from huggingface_hub>=0.28.0)
-  Downloading filelock-4.3.1-py3-none-any.whl.metadata (2.3 kB)
-Collecting fsspec>=2023.5.0 (from huggingface_hub>=0.28.0)
-  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
-Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface_hub>=0.28.0)
-  Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
-Collecting httpx2<3,>=2.0.0 (from huggingface_hub>=0.28.0)
-  Downloading httpx2-2.16.2-py3-none-any.whl.metadata (10.0 kB)
-Collecting packaging>=20.9 (from huggingface_hub>=0.28.0)
-  Downloading packaging-26.4-py3-none-any.whl.metadata (3.5 kB)
-Collecting pyyaml>=5.1 (from huggingface_hub>=0.28.0)
-  Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
-Collecting tqdm>=4.42.1 (from huggingface_hub>=0.28.0)
+Collecting cairocffi (from CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading cairocffi-1.7.1-py3-none-any.whl.metadata (3.3 kB)
+Collecting cssselect2 (from CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading cssselect2-0.10.1-py3-none-any.whl.metadata (2.9 kB)
+Collecting defusedxml (from CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading defusedxml-0.7.1-py2.py3-none-any.whl.metadata (32 kB)
+Collecting tinycss2 (from CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading tinycss2-1.5.1-py3-none-any.whl.metadata (3.0 kB)
+Collecting ctranslate2<5,>=4.0 (from faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading ctranslate2-4.9.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+Collecting huggingface-hub>=0.21 (from faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading huggingface_hub-2.5.0-py3-none-any.whl.metadata (16 kB)
+Collecting tokenizers<1,>=0.13 (from faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.8 kB)
+Collecting onnxruntime<2,>=1.14 (from faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading onnxruntime-1.32.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (5.8 kB)
+Collecting tqdm (from faster-whisper<2,>=1.1->-r requirements.txt (line 9))
   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
-Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+Collecting pyyaml<7,>=5.3 (from ctranslate2<5,>=4.0->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
+Collecting flatbuffers (from onnxruntime<2,>=1.14->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Collecting packaging (from onnxruntime<2,>=1.14->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading packaging-26.4-py3-none-any.whl.metadata (3.5 kB)
+Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1.14->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+Collecting click<9.0.0,>=8.4.2 (from huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting filelock>=3.10.0 (from huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading filelock-4.3.1-py3-none-any.whl.metadata (2.3 kB)
+Collecting fsspec>=2023.5.0 (from huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Collecting httpx2<3,>=2.0.0 (from huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading httpx2-2.16.2-py3-none-any.whl.metadata (10.0 kB)
+Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
   Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
-Collecting httpcore2==2.16.2 (from httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+Collecting httpcore2==2.16.2 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
   Downloading httpcore2-2.16.2-py3-none-any.whl.metadata (28 kB)
-Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+Collecting idna>=3.18 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
   Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
-Collecting h11>=0.16 (from httpcore2==2.16.2->httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+Collecting h11>=0.16 (from httpcore2==2.16.2->httpx2<3,>=2.0.0->huggingface-hub>=0.21->faster-whisper<2,>=1.1->-r requirements.txt (line 9))
   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
-Collecting httpx>=0.24.1 (from gradio_client)
-  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
-Collecting httpcore==1.* (from httpx>=0.24.1->gradio_client)
-  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting cffi>=1.1.0 (from cairocffi->CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+Collecting pycparser (from cffi>=1.1.0->cairocffi->CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+Collecting webencodings (from cssselect2->CairoSVG<3,>=2.7->-r requirements.txt (line 8))
+  Downloading webencodings-0.6.1-py3-none-any.whl.metadata (3.4 kB)
 Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 146.5 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 155.4 MB/s  0:00:00
 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 178.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 369.8 MB/s  0:00:00
 Downloading edge_tts-7.3.1-py3-none-any.whl (38 kB)
 Downloading aiohttp-3.14.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 162.1 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 306.5 MB/s  0:00:00
 Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl (68.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 175.5 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 299.7 MB/s  0:00:00
 Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl (36.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 187.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 328.7 MB/s  0:00:00
+Downloading resvg_py-0.5.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 247.0 MB/s  0:00:00
+Downloading cairosvg-2.9.1-py3-none-any.whl (46 kB)
+Downloading faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 219.4 MB/s  0:00:00
+Downloading ctranslate2-4.9.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (28.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 28.3/28.3 MB 332.2 MB/s  0:00:00
 Downloading multidict-7.2.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (510 kB)
+Downloading onnxruntime-1.32.0-cp311-cp311-manylinux_2_28_x86_64.whl (27.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 323.9 MB/s  0:00:00
+Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (828 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 158.6 MB/s  0:00:00
 Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
-Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
-Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (117 kB)
-Downloading huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 857.0/857.0 kB 177.1 MB/s  0:00:00
+Downloading tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 307.5 MB/s  0:00:00
+Downloading huggingface_hub-2.5.0-py3-none-any.whl (863 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 863.6/863.6 kB 172.2 MB/s  0:00:00
 Downloading click-8.5.1-py3-none-any.whl (126 kB)
 Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 175.8 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 367.4 MB/s  0:00:00
 Downloading httpx2-2.16.2-py3-none-any.whl (97 kB)
 Downloading httpcore2-2.16.2-py3-none-any.whl (85 kB)
-Downloading gradio_client-2.7.2-py3-none-any.whl (64 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (117 kB)
 Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
 Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
 Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
@@ -97,28 +133,28 @@ Downloading filelock-4.3.1-py3-none-any.whl (244 kB)
 Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (231 kB)
 Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
-Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
-Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
 Downloading idna-3.20-py3-none-any.whl (69 kB)
 Downloading packaging-26.4-py3-none-any.whl (140 kB)
 Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (235 kB)
-Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (828 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 164.8 MB/s  0:00:00
+Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
 Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
 Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
-Installing collected packages: typing-extensions, truststore, tqdm, tabulate, pyyaml, propcache, Pillow, packaging, numpy, multidict, imageio-ffmpeg, idna, hf-xet, h11, fsspec, frozenlist, filelock, click, certifi, av, attrs, aiohappyeyeballs, yarl, httpcore2, httpcore, anyio, aiosignal, httpx2, httpx, aiohttp, huggingface_hub, edge-tts, gradio_client
+Downloading cairocffi-1.7.1-py3-none-any.whl (75 kB)
+Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+Downloading cssselect2-0.10.1-py3-none-any.whl (15 kB)
+Downloading defusedxml-0.7.1-py2.py3-none-any.whl (25 kB)
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+Downloading tinycss2-1.5.1-py3-none-any.whl (28 kB)
+Downloading webencodings-0.6.1-py3-none-any.whl (8.7 kB)
+Installing collected packages: flatbuffers, webencodings, typing-extensions, truststore, tqdm, tabulate, resvg-py, pyyaml, pycparser, protobuf, propcache, Pillow, packaging, numpy, multidict, imageio-ffmpeg, idna, hf-xet, h11, fsspec, frozenlist, filelock, defusedxml, click, certifi, av, attrs, aiohappyeyeballs, yarl, tinycss2, onnxruntime, httpcore2, ctranslate2, cffi, anyio, aiosignal, httpx2, cssselect2, cairocffi, aiohttp, huggingface-hub, edge-tts, CairoSVG, tokenizers, faster-whisper
 
-Successfully installed Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 anyio-4.16.0 attrs-26.1.0 av-18.1.1 certifi-2026.11.20 click-8.5.1 edge-tts-7.3.1 filelock-4.3.1 frozenlist-1.8.0 fsspec-2026.9.0 gradio_client-2.7.2 h11-0.16.0 hf-xet-1.8.0 httpcore-1.0.9 httpcore2-2.16.2 httpx-0.28.1 httpx2-2.16.2 huggingface_hub-2.4.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 packaging-26.4 propcache-0.5.4 pyyaml-6.0.4 tabulate-0.10.0 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 yarl-1.25.1
-test_cache_reused_without_any_key (tests.test_fast_pilot.PilotTests.test_cache_reused_without_any_key) ... All ten cached AI shots are valid; no image API call required.
-ok
-test_decode_google_and_mask_secrets (tests.test_fast_pilot.PilotTests.test_decode_google_and_mask_secrets) ... ok
-test_exact_script_and_shots (tests.test_fast_pilot.PilotTests.test_exact_script_and_shots) ... ok
-test_global_timeout_cancels_inflight_shots (tests.test_fast_pilot.PilotTests.test_global_timeout_cancels_inflight_shots) ... ok
-test_http_429_retry_and_secret_redaction (tests.test_fast_pilot.PilotTests.test_http_429_retry_and_secret_redaction) ... gemini-2.0: HTTP 429: {"error":"quota"}
-ok
-test_nonoverlap_audio_and_subtitles (tests.test_fast_pilot.PilotTests.test_nonoverlap_audio_and_subtitles) ... ok
-test_shot_mapping_and_true_overlap_filters (tests.test_fast_pilot.PilotTests.test_shot_mapping_and_true_overlap_filters) ... ok
-test_vfx_is_animated_overlay_only (tests.test_fast_pilot.PilotTests.test_vfx_is_animated_overlay_only) ... ok
+Successfully installed CairoSVG-2.9.1 Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 anyio-4.16.0 attrs-26.1.0 av-18.1.1 cairocffi-1.7.1 certifi-2026.11.20 cffi-2.1.1 click-8.5.1 cssselect2-0.10.1 ctranslate2-4.9.1 defusedxml-0.7.1 edge-tts-7.3.1 faster-whisper-1.2.1 filelock-4.3.1 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.2 httpx2-2.16.2 huggingface-hub-2.5.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 onnxruntime-1.32.0 packaging-26.4 propcache-0.5.4 protobuf-7.36.2 pycparser-3.12 pyyaml-6.0.4 resvg-py-0.5.0 tabulate-0.10.0 tinycss2-1.5.1 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webencodings-0.6.1 yarl-1.25.1
+test_damped_springs_and_rig (tests.test_vector_studio.VectorStudioTests.test_damped_springs_and_rig) ... ok
+test_frame_plan_scene_and_audio_envelope (tests.test_vector_studio.VectorStudioTests.test_frame_plan_scene_and_audio_envelope) ... ok
+test_nine_scenes_are_valid_dynamic_svg (tests.test_vector_studio.VectorStudioTests.test_nine_scenes_are_valid_dynamic_svg) ... ok
+test_scene_specific_animated_props (tests.test_vector_studio.VectorStudioTests.test_scene_specific_animated_props) ... ok
+test_sfx_length_and_ducked_master (tests.test_vector_studio.VectorStudioTests.test_sfx_length_and_ducked_master) ... ok
 test_empty_and_markup (tests.test_subtitle_engine.SubtitleTests.test_empty_and_markup) ... ok
 test_group_size_and_punctuation (tests.test_subtitle_engine.SubtitleTests.test_group_size_and_punctuation) ... ok
 test_late_word_duration_cannot_overlap_following_line (tests.test_subtitle_engine.SubtitleTests.test_late_word_duration_cannot_overlap_following_line) ... ok
@@ -126,18 +162,7 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.548s
+Ran 10 tests in 0.053s
 
 OK
-All ten cached AI shots are valid; no image API call required.
-All ten AI illustrations available.
-Beat 1: natural 4.73s, extra tempo 1.08x, slot 4.50s
-Beat 2: natural 3.80s, extra tempo 1.08x, slot 3.63s
-Beat 3: natural 7.18s, extra tempo 1.08x, slot 6.77s
-Beat 4: natural 4.94s, extra tempo 1.08x, slot 4.67s
-Beat 5: natural 4.83s, extra tempo 1.08x, slot 4.57s
-Beat 6: natural 5.43s, extra tempo 1.08x, slot 5.13s
-Beat 7: natural 6.43s, extra tempo 1.08x, slot 6.07s
-Total narration: 35.33s, extra tempo 1.08x
-Observed width, height, average rate, frames: (1080, 1920, '30', 1060)
-Studio pilot created in 82.7s; duration 35.33s.
+::error title=Vector pilot failed::NoAudioReceived: No audio was received. Please verify that your parameters are correct.
