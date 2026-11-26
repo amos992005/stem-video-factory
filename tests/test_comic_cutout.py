@@ -20,7 +20,7 @@ class ComicTest(unittest.TestCase):
         cv2.rectangle(alpha,(190,190),(192,192),255,-1)
         cleaned=remove_small_islands(alpha)
         self.assertEqual(cleaned[191,191],0)
-        self.assertEqual(cleaned[20,20],255);self.assertEqual(cleaned[150%200,50],alpha[150%200,50])
+        self.assertEqual(cleaned[20,20],255)
         self.assertEqual(cleaned[50,150],255)
     def test_prop_safe_bounds_extreme_aspects(self):
         for h,w in [(20,2000),(2000,20),(1200,1200),(900,1300)]:
