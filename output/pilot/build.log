@@ -1,4 +1,4 @@
-Vector pilot run 45853507173, revision 5282a91211c491078dd42ec4c18c280a0a7e173e
+Vector pilot run 45853680669, revision 867a1a7d1aaead75e3241f471fe71579fa62af0a
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -90,36 +90,36 @@ Collecting pycparser (from cffi>=1.1.0->cairocffi->CairoSVG<3,>=2.7->-r requirem
 Collecting webencodings (from cssselect2->CairoSVG<3,>=2.7->-r requirements.txt (line 8))
   Downloading webencodings-0.6.1-py3-none-any.whl.metadata (3.4 kB)
 Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 155.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 330.9 MB/s  0:00:00
 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 369.8 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 366.4 MB/s  0:00:00
 Downloading edge_tts-7.3.1-py3-none-any.whl (38 kB)
 Downloading aiohttp-3.14.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 306.5 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 363.0 MB/s  0:00:00
 Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl (68.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 299.7 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 371.9 MB/s  0:00:00
 Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl (36.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 328.7 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 129.9 MB/s  0:00:00
 Downloading resvg_py-0.5.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 247.0 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 27.5 MB/s  0:00:00
 Downloading cairosvg-2.9.1-py3-none-any.whl (46 kB)
 Downloading faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 219.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 301.9 MB/s  0:00:00
 Downloading ctranslate2-4.9.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (28.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 28.3/28.3 MB 332.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 28.3/28.3 MB 89.2 MB/s  0:00:00
 Downloading multidict-7.2.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (510 kB)
 Downloading onnxruntime-1.32.0-cp311-cp311-manylinux_2_28_x86_64.whl (27.8 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 323.9 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 251.9 MB/s  0:00:00
 Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (828 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 158.6 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 191.0 MB/s  0:00:00
 Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
 Downloading tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 307.5 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 161.1 MB/s  0:00:00
 Downloading huggingface_hub-2.5.0-py3-none-any.whl (863 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 863.6/863.6 kB 172.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 863.6/863.6 kB 140.3 MB/s  0:00:00
 Downloading click-8.5.1-py3-none-any.whl (126 kB)
 Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 367.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 234.2 MB/s  0:00:00
 Downloading httpx2-2.16.2-py3-none-any.whl (97 kB)
 Downloading httpcore2-2.16.2-py3-none-any.whl (85 kB)
 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
@@ -151,6 +151,18 @@ Installing collected packages: flatbuffers, webencodings, typing-extensions, tru
 
 Successfully installed CairoSVG-2.9.1 Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 anyio-4.16.0 attrs-26.1.0 av-18.1.1 cairocffi-1.7.1 certifi-2026.11.20 cffi-2.1.1 click-8.5.1 cssselect2-0.10.1 ctranslate2-4.9.1 defusedxml-0.7.1 edge-tts-7.3.1 faster-whisper-1.2.1 filelock-4.3.1 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.9.0 h11-0.16.0 hf-xet-1.8.0 httpcore2-2.16.2 httpx2-2.16.2 huggingface-hub-2.5.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 onnxruntime-1.32.0 packaging-26.4 propcache-0.5.4 protobuf-7.36.2 pycparser-3.12 pyyaml-6.0.4 resvg-py-0.5.0 tabulate-0.10.0 tinycss2-1.5.1 tokenizers-0.23.3 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 webencodings-0.6.1 yarl-1.25.1
 test_damped_springs_and_rig (tests.test_vector_studio.VectorStudioTests.test_damped_springs_and_rig) ... ok
+test_edge_retry_keeps_each_scene (tests.test_vector_studio.VectorStudioTests.test_edge_retry_keeps_each_scene) ... Edge voice scene 1 received.
+Edge voice scene 2 received.
+Edge voice scene 3 attempt 1/4: RuntimeError: temporary
+Edge voice scene 3 attempt 2/4: RuntimeError: temporary
+Edge voice scene 3 received.
+Edge voice scene 4 received.
+Edge voice scene 5 received.
+Edge voice scene 6 received.
+Edge voice scene 7 received.
+Edge voice scene 8 received.
+Edge voice scene 9 received.
+ok
 test_frame_plan_scene_and_audio_envelope (tests.test_vector_studio.VectorStudioTests.test_frame_plan_scene_and_audio_envelope) ... ok
 test_nine_scenes_are_valid_dynamic_svg (tests.test_vector_studio.VectorStudioTests.test_nine_scenes_are_valid_dynamic_svg) ... ok
 test_scene_specific_animated_props (tests.test_vector_studio.VectorStudioTests.test_scene_specific_animated_props) ... ok
@@ -162,7 +174,48 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.053s
+Ran 11 tests in 0.062s
 
 OK
-::error title=Vector pilot failed::NoAudioReceived: No audio was received. Please verify that your parameters are correct.
+Edge voice scene 1 received.
+Edge voice scene 3 attempt 1/4: NoAudioReceived: No audio was received. Please verify that your parameters are correct.
+Edge voice scene 2 received.
+Edge voice scene 3 received.
+Edge voice scene 5 attempt 1/4: NoAudioReceived: No audio was received. Please verify that your parameters are correct.
+Edge voice scene 4 received.
+Edge voice scene 6 attempt 1/4: NoAudioReceived: No audio was received. Please verify that your parameters are correct.
+Edge voice scene 6 attempt 2/4: NoAudioReceived: No audio was received. Please verify that your parameters are correct.
+Edge voice scene 6 received.
+Edge voice scene 7 attempt 1/4: NoAudioReceived: No audio was received. Please verify that your parameters are correct.
+Edge voice scene 5 received.
+Edge voice scene 8 received.
+Edge voice scene 7 received.
+Edge voice scene 9 received.
+Scene 1: 4.33s, 12 words
+Scene 2: 7.73s, 17 words
+Scene 3: 7.03s, 18 words
+Scene 4: 4.77s, 13 words
+Scene 5: 11.80s, 31 words
+Scene 6: 6.17s, 14 words
+Scene 7: 7.30s, 16 words
+Scene 8: 6.17s, 16 words
+Scene 9: 6.67s, 18 words
+Natural Edge en-US-AndrewMultilingualNeural +12%: 61.97s; no words cut or extra speed-up.
+Loading faster-whisper tiny.en (CPU/int8) for word timing.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Whisper-timed ASS: 155 events, zero temporal overlaps, MarginV=220.
+Rendering 1859 native 1080×1920 SVG frames using resvg (2 workers).
+Rasterized 150/1859 frames.
+Rasterized 300/1859 frames.
+Rasterized 450/1859 frames.
+Rasterized 600/1859 frames.
+Rasterized 750/1859 frames.
+Rasterized 900/1859 frames.
+Rasterized 1050/1859 frames.
+Rasterized 1200/1859 frames.
+Rasterized 1350/1859 frames.
+Rasterized 1500/1859 frames.
+Rasterized 1650/1859 frames.
+Rasterized 1800/1859 frames.
+Video stream: (1080, 1920, '30', 1859) audio streams: 1
+Vector pilot completed in 602.1s. Duration: 61.97s.

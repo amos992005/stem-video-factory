@@ -1,0 +1,166 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+ScaledBorderAndShadow: yes
+WrapStyle: 2
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,DejaVu Sans,62,&H00FFFFFF,&H00FFFFFF,&H00140805,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,2,80,80,220,1
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.32,Default,,0,0,0,,{\1c&H00E6FF&}Connect{\1c&HFFFFFF&} your wall outlet
+Dialogue: 0,0:00:00.32,0:00:00.58,Default,,0,0,0,,Connect {\1c&H00E6FF&}your{\1c&HFFFFFF&} wall outlet
+Dialogue: 0,0:00:00.58,0:00:00.88,Default,,0,0,0,,Connect your {\1c&H00E6FF&}wall{\1c&HFFFFFF&} outlet
+Dialogue: 0,0:00:00.88,0:00:01.22,Default,,0,0,0,,Connect your wall {\1c&H00E6FF&}outlet{\1c&HFFFFFF&}
+Dialogue: 0,0:00:01.22,0:00:01.68,Default,,0,0,0,,{\1c&H00E6FF&}straight{\1c&HFFFFFF&} to your phone
+Dialogue: 0,0:00:01.68,0:00:01.88,Default,,0,0,0,,straight {\1c&H00E6FF&}to{\1c&HFFFFFF&} your phone
+Dialogue: 0,0:00:01.88,0:00:02.08,Default,,0,0,0,,straight to {\1c&H00E6FF&}your{\1c&HFFFFFF&} phone
+Dialogue: 0,0:00:02.08,0:00:02.18,Default,,0,0,0,,straight to your {\1c&H00E6FF&}phone{\1c&HFFFFFF&}
+Dialogue: 0,0:00:02.18,0:00:02.96,Default,,0,0,0,,{\1c&H00E6FF&}battery—and{\1c&HFFFFFF&} boom, it
+Dialogue: 0,0:00:02.96,0:00:03.44,Default,,0,0,0,,battery—and {\1c&H00E6FF&}boom,{\1c&HFFFFFF&} it
+Dialogue: 0,0:00:03.68,0:00:03.69,Default,,0,0,0,,battery—and boom, {\1c&H00E6FF&}it{\1c&HFFFFFF&}
+Dialogue: 0,0:00:03.69,0:00:04.04,Default,,0,0,0,,{\1c&H00E6FF&}explodes!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:04.33,0:00:04.63,Default,,0,0,0,,{\1c&H00E6FF&}Yet{\1c&HFFFFFF&} inside this tiny
+Dialogue: 0,0:00:04.63,0:00:05.13,Default,,0,0,0,,Yet {\1c&H00E6FF&}inside{\1c&HFFFFFF&} this tiny
+Dialogue: 0,0:00:05.13,0:00:05.75,Default,,0,0,0,,Yet inside {\1c&H00E6FF&}this{\1c&HFFFFFF&} tiny
+Dialogue: 0,0:00:05.75,0:00:05.81,Default,,0,0,0,,Yet inside this {\1c&H00E6FF&}tiny{\1c&HFFFFFF&}
+Dialogue: 0,0:00:05.81,0:00:06.27,Default,,0,0,0,,{\1c&H00E6FF&}plastic{\1c&HFFFFFF&} block, electricity
+Dialogue: 0,0:00:06.27,0:00:06.95,Default,,0,0,0,,plastic {\1c&H00E6FF&}block,{\1c&HFFFFFF&} electricity
+Dialogue: 0,0:00:07.21,0:00:07.63,Default,,0,0,0,,plastic block, {\1c&H00E6FF&}electricity{\1c&HFFFFFF&}
+Dialogue: 0,0:00:07.63,0:00:08.35,Default,,0,0,0,,{\1c&H00E6FF&}literally{\1c&HFFFFFF&} jumps across thin
+Dialogue: 0,0:00:08.35,0:00:08.61,Default,,0,0,0,,literally {\1c&H00E6FF&}jumps{\1c&HFFFFFF&} across thin
+Dialogue: 0,0:00:08.61,0:00:09.23,Default,,0,0,0,,literally jumps {\1c&H00E6FF&}across{\1c&HFFFFFF&} thin
+Dialogue: 0,0:00:09.23,0:00:09.67,Default,,0,0,0,,literally jumps across {\1c&H00E6FF&}thin{\1c&HFFFFFF&}
+Dialogue: 0,0:00:09.67,0:00:10.23,Default,,0,0,0,,{\1c&H00E6FF&}air{\1c&HFFFFFF&} without touching a
+Dialogue: 0,0:00:10.23,0:00:10.63,Default,,0,0,0,,air {\1c&H00E6FF&}without{\1c&HFFFFFF&} touching a
+Dialogue: 0,0:00:10.63,0:00:11.09,Default,,0,0,0,,air without {\1c&H00E6FF&}touching{\1c&HFFFFFF&} a
+Dialogue: 0,0:00:11.09,0:00:11.45,Default,,0,0,0,,air without touching {\1c&H00E6FF&}a{\1c&HFFFFFF&}
+Dialogue: 0,0:00:11.45,0:00:11.71,Default,,0,0,0,,{\1c&H00E6FF&}single{\1c&HFFFFFF&} wire!
+Dialogue: 0,0:00:11.71,0:00:12.07,Default,,0,0,0,,single {\1c&H00E6FF&}wire!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:12.07,0:00:12.83,Default,,0,0,0,,{\1c&H00E6FF&}See,{\1c&HFFFFFF&} wall power is
+Dialogue: 0,0:00:13.07,0:00:13.13,Default,,0,0,0,,See, {\1c&H00E6FF&}wall{\1c&HFFFFFF&} power is
+Dialogue: 0,0:00:13.13,0:00:13.55,Default,,0,0,0,,See, wall {\1c&H00E6FF&}power{\1c&HFFFFFF&} is
+Dialogue: 0,0:00:13.55,0:00:13.83,Default,,0,0,0,,See, wall power {\1c&H00E6FF&}is{\1c&HFFFFFF&}
+Dialogue: 0,0:00:13.83,0:00:14.39,Default,,0,0,0,,{\1c&H00E6FF&}a{\1c&HFFFFFF&} violent firehose—one
+Dialogue: 0,0:00:14.39,0:00:14.40,Default,,0,0,0,,a {\1c&H00E6FF&}violent{\1c&HFFFFFF&} firehose—one
+Dialogue: 0,0:00:14.40,0:00:14.89,Default,,0,0,0,,a violent {\1c&H00E6FF&}firehose—one{\1c&HFFFFFF&}
+Dialogue: 0,0:00:14.89,0:00:15.38,Default,,0,0,0,,{\1c&H00E6FF&}hundred{\1c&HFFFFFF&} twenty volts
+Dialogue: 0,0:00:15.38,0:00:15.87,Default,,0,0,0,,hundred {\1c&H00E6FF&}twenty{\1c&HFFFFFF&} volts
+Dialogue: 0,0:00:15.87,0:00:16.55,Default,,0,0,0,,hundred twenty {\1c&H00E6FF&}volts{\1c&HFFFFFF&}
+Dialogue: 0,0:00:16.73,0:00:16.99,Default,,0,0,0,,{\1c&H00E6FF&}slamming{\1c&HFFFFFF&} forward and
+Dialogue: 0,0:00:16.99,0:00:17.37,Default,,0,0,0,,slamming {\1c&H00E6FF&}forward{\1c&HFFFFFF&} and
+Dialogue: 0,0:00:17.37,0:00:17.77,Default,,0,0,0,,slamming forward {\1c&H00E6FF&}and{\1c&HFFFFFF&}
+Dialogue: 0,0:00:17.77,0:00:18.01,Default,,0,0,0,,{\1c&H00E6FF&}backward{\1c&HFFFFFF&} sixty times a
+Dialogue: 0,0:00:18.01,0:00:18.45,Default,,0,0,0,,backward {\1c&H00E6FF&}sixty{\1c&HFFFFFF&} times a
+Dialogue: 0,0:00:18.45,0:00:18.71,Default,,0,0,0,,backward sixty {\1c&H00E6FF&}times{\1c&HFFFFFF&} a
+Dialogue: 0,0:00:18.71,0:00:18.87,Default,,0,0,0,,backward sixty times {\1c&H00E6FF&}a{\1c&HFFFFFF&}
+Dialogue: 0,0:00:18.87,0:00:19.10,Default,,0,0,0,,{\1c&H00E6FF&}second.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:19.10,0:00:19.42,Default,,0,0,0,,{\1c&H00E6FF&}Your{\1c&HFFFFFF&} battery needs a
+Dialogue: 0,0:00:19.42,0:00:19.62,Default,,0,0,0,,Your {\1c&H00E6FF&}battery{\1c&HFFFFFF&} needs a
+Dialogue: 0,0:00:19.62,0:00:19.86,Default,,0,0,0,,Your battery {\1c&H00E6FF&}needs{\1c&HFFFFFF&} a
+Dialogue: 0,0:00:19.86,0:00:20.06,Default,,0,0,0,,Your battery needs {\1c&H00E6FF&}a{\1c&HFFFFFF&}
+Dialogue: 0,0:00:20.06,0:00:20.44,Default,,0,0,0,,{\1c&H00E6FF&}calm,{\1c&HFFFFFF&} five-volt stream
+Dialogue: 0,0:00:20.44,0:00:21.24,Default,,0,0,0,,calm, {\1c&H00E6FF&}five-volt{\1c&HFFFFFF&} stream
+Dialogue: 0,0:00:21.24,0:00:21.58,Default,,0,0,0,,calm, five-volt {\1c&H00E6FF&}stream{\1c&HFFFFFF&}
+Dialogue: 0,0:00:21.58,0:00:21.96,Default,,0,0,0,,{\1c&H00E6FF&}flowing{\1c&HFFFFFF&} smoothly in just
+Dialogue: 0,0:00:21.96,0:00:22.64,Default,,0,0,0,,flowing {\1c&H00E6FF&}smoothly{\1c&HFFFFFF&} in just
+Dialogue: 0,0:00:22.64,0:00:23.12,Default,,0,0,0,,flowing smoothly {\1c&H00E6FF&}in{\1c&HFFFFFF&} just
+Dialogue: 0,0:00:23.12,0:00:23.30,Default,,0,0,0,,flowing smoothly in {\1c&H00E6FF&}just{\1c&HFFFFFF&}
+Dialogue: 0,0:00:23.30,0:00:23.46,Default,,0,0,0,,{\1c&H00E6FF&}one{\1c&HFFFFFF&} direction.
+Dialogue: 0,0:00:23.46,0:00:23.84,Default,,0,0,0,,one {\1c&H00E6FF&}direction.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:23.87,0:00:24.21,Default,,0,0,0,,{\1c&H00E6FF&}So{\1c&HFFFFFF&} inside the charger,
+Dialogue: 0,0:00:24.21,0:00:24.51,Default,,0,0,0,,So {\1c&H00E6FF&}inside{\1c&HFFFFFF&} the charger,
+Dialogue: 0,0:00:24.51,0:00:24.77,Default,,0,0,0,,So inside {\1c&H00E6FF&}the{\1c&HFFFFFF&} charger,
+Dialogue: 0,0:00:24.77,0:00:25.23,Default,,0,0,0,,So inside the {\1c&H00E6FF&}charger,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:25.45,0:00:25.63,Default,,0,0,0,,{\1c&H00E6FF&}Stage{\1c&HFFFFFF&} One is the
+Dialogue: 0,0:00:25.63,0:00:26.01,Default,,0,0,0,,Stage {\1c&H00E6FF&}One{\1c&HFFFFFF&} is the
+Dialogue: 0,0:00:26.01,0:00:26.31,Default,,0,0,0,,Stage One {\1c&H00E6FF&}is{\1c&HFFFFFF&} the
+Dialogue: 0,0:00:26.31,0:00:26.51,Default,,0,0,0,,Stage One is {\1c&H00E6FF&}the{\1c&HFFFFFF&}
+Dialogue: 0,0:00:26.51,0:00:27.05,Default,,0,0,0,,{\1c&H00E6FF&}Transformer.{\1c&HFFFFFF&} Because AC
+Dialogue: 0,0:00:27.45,0:00:27.73,Default,,0,0,0,,Transformer. {\1c&H00E6FF&}Because{\1c&HFFFFFF&} AC
+Dialogue: 0,0:00:27.73,0:00:28.19,Default,,0,0,0,,Transformer. Because {\1c&H00E6FF&}AC{\1c&HFFFFFF&}
+Dialogue: 0,0:00:28.19,0:00:28.55,Default,,0,0,0,,{\1c&H00E6FF&}flips{\1c&HFFFFFF&} back and forth,
+Dialogue: 0,0:00:28.55,0:00:28.85,Default,,0,0,0,,flips {\1c&H00E6FF&}back{\1c&HFFFFFF&} and forth,
+Dialogue: 0,0:00:28.85,0:00:29.15,Default,,0,0,0,,flips back {\1c&H00E6FF&}and{\1c&HFFFFFF&} forth,
+Dialogue: 0,0:00:29.15,0:00:29.63,Default,,0,0,0,,flips back and {\1c&H00E6FF&}forth,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:29.97,0:00:30.03,Default,,0,0,0,,{\1c&H00E6FF&}it{\1c&HFFFFFF&} launches pulsing magnetic
+Dialogue: 0,0:00:30.03,0:00:30.31,Default,,0,0,0,,it {\1c&H00E6FF&}launches{\1c&HFFFFFF&} pulsing magnetic
+Dialogue: 0,0:00:30.31,0:00:30.79,Default,,0,0,0,,it launches {\1c&H00E6FF&}pulsing{\1c&HFFFFFF&} magnetic
+Dialogue: 0,0:00:30.79,0:00:31.21,Default,,0,0,0,,it launches pulsing {\1c&H00E6FF&}magnetic{\1c&HFFFFFF&}
+Dialogue: 0,0:00:31.21,0:00:31.69,Default,,0,0,0,,{\1c&H00E6FF&}rings{\1c&HFFFFFF&} across an air
+Dialogue: 0,0:00:31.69,0:00:32.17,Default,,0,0,0,,rings {\1c&H00E6FF&}across{\1c&HFFFFFF&} an air
+Dialogue: 0,0:00:32.17,0:00:32.37,Default,,0,0,0,,rings across {\1c&H00E6FF&}an{\1c&HFFFFFF&} air
+Dialogue: 0,0:00:32.37,0:00:32.55,Default,,0,0,0,,rings across an {\1c&H00E6FF&}air{\1c&HFFFFFF&}
+Dialogue: 0,0:00:32.55,0:00:32.89,Default,,0,0,0,,{\1c&H00E6FF&}gap{\1c&HFFFFFF&} into a smaller
+Dialogue: 0,0:00:32.89,0:00:33.13,Default,,0,0,0,,gap {\1c&H00E6FF&}into{\1c&HFFFFFF&} a smaller
+Dialogue: 0,0:00:33.13,0:00:33.33,Default,,0,0,0,,gap into {\1c&H00E6FF&}a{\1c&HFFFFFF&} smaller
+Dialogue: 0,0:00:33.33,0:00:33.59,Default,,0,0,0,,gap into a {\1c&H00E6FF&}smaller{\1c&HFFFFFF&}
+Dialogue: 0,0:00:33.59,0:00:34.39,Default,,0,0,0,,{\1c&H00E6FF&}coil—crushing{\1c&HFFFFFF&} the voltage
+Dialogue: 0,0:00:34.67,0:00:35.03,Default,,0,0,0,,coil—crushing {\1c&H00E6FF&}the{\1c&HFFFFFF&} voltage
+Dialogue: 0,0:00:35.03,0:00:35.23,Default,,0,0,0,,coil—crushing the {\1c&H00E6FF&}voltage{\1c&HFFFFFF&}
+Dialogue: 0,0:00:35.23,0:00:35.67,Default,,0,0,0,,{\1c&H00E6FF&}down!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:35.67,0:00:36.07,Default,,0,0,0,,{\1c&H00E6FF&}Stage{\1c&HFFFFFF&} Two: the Diode.
+Dialogue: 0,0:00:36.07,0:00:36.81,Default,,0,0,0,,Stage {\1c&H00E6FF&}Two:{\1c&HFFFFFF&} the Diode.
+Dialogue: 0,0:00:36.81,0:00:36.93,Default,,0,0,0,,Stage Two: {\1c&H00E6FF&}the{\1c&HFFFFFF&} Diode.
+Dialogue: 0,0:00:36.93,0:00:37.53,Default,,0,0,0,,Stage Two: the {\1c&H00E6FF&}Diode.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:37.65,0:00:37.73,Default,,0,0,0,,{\1c&H00E6FF&}It{\1c&HFFFFFF&} acts like a
+Dialogue: 0,0:00:37.73,0:00:37.87,Default,,0,0,0,,It {\1c&H00E6FF&}acts{\1c&HFFFFFF&} like a
+Dialogue: 0,0:00:37.87,0:00:38.09,Default,,0,0,0,,It acts {\1c&H00E6FF&}like{\1c&HFFFFFF&} a
+Dialogue: 0,0:00:38.09,0:00:38.31,Default,,0,0,0,,It acts like {\1c&H00E6FF&}a{\1c&HFFFFFF&}
+Dialogue: 0,0:00:38.31,0:00:38.61,Default,,0,0,0,,{\1c&H00E6FF&}one-way{\1c&HFFFFFF&} subway
+Dialogue: 0,0:00:38.61,0:00:39.07,Default,,0,0,0,,one-way {\1c&H00E6FF&}subway{\1c&HFFFFFF&}
+Dialogue: 0,0:00:39.07,0:00:39.87,Default,,0,0,0,,{\1c&H00E6FF&}turnstile—blocking{\1c&HFFFFFF&} every
+Dialogue: 0,0:00:40.39,0:00:40.95,Default,,0,0,0,,turnstile—blocking {\1c&H00E6FF&}every{\1c&HFFFFFF&}
+Dialogue: 0,0:00:40.95,0:00:41.35,Default,,0,0,0,,{\1c&H00E6FF&}backward{\1c&HFFFFFF&} surge!
+Dialogue: 0,0:00:41.35,0:00:41.83,Default,,0,0,0,,backward {\1c&H00E6FF&}surge!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:41.83,0:00:42.21,Default,,0,0,0,,{\1c&H00E6FF&}Add{\1c&HFFFFFF&} four diodes in
+Dialogue: 0,0:00:42.21,0:00:42.45,Default,,0,0,0,,Add {\1c&H00E6FF&}four{\1c&HFFFFFF&} diodes in
+Dialogue: 0,0:00:42.45,0:00:42.97,Default,,0,0,0,,Add four {\1c&H00E6FF&}diodes{\1c&HFFFFFF&} in
+Dialogue: 0,0:00:42.97,0:00:43.09,Default,,0,0,0,,Add four diodes {\1c&H00E6FF&}in{\1c&HFFFFFF&}
+Dialogue: 0,0:00:43.09,0:00:43.37,Default,,0,0,0,,{\1c&H00E6FF&}a{\1c&HFFFFFF&} diamond bridge, and
+Dialogue: 0,0:00:43.37,0:00:43.43,Default,,0,0,0,,a {\1c&H00E6FF&}diamond{\1c&HFFFFFF&} bridge, and
+Dialogue: 0,0:00:43.43,0:00:43.83,Default,,0,0,0,,a diamond {\1c&H00E6FF&}bridge,{\1c&HFFFFFF&} and
+Dialogue: 0,0:00:43.83,0:00:44.53,Default,,0,0,0,,a diamond bridge, {\1c&H00E6FF&}and{\1c&HFFFFFF&}
+Dialogue: 0,0:00:44.53,0:00:44.83,Default,,0,0,0,,{\1c&H00E6FF&}every{\1c&HFFFFFF&} backward push gets
+Dialogue: 0,0:00:44.83,0:00:45.15,Default,,0,0,0,,every {\1c&H00E6FF&}backward{\1c&HFFFFFF&} push gets
+Dialogue: 0,0:00:45.15,0:00:45.83,Default,,0,0,0,,every backward {\1c&H00E6FF&}push{\1c&HFFFFFF&} gets
+Dialogue: 0,0:00:45.83,0:00:46.21,Default,,0,0,0,,every backward push {\1c&H00E6FF&}gets{\1c&HFFFFFF&}
+Dialogue: 0,0:00:46.21,0:00:46.73,Default,,0,0,0,,{\1c&H00E6FF&}rerouted{\1c&HFFFFFF&} forward—wasting
+Dialogue: 0,0:00:46.73,0:00:47.53,Default,,0,0,0,,rerouted {\1c&H00E6FF&}forward—wasting{\1c&HFFFFFF&}
+Dialogue: 0,0:00:47.97,0:00:48.77,Default,,0,0,0,,{\1c&H00E6FF&}zero{\1c&HFFFFFF&} energy!
+Dialogue: 0,0:00:48.77,0:00:49.13,Default,,0,0,0,,zero {\1c&H00E6FF&}energy!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:49.13,0:00:49.75,Default,,0,0,0,,{\1c&H00E6FF&}Finally,{\1c&HFFFFFF&} a Capacitor acts
+Dialogue: 0,0:00:50.03,0:00:50.17,Default,,0,0,0,,Finally, {\1c&H00E6FF&}a{\1c&HFFFFFF&} Capacitor acts
+Dialogue: 0,0:00:50.17,0:00:50.65,Default,,0,0,0,,Finally, a {\1c&H00E6FF&}Capacitor{\1c&HFFFFFF&} acts
+Dialogue: 0,0:00:50.65,0:00:51.15,Default,,0,0,0,,Finally, a Capacitor {\1c&H00E6FF&}acts{\1c&HFFFFFF&}
+Dialogue: 0,0:00:51.15,0:00:51.37,Default,,0,0,0,,{\1c&H00E6FF&}like{\1c&HFFFFFF&} a water tower—filling
+Dialogue: 0,0:00:51.37,0:00:51.79,Default,,0,0,0,,like {\1c&H00E6FF&}a{\1c&HFFFFFF&} water tower—filling
+Dialogue: 0,0:00:51.79,0:00:51.83,Default,,0,0,0,,like a {\1c&H00E6FF&}water{\1c&HFFFFFF&} tower—filling
+Dialogue: 0,0:00:51.83,0:00:52.63,Default,,0,0,0,,like a water {\1c&H00E6FF&}tower—filling{\1c&HFFFFFF&}
+Dialogue: 0,0:00:52.89,0:00:53.07,Default,,0,0,0,,{\1c&H00E6FF&}in{\1c&HFFFFFF&} the gaps until
+Dialogue: 0,0:00:53.07,0:00:53.19,Default,,0,0,0,,in {\1c&H00E6FF&}the{\1c&HFFFFFF&} gaps until
+Dialogue: 0,0:00:53.19,0:00:53.43,Default,,0,0,0,,in the {\1c&H00E6FF&}gaps{\1c&HFFFFFF&} until
+Dialogue: 0,0:00:53.43,0:00:53.77,Default,,0,0,0,,in the gaps {\1c&H00E6FF&}until{\1c&HFFFFFF&}
+Dialogue: 0,0:00:53.77,0:00:54.01,Default,,0,0,0,,{\1c&H00E6FF&}the{\1c&HFFFFFF&} flow is razor-flat.
+Dialogue: 0,0:00:54.01,0:00:54.37,Default,,0,0,0,,the {\1c&H00E6FF&}flow{\1c&HFFFFFF&} is razor-flat.
+Dialogue: 0,0:00:54.37,0:00:54.75,Default,,0,0,0,,the flow {\1c&H00E6FF&}is{\1c&HFFFFFF&} razor-flat.
+Dialogue: 0,0:00:54.75,0:00:55.30,Default,,0,0,0,,the flow is {\1c&H00E6FF&}razor-flat.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:55.30,0:00:55.62,Default,,0,0,0,,{\1c&H00E6FF&}Four{\1c&HFFFFFF&} miniature machines
+Dialogue: 0,0:00:55.62,0:00:55.78,Default,,0,0,0,,Four {\1c&H00E6FF&}miniature{\1c&HFFFFFF&} machines
+Dialogue: 0,0:00:55.78,0:00:56.56,Default,,0,0,0,,Four miniature {\1c&H00E6FF&}machines{\1c&HFFFFFF&}
+Dialogue: 0,0:00:57.20,0:00:57.21,Default,,0,0,0,,{\1c&H00E6FF&}inside{\1c&HFFFFFF&} one tiny plug.
+Dialogue: 0,0:00:57.21,0:00:57.74,Default,,0,0,0,,inside {\1c&H00E6FF&}one{\1c&HFFFFFF&} tiny plug.
+Dialogue: 0,0:00:57.74,0:00:57.94,Default,,0,0,0,,inside one {\1c&H00E6FF&}tiny{\1c&HFFFFFF&} plug.
+Dialogue: 0,0:00:57.94,0:00:58.54,Default,,0,0,0,,inside one tiny {\1c&H00E6FF&}plug.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:58.92,0:00:58.94,Default,,0,0,0,,{\1c&H00E6FF&}Follow{\1c&HFFFFFF&} Dr. Volt to
+Dialogue: 0,0:00:58.94,0:00:59.34,Default,,0,0,0,,Follow {\1c&H00E6FF&}Dr.{\1c&HFFFFFF&} Volt to
+Dialogue: 0,0:00:59.36,0:00:59.60,Default,,0,0,0,,Follow Dr. {\1c&H00E6FF&}Volt{\1c&HFFFFFF&} to
+Dialogue: 0,0:00:59.60,0:00:59.84,Default,,0,0,0,,Follow Dr. Volt {\1c&H00E6FF&}to{\1c&HFFFFFF&}
+Dialogue: 0,0:00:59.84,0:01:00.14,Default,,0,0,0,,{\1c&H00E6FF&}see{\1c&HFFFFFF&} what happens inside
+Dialogue: 0,0:01:00.14,0:01:00.34,Default,,0,0,0,,see {\1c&H00E6FF&}what{\1c&HFFFFFF&} happens inside
+Dialogue: 0,0:01:00.34,0:01:00.62,Default,,0,0,0,,see what {\1c&H00E6FF&}happens{\1c&HFFFFFF&} inside
+Dialogue: 0,0:01:00.62,0:01:01.18,Default,,0,0,0,,see what happens {\1c&H00E6FF&}inside{\1c&HFFFFFF&}
+Dialogue: 0,0:01:01.18,0:01:01.40,Default,,0,0,0,,{\1c&H00E6FF&}your{\1c&HFFFFFF&} screen next!
+Dialogue: 0,0:01:01.40,0:01:01.60,Default,,0,0,0,,your {\1c&H00E6FF&}screen{\1c&HFFFFFF&} next!
+Dialogue: 0,0:01:01.60,0:01:02.06,Default,,0,0,0,,your screen {\1c&H00E6FF&}next!{\1c&HFFFFFF&}
