@@ -155,4 +155,13 @@ def build(outdir='output/pilot',cache='assets/ai_cache',workers=2):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--output',default='output/pilot');p.add_argument('--cache',default='assets/ai_cache');p.add_argument('--workers',type=int,default=2)
-    a=p.parse_args();build(a.output,a.cache,a.workers)
+    a=p.parse_args()
+    try:
+        build(a.output,a.cache,a.workers)
+    except Exception as exc:
+        # Surface the root failure through the Actions checks API, even when
+        # full log downloads are unavailable to the calling environment.
+        import sys
+        message=str(exc).replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+        print('::error title=Pilot generation failed::'+message, file=sys.stderr, flush=True)
+        raise
