@@ -233,6 +233,21 @@ async def isolated_worker(kind,index,prompt,directory,token,deadline,phase_secon
     return valid_shot(path)
 
 
+class HordeSession:
+    """Serialize anonymous submissions to respect the observed 2/sec limit."""
+    def __init__(self,session):
+        self.session=session;self.lock=asyncio.Lock();self.next_submit=0.0
+    def request(self,*args,**kwargs):return self.session.request(*args,**kwargs)
+    def delete(self,*args,**kwargs):return self.session.delete(*args,**kwargs)
+    async def reserve_submission(self,deadline):
+        async with self.lock:
+            delay=max(0.,self.next_submit-time.monotonic())
+            if deadline-time.monotonic() <= delay+1.1:
+                raise ImageGenerationError('AI Horde submission skipped: insufficient time to respect rate limit and poll')
+            if delay:await asyncio.sleep(delay)
+            self.next_submit=time.monotonic()+.55
+
+
 async def horde_request(session,method,url,deadline,**kwargs):
     remaining=deadline-time.monotonic()
     if remaining<=.05:raise ImageGenerationError('AI Horde generation deadline exceeded')
@@ -249,6 +264,7 @@ async def horde_one(session,index,prompt,directory,deadline):
              'models':['AlbedoBase XL (SDXL)','SDXL 1.0'],'nsfw':False,'censor_nsfw':True}
     job=None
     try:
+        await session.reserve_submission(deadline)
         response=await horde_request(session,'POST',base+'/generate/async',deadline,headers=headers,json=payload)
         job=json.loads(response)['id'];print(f'AI Horde accepted {shot_path(directory,index).name}',flush=True)
         while deadline-time.monotonic()>1.1:
@@ -295,7 +311,8 @@ async def generate_all(directory=SHOT_DIR,key=None,hf=None,budget=BUDGET):
     if not hf and not key:raise ImageGenerationError('No API credential is configured and cache is incomplete')
     deadline=time.monotonic()+budget
     async with aiohttp.ClientSession() as session:
-        tasks=[asyncio.create_task(generate_one(session,i,SHOTS[i-1],directory,key,hf,deadline)) for i in missing]
+        horde_session=HordeSession(session)
+        tasks=[asyncio.create_task(generate_one(horde_session,i,SHOTS[i-1],directory,key,hf,deadline)) for i in missing]
         try:
             async with asyncio.timeout(budget):
                 results=await asyncio.gather(*tasks,return_exceptions=True)
