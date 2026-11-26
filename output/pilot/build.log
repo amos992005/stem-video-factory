@@ -1,4 +1,4 @@
-Comic cutout pilot run 45868558201, revision 3095fe6b8bdec240d468589d32e0c38b7ed0a691
+Comic cutout pilot run 45869062626, revision c144140f94a56beface76aa91c09f8dc3562dd85
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -112,43 +112,43 @@ Collecting charset_normalizer<4,>=2 (from requests>=2.19.0->pooch<2.0.0,>=1.8.2-
 Collecting urllib3<3,>=1.26 (from requests>=2.19.0->pooch<2.0.0,>=1.8.2->rembg<3,>=2.0.67->rembg[cpu]<3,>=2.0.67->-r requirements.txt (line 9))
   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
 Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 112.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 111.3 MB/s  0:00:00
 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 126.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 391.8 MB/s  0:00:00
 Downloading edge_tts-7.3.1-py3-none-any.whl (38 kB)
 Downloading aiohttp-3.14.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 132.1 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 442.8 MB/s  0:00:00
 Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl (68.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 137.8 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 251.4 MB/s  0:00:00
 Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl (36.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 91.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 253.9 MB/s  0:00:00
 Downloading faster_whisper-1.2.1-py3-none-any.whl (1.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 133.1 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 213.0 MB/s  0:00:00
 Downloading opencv_python_headless-4.14.0.94-cp37-abi3-manylinux_2_28_x86_64.whl (62.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 MB 144.7 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 MB 388.6 MB/s  0:00:00
 Downloading rembg-2.0.88-py3-none-any.whl (71 kB)
 Downloading ctranslate2-4.9.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (28.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 28.3/28.3 MB 97.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 28.3/28.3 MB 244.2 MB/s  0:00:00
 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
 Downloading multidict-7.2.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (510 kB)
 Downloading onnxruntime-1.32.0-cp311-cp311-manylinux_2_28_x86_64.whl (27.8 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 94.5 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 216.9 MB/s  0:00:00
 Downloading pooch-1.9.0-py3-none-any.whl (67 kB)
 Downloading pymatting-1.1.16-py3-none-any.whl (56 kB)
 Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (828 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 72.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 265.9 MB/s  0:00:00
 Downloading scikit_image-0.26.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (13.7 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.7/13.7 MB 81.1 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.7/13.7 MB 225.3 MB/s  0:00:00
 Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 148.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 358.3 MB/s  0:00:00
 Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
 Downloading tokenizers-0.23.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.4 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 133.9 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 355.0 MB/s  0:00:00
 Downloading huggingface_hub-2.5.0-py3-none-any.whl (863 kB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 863.6/863.6 kB 40.0 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 863.6/863.6 kB 195.9 MB/s  0:00:00
 Downloading click-8.5.1-py3-none-any.whl (126 kB)
 Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 140.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 350.1 MB/s  0:00:00
 Downloading httpx2-2.16.2-py3-none-any.whl (97 kB)
 Downloading httpcore2-2.16.2-py3-none-any.whl (85 kB)
 Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
@@ -168,11 +168,11 @@ Downloading imageio-2.38.2-py3-none-any.whl (328 kB)
 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
 Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
 Downloading networkx-3.6.1-py3-none-any.whl (2.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 129.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 400.2 MB/s  0:00:00
 Downloading numba-0.68.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.8 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 80.8 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 259.3 MB/s  0:00:00
 Downloading llvmlite-0.50.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (59.7 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.7/59.7 MB 91.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.7/59.7 MB 202.8 MB/s  0:00:00
 Downloading packaging-26.4-py3-none-any.whl (140 kB)
 Downloading platformdirs-4.14.8-py3-none-any.whl (94 kB)
 Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (235 kB)
@@ -201,16 +201,15 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.348s
+Ran 10 tests in 0.422s
 
 OK
 Validated 8 original AI-illustrated PNGs; no fallback.
-[0;93m2026-11-26 17:32:51.282948800 [W:onnxruntime:Default, device_discovery.cc:95 GetPciBusId] Skipping pci_bus_id for PCI path at "/sys/devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0004:00/MSFT1000:00/5620e0c7-8062-4dce-aeb7-520c7ef76171" because filename "5620e0c7-8062-4dce-aeb7-520c7ef76171" did not match expected pattern of [0-9a-f]+:[0-9a-f]+:[0-9a-f]+[.][0-9a-f]+[m
 Downloading data from 'https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx' to file '/home/runner/.rembg/models/u2netp/u2netp.onnx'.
-  0%|                                              | 0.00/4.57M [00:00<?, ?B/s]  0%|                                              | 0.00/4.57M [00:00<?, ?B/s]100%|█████████████████████████████████████| 4.57M/4.57M [00:00<00:00, 30.1GB/s]
-Edge voice scene 2 received.
+  0%|                                              | 0.00/4.57M [00:00<?, ?B/s]  0%|                                              | 0.00/4.57M [00:00<?, ?B/s]100%|█████████████████████████████████████| 4.57M/4.57M [00:00<00:00, 38.1GB/s]
 Edge voice scene 1 received.
 Edge voice scene 3 received.
+Edge voice scene 2 received.
 Edge voice scene 4 received.
 Edge voice scene 5 received.
 Edge voice scene 6 received.
@@ -230,6 +229,6 @@ Rendered 300/750 frames.
 Rendered 450/750 frames.
 Rendered 600/750 frames.
 Rendered 750/750 frames.
-Comic composite frames and encode: 46.7s.
+Comic composite frames and encode: 46.5s.
 Video stream: (1080, 1920, '30', 750) audio streams: 1
-Comic pilot completed in 124.3s. Duration: 25.00s.
+Comic pilot completed in 84.6s. Duration: 25.00s.
