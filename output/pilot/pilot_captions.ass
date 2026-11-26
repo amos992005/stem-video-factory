@@ -9,70 +9,70 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
 Style: Default,DejaVu Sans,62,&H00FFFFFF,&H00FFFFFF,&H00140805,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,2,80,80,220,1
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.00,0:00:00.26,Default,,0,0,0,,{\1c&H00E6FF&}Connect{\1c&HFFFFFF&} a battery to
-Dialogue: 0,0:00:00.26,0:00:00.64,Default,,0,0,0,,Connect {\1c&H00E6FF&}a{\1c&HFFFFFF&} battery to
-Dialogue: 0,0:00:00.64,0:00:00.72,Default,,0,0,0,,Connect a {\1c&H00E6FF&}battery{\1c&HFFFFFF&} to
-Dialogue: 0,0:00:00.72,0:00:00.98,Default,,0,0,0,,Connect a battery {\1c&H00E6FF&}to{\1c&HFFFFFF&}
-Dialogue: 0,0:00:00.98,0:00:01.06,Default,,0,0,0,,{\1c&H00E6FF&}the{\1c&HFFFFFF&} wall, and it
-Dialogue: 0,0:00:01.06,0:00:01.46,Default,,0,0,0,,the {\1c&H00E6FF&}wall,{\1c&HFFFFFF&} and it
-Dialogue: 0,0:00:01.46,0:00:01.74,Default,,0,0,0,,the wall, {\1c&H00E6FF&}and{\1c&HFFFFFF&} it
-Dialogue: 0,0:00:01.74,0:00:01.78,Default,,0,0,0,,the wall, and {\1c&H00E6FF&}it{\1c&HFFFFFF&}
-Dialogue: 0,0:00:01.78,0:00:01.92,Default,,0,0,0,,{\1c&H00E6FF&}could{\1c&HFFFFFF&} catch fire!
-Dialogue: 0,0:00:01.92,0:00:02.20,Default,,0,0,0,,could {\1c&H00E6FF&}catch{\1c&HFFFFFF&} fire!
-Dialogue: 0,0:00:02.20,0:00:02.60,Default,,0,0,0,,could catch {\1c&H00E6FF&}fire!{\1c&HFFFFFF&}
-Dialogue: 0,0:00:02.60,0:00:02.92,Default,,0,0,0,,{\1c&H00E6FF&}Your{\1c&HFFFFFF&} charger moves energy
-Dialogue: 0,0:00:02.92,0:00:03.18,Default,,0,0,0,,Your {\1c&H00E6FF&}charger{\1c&HFFFFFF&} moves energy
-Dialogue: 0,0:00:03.18,0:00:03.70,Default,,0,0,0,,Your charger {\1c&H00E6FF&}moves{\1c&HFFFFFF&} energy
-Dialogue: 0,0:00:03.70,0:00:04.08,Default,,0,0,0,,Your charger moves {\1c&H00E6FF&}energy{\1c&HFFFFFF&}
-Dialogue: 0,0:00:04.08,0:00:04.48,Default,,0,0,0,,{\1c&H00E6FF&}across{\1c&HFFFFFF&} an air gap,
-Dialogue: 0,0:00:04.48,0:00:04.62,Default,,0,0,0,,across {\1c&H00E6FF&}an{\1c&HFFFFFF&} air gap,
-Dialogue: 0,0:00:04.62,0:00:04.78,Default,,0,0,0,,across an {\1c&H00E6FF&}air{\1c&HFFFFFF&} gap,
-Dialogue: 0,0:00:04.78,0:00:05.14,Default,,0,0,0,,across an air {\1c&H00E6FF&}gap,{\1c&HFFFFFF&}
-Dialogue: 0,0:00:05.14,0:00:05.74,Default,,0,0,0,,{\1c&H00E6FF&}without{\1c&HFFFFFF&} wires touching.
-Dialogue: 0,0:00:05.74,0:00:06.08,Default,,0,0,0,,without {\1c&H00E6FF&}wires{\1c&HFFFFFF&} touching.
-Dialogue: 0,0:00:06.08,0:00:06.47,Default,,0,0,0,,without wires {\1c&H00E6FF&}touching.{\1c&HFFFFFF&}
-Dialogue: 0,0:00:06.47,0:00:06.85,Default,,0,0,0,,{\1c&H00E6FF&}Wall{\1c&HFFFFFF&} power alternates sixty
-Dialogue: 0,0:00:06.85,0:00:07.19,Default,,0,0,0,,Wall {\1c&H00E6FF&}power{\1c&HFFFFFF&} alternates sixty
-Dialogue: 0,0:00:07.19,0:00:07.89,Default,,0,0,0,,Wall power {\1c&H00E6FF&}alternates{\1c&HFFFFFF&} sixty
-Dialogue: 0,0:00:07.89,0:00:08.45,Default,,0,0,0,,Wall power alternates {\1c&H00E6FF&}sixty{\1c&HFFFFFF&}
-Dialogue: 0,0:00:08.45,0:00:08.83,Default,,0,0,0,,{\1c&H00E6FF&}cycles{\1c&HFFFFFF&} a second—like a
-Dialogue: 0,0:00:08.83,0:00:09.05,Default,,0,0,0,,cycles {\1c&H00E6FF&}a{\1c&HFFFFFF&} second—like a
-Dialogue: 0,0:00:09.05,0:00:09.73,Default,,0,0,0,,cycles a {\1c&H00E6FF&}second—like{\1c&HFFFFFF&} a
-Dialogue: 0,0:00:09.73,0:00:10.05,Default,,0,0,0,,cycles a second—like {\1c&H00E6FF&}a{\1c&HFFFFFF&}
-Dialogue: 0,0:00:10.05,0:00:10.23,Default,,0,0,0,,{\1c&H00E6FF&}wild{\1c&HFFFFFF&} firehose.
-Dialogue: 0,0:00:10.23,0:00:10.87,Default,,0,0,0,,wild {\1c&H00E6FF&}firehose.{\1c&HFFFFFF&}
-Dialogue: 0,0:00:10.87,0:00:11.19,Default,,0,0,0,,{\1c&H00E6FF&}Your{\1c&HFFFFFF&} battery needs
-Dialogue: 0,0:00:11.19,0:00:11.39,Default,,0,0,0,,Your {\1c&H00E6FF&}battery{\1c&HFFFFFF&} needs
-Dialogue: 0,0:00:11.39,0:00:11.71,Default,,0,0,0,,Your battery {\1c&H00E6FF&}needs{\1c&HFFFFFF&}
-Dialogue: 0,0:00:11.71,0:00:12.51,Default,,0,0,0,,{\1c&H00E6FF&}low-voltage,{\1c&HFFFFFF&} steady current,
-Dialogue: 0,0:00:12.95,0:00:13.05,Default,,0,0,0,,low-voltage, {\1c&H00E6FF&}steady{\1c&HFFFFFF&} current,
-Dialogue: 0,0:00:13.05,0:00:13.55,Default,,0,0,0,,low-voltage, steady {\1c&H00E6FF&}current,{\1c&HFFFFFF&}
-Dialogue: 0,0:00:13.79,0:00:13.93,Default,,0,0,0,,{\1c&H00E6FF&}flowing{\1c&HFFFFFF&} one way.
-Dialogue: 0,0:00:13.93,0:00:14.23,Default,,0,0,0,,flowing {\1c&H00E6FF&}one{\1c&HFFFFFF&} way.
-Dialogue: 0,0:00:14.23,0:00:14.50,Default,,0,0,0,,flowing one {\1c&H00E6FF&}way.{\1c&HFFFFFF&}
-Dialogue: 0,0:00:14.50,0:00:14.78,Default,,0,0,0,,{\1c&H00E6FF&}A{\1c&HFFFFFF&} transformer transfers
-Dialogue: 0,0:00:14.78,0:00:15.18,Default,,0,0,0,,A {\1c&H00E6FF&}transformer{\1c&HFFFFFF&} transfers
-Dialogue: 0,0:00:15.18,0:00:15.78,Default,,0,0,0,,A transformer {\1c&H00E6FF&}transfers{\1c&HFFFFFF&}
-Dialogue: 0,0:00:15.78,0:00:16.10,Default,,0,0,0,,{\1c&H00E6FF&}energy{\1c&HFFFFFF&} across that gap
-Dialogue: 0,0:00:16.10,0:00:16.52,Default,,0,0,0,,energy {\1c&H00E6FF&}across{\1c&HFFFFFF&} that gap
-Dialogue: 0,0:00:16.52,0:00:16.78,Default,,0,0,0,,energy across {\1c&H00E6FF&}that{\1c&HFFFFFF&} gap
-Dialogue: 0,0:00:16.78,0:00:17.26,Default,,0,0,0,,energy across that {\1c&H00E6FF&}gap{\1c&HFFFFFF&}
-Dialogue: 0,0:00:17.26,0:00:17.72,Default,,0,0,0,,{\1c&H00E6FF&}and{\1c&HFFFFFF&} changes voltage.
-Dialogue: 0,0:00:17.72,0:00:18.00,Default,,0,0,0,,and {\1c&H00E6FF&}changes{\1c&HFFFFFF&} voltage.
-Dialogue: 0,0:00:18.00,0:00:18.48,Default,,0,0,0,,and changes {\1c&H00E6FF&}voltage.{\1c&HFFFFFF&}
-Dialogue: 0,0:00:18.53,0:00:19.17,Default,,0,0,0,,{\1c&H00E6FF&}Diodes{\1c&HFFFFFF&} steer current in
-Dialogue: 0,0:00:19.17,0:00:19.43,Default,,0,0,0,,Diodes {\1c&H00E6FF&}steer{\1c&HFFFFFF&} current in
-Dialogue: 0,0:00:19.43,0:00:19.73,Default,,0,0,0,,Diodes steer {\1c&H00E6FF&}current{\1c&HFFFFFF&} in
-Dialogue: 0,0:00:19.73,0:00:19.97,Default,,0,0,0,,Diodes steer current {\1c&H00E6FF&}in{\1c&HFFFFFF&}
-Dialogue: 0,0:00:19.97,0:00:20.13,Default,,0,0,0,,{\1c&H00E6FF&}one{\1c&HFFFFFF&} direction, like
-Dialogue: 0,0:00:20.13,0:00:20.61,Default,,0,0,0,,one {\1c&H00E6FF&}direction,{\1c&HFFFFFF&} like
-Dialogue: 0,0:00:20.99,0:00:21.15,Default,,0,0,0,,one direction, {\1c&H00E6FF&}like{\1c&HFFFFFF&}
-Dialogue: 0,0:00:21.15,0:00:21.85,Default,,0,0,0,,{\1c&H00E6FF&}turnstiles.{\1c&HFFFFFF&}
-Dialogue: 0,0:00:21.90,0:00:22.18,Default,,0,0,0,,{\1c&H00E6FF&}A{\1c&HFFFFFF&} capacitor smooths the
-Dialogue: 0,0:00:22.18,0:00:22.68,Default,,0,0,0,,A {\1c&H00E6FF&}capacitor{\1c&HFFFFFF&} smooths the
-Dialogue: 0,0:00:22.68,0:00:23.48,Default,,0,0,0,,A capacitor {\1c&H00E6FF&}smooths{\1c&HFFFFFF&} the
-Dialogue: 0,0:00:23.54,0:00:23.70,Default,,0,0,0,,A capacitor smooths {\1c&H00E6FF&}the{\1c&HFFFFFF&}
-Dialogue: 0,0:00:23.70,0:00:24.20,Default,,0,0,0,,{\1c&H00E6FF&}flow.{\1c&HFFFFFF&} Follow for more!
-Dialogue: 0,0:00:24.48,0:00:24.60,Default,,0,0,0,,flow. {\1c&H00E6FF&}Follow{\1c&HFFFFFF&} for more!
-Dialogue: 0,0:00:24.60,0:00:24.82,Default,,0,0,0,,flow. Follow {\1c&H00E6FF&}for{\1c&HFFFFFF&} more!
-Dialogue: 0,0:00:24.82,0:00:25.16,Default,,0,0,0,,flow. Follow for {\1c&H00E6FF&}more!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:00.00,0:00:00.32,Default,,0,0,0,,{\1c&H00E6FF&}Connect{\1c&HFFFFFF&} a phone battery
+Dialogue: 0,0:00:00.32,0:00:00.64,Default,,0,0,0,,Connect {\1c&H00E6FF&}a{\1c&HFFFFFF&} phone battery
+Dialogue: 0,0:00:00.64,0:00:00.84,Default,,0,0,0,,Connect a {\1c&H00E6FF&}phone{\1c&HFFFFFF&} battery
+Dialogue: 0,0:00:00.84,0:00:01.10,Default,,0,0,0,,Connect a phone {\1c&H00E6FF&}battery{\1c&HFFFFFF&}
+Dialogue: 0,0:00:01.10,0:00:01.52,Default,,0,0,0,,{\1c&H00E6FF&}straight{\1c&HFFFFFF&} to the wall,
+Dialogue: 0,0:00:01.52,0:00:01.70,Default,,0,0,0,,straight {\1c&H00E6FF&}to{\1c&HFFFFFF&} the wall,
+Dialogue: 0,0:00:01.70,0:00:01.80,Default,,0,0,0,,straight to {\1c&H00E6FF&}the{\1c&HFFFFFF&} wall,
+Dialogue: 0,0:00:01.80,0:00:02.32,Default,,0,0,0,,straight to the {\1c&H00E6FF&}wall,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:02.40,0:00:02.44,Default,,0,0,0,,{\1c&H00E6FF&}and{\1c&HFFFFFF&} it could catch
+Dialogue: 0,0:00:02.44,0:00:02.54,Default,,0,0,0,,and {\1c&H00E6FF&}it{\1c&HFFFFFF&} could catch
+Dialogue: 0,0:00:02.54,0:00:02.66,Default,,0,0,0,,and it {\1c&H00E6FF&}could{\1c&HFFFFFF&} catch
+Dialogue: 0,0:00:02.66,0:00:02.94,Default,,0,0,0,,and it could {\1c&H00E6FF&}catch{\1c&HFFFFFF&}
+Dialogue: 0,0:00:02.94,0:00:03.36,Default,,0,0,0,,{\1c&H00E6FF&}fire!{\1c&HFFFFFF&}
+Dialogue: 0,0:00:03.37,0:00:03.85,Default,,0,0,0,,{\1c&H00E6FF&}Inside{\1c&HFFFFFF&} your charger, energy
+Dialogue: 0,0:00:03.85,0:00:04.15,Default,,0,0,0,,Inside {\1c&H00E6FF&}your{\1c&HFFFFFF&} charger, energy
+Dialogue: 0,0:00:04.15,0:00:04.61,Default,,0,0,0,,Inside your {\1c&H00E6FF&}charger,{\1c&HFFFFFF&} energy
+Dialogue: 0,0:00:04.99,0:00:05.09,Default,,0,0,0,,Inside your charger, {\1c&H00E6FF&}energy{\1c&HFFFFFF&}
+Dialogue: 0,0:00:05.09,0:00:05.57,Default,,0,0,0,,{\1c&H00E6FF&}crosses{\1c&HFFFFFF&} an air gap
+Dialogue: 0,0:00:05.57,0:00:05.79,Default,,0,0,0,,crosses {\1c&H00E6FF&}an{\1c&HFFFFFF&} air gap
+Dialogue: 0,0:00:05.79,0:00:05.93,Default,,0,0,0,,crosses an {\1c&H00E6FF&}air{\1c&HFFFFFF&} gap
+Dialogue: 0,0:00:05.93,0:00:06.29,Default,,0,0,0,,crosses an air {\1c&H00E6FF&}gap{\1c&HFFFFFF&}
+Dialogue: 0,0:00:06.29,0:00:06.83,Default,,0,0,0,,{\1c&H00E6FF&}without{\1c&HFFFFFF&} wires touching.
+Dialogue: 0,0:00:06.83,0:00:07.15,Default,,0,0,0,,without {\1c&H00E6FF&}wires{\1c&HFFFFFF&} touching.
+Dialogue: 0,0:00:07.15,0:00:07.50,Default,,0,0,0,,without wires {\1c&H00E6FF&}touching.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:07.50,0:00:07.88,Default,,0,0,0,,{\1c&H00E6FF&}Wall{\1c&HFFFFFF&} power alternates sixty
+Dialogue: 0,0:00:07.88,0:00:08.24,Default,,0,0,0,,Wall {\1c&H00E6FF&}power{\1c&HFFFFFF&} alternates sixty
+Dialogue: 0,0:00:08.24,0:00:08.90,Default,,0,0,0,,Wall power {\1c&H00E6FF&}alternates{\1c&HFFFFFF&} sixty
+Dialogue: 0,0:00:08.90,0:00:09.32,Default,,0,0,0,,Wall power alternates {\1c&H00E6FF&}sixty{\1c&HFFFFFF&}
+Dialogue: 0,0:00:09.32,0:00:09.60,Default,,0,0,0,,{\1c&H00E6FF&}times{\1c&HFFFFFF&} a second, like
+Dialogue: 0,0:00:09.60,0:00:09.82,Default,,0,0,0,,times {\1c&H00E6FF&}a{\1c&HFFFFFF&} second, like
+Dialogue: 0,0:00:09.82,0:00:10.24,Default,,0,0,0,,times a {\1c&H00E6FF&}second,{\1c&HFFFFFF&} like
+Dialogue: 0,0:00:10.46,0:00:10.48,Default,,0,0,0,,times a second, {\1c&H00E6FF&}like{\1c&HFFFFFF&}
+Dialogue: 0,0:00:10.48,0:00:10.64,Default,,0,0,0,,{\1c&H00E6FF&}a{\1c&HFFFFFF&} wild firehose.
+Dialogue: 0,0:00:10.64,0:00:11.05,Default,,0,0,0,,a {\1c&H00E6FF&}wild{\1c&HFFFFFF&} firehose.
+Dialogue: 0,0:00:11.05,0:00:11.53,Default,,0,0,0,,a wild {\1c&H00E6FF&}firehose.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:11.53,0:00:11.85,Default,,0,0,0,,{\1c&H00E6FF&}A{\1c&HFFFFFF&} transformer passes energy
+Dialogue: 0,0:00:11.85,0:00:12.17,Default,,0,0,0,,A {\1c&H00E6FF&}transformer{\1c&HFFFFFF&} passes energy
+Dialogue: 0,0:00:12.17,0:00:12.63,Default,,0,0,0,,A transformer {\1c&H00E6FF&}passes{\1c&HFFFFFF&} energy
+Dialogue: 0,0:00:12.63,0:00:13.07,Default,,0,0,0,,A transformer passes {\1c&H00E6FF&}energy{\1c&HFFFFFF&}
+Dialogue: 0,0:00:13.07,0:00:13.49,Default,,0,0,0,,{\1c&H00E6FF&}across{\1c&HFFFFFF&} that gap and
+Dialogue: 0,0:00:13.49,0:00:13.75,Default,,0,0,0,,across {\1c&H00E6FF&}that{\1c&HFFFFFF&} gap and
+Dialogue: 0,0:00:13.75,0:00:14.17,Default,,0,0,0,,across that {\1c&H00E6FF&}gap{\1c&HFFFFFF&} and
+Dialogue: 0,0:00:14.17,0:00:14.67,Default,,0,0,0,,across that gap {\1c&H00E6FF&}and{\1c&HFFFFFF&}
+Dialogue: 0,0:00:14.67,0:00:14.93,Default,,0,0,0,,{\1c&H00E6FF&}changes{\1c&HFFFFFF&} the voltage.
+Dialogue: 0,0:00:14.93,0:00:15.13,Default,,0,0,0,,changes {\1c&H00E6FF&}the{\1c&HFFFFFF&} voltage.
+Dialogue: 0,0:00:15.13,0:00:15.47,Default,,0,0,0,,changes the {\1c&H00E6FF&}voltage.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:15.53,0:00:16.15,Default,,0,0,0,,{\1c&H00E6FF&}Diodes{\1c&HFFFFFF&} guide current one
+Dialogue: 0,0:00:16.15,0:00:16.59,Default,,0,0,0,,Diodes {\1c&H00E6FF&}guide{\1c&HFFFFFF&} current one
+Dialogue: 0,0:00:16.59,0:00:16.95,Default,,0,0,0,,Diodes guide {\1c&H00E6FF&}current{\1c&HFFFFFF&} one
+Dialogue: 0,0:00:16.95,0:00:17.21,Default,,0,0,0,,Diodes guide current {\1c&H00E6FF&}one{\1c&HFFFFFF&}
+Dialogue: 0,0:00:17.21,0:00:17.71,Default,,0,0,0,,{\1c&H00E6FF&}way.{\1c&HFFFFFF&} A capacitor smooths
+Dialogue: 0,0:00:17.97,0:00:17.98,Default,,0,0,0,,way. {\1c&H00E6FF&}A{\1c&HFFFFFF&} capacitor smooths
+Dialogue: 0,0:00:17.98,0:00:18.47,Default,,0,0,0,,way. A {\1c&H00E6FF&}capacitor{\1c&HFFFFFF&} smooths
+Dialogue: 0,0:00:18.47,0:00:19.27,Default,,0,0,0,,way. A capacitor {\1c&H00E6FF&}smooths{\1c&HFFFFFF&}
+Dialogue: 0,0:00:19.35,0:00:19.49,Default,,0,0,0,,{\1c&H00E6FF&}the{\1c&HFFFFFF&} output.
+Dialogue: 0,0:00:19.49,0:00:19.80,Default,,0,0,0,,the {\1c&H00E6FF&}output.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:19.80,0:00:20.08,Default,,0,0,0,,{\1c&H00E6FF&}Now{\1c&HFFFFFF&} your phone gets
+Dialogue: 0,0:00:20.08,0:00:20.28,Default,,0,0,0,,Now {\1c&H00E6FF&}your{\1c&HFFFFFF&} phone gets
+Dialogue: 0,0:00:20.28,0:00:20.70,Default,,0,0,0,,Now your {\1c&H00E6FF&}phone{\1c&HFFFFFF&} gets
+Dialogue: 0,0:00:20.70,0:00:21.10,Default,,0,0,0,,Now your phone {\1c&H00E6FF&}gets{\1c&HFFFFFF&}
+Dialogue: 0,0:00:21.10,0:00:21.42,Default,,0,0,0,,{\1c&H00E6FF&}usable{\1c&HFFFFFF&} power. Follow Dr.
+Dialogue: 0,0:00:21.42,0:00:22.18,Default,,0,0,0,,usable {\1c&H00E6FF&}power.{\1c&HFFFFFF&} Follow Dr.
+Dialogue: 0,0:00:22.32,0:00:22.44,Default,,0,0,0,,usable power. {\1c&H00E6FF&}Follow{\1c&HFFFFFF&} Dr.
+Dialogue: 0,0:00:22.44,0:00:22.82,Default,,0,0,0,,usable power. Follow {\1c&H00E6FF&}Dr.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:22.82,0:00:23.00,Default,,0,0,0,,{\1c&H00E6FF&}Volt{\1c&HFFFFFF&} for more!
+Dialogue: 0,0:00:23.00,0:00:23.20,Default,,0,0,0,,Volt {\1c&H00E6FF&}for{\1c&HFFFFFF&} more!
+Dialogue: 0,0:00:23.20,0:00:23.74,Default,,0,0,0,,Volt for {\1c&H00E6FF&}more!{\1c&HFFFFFF&}
