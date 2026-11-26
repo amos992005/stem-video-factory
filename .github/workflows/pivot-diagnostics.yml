@@ -1,0 +1,20 @@
+name: Pivot diagnostics
+on: workflow_dispatch
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ep01-phone-charger-videos
+          run-id: 45767965753
+          github-token: ${{ github.token }}
+          path: results
+      - name: Publish audit details as annotations
+        run: |
+          find results -type f | while read -r f; do echo "::notice title=File::$f"; done
+          find results -name motion_audit_report.md -exec cat {} \; | while IFS= read -r line; do echo "::warning title=Audit::$line"; done
+          find results -name '*.mp4' | while read -r f; do x=$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f"); echo "::notice title=Duration::$f $x"; done
