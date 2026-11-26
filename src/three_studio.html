@@ -1,0 +1,82 @@
+<!doctype html><html><head><meta charset="utf-8"><style>*{margin:0;padding:0}html,body{width:100%;height:100%;background:#07172e;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"../node_modules/three/build/three.module.js","three/addons/":"../node_modules/three/examples/jsm/"}}</script></head><body>
+<script type="module">
+import * as T from 'three';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+const W=360,H=640,renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+renderer.setSize(W,H);renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+document.body.appendChild(renderer.domElement);
+const scene=new T.Scene(),camera=new T.PerspectiveCamera(42,W/H,.1,100);camera.position.set(0,1.4,8.3);camera.lookAt(0,.45,0);
+const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,camera));const bloom=new UnrealBloomPass(new T.Vector2(W,H),.48,.45,.8);composer.addPass(bloom);
+const amb=new T.HemisphereLight(0xbceeff,0x132442,1.3);scene.add(amb);
+const key=new T.DirectionalLight(0xffe8cb,3.0);key.position.set(-3,6,6);key.castShadow=true;key.shadow.mapSize.set(512,512);scene.add(key);
+const fill=new T.PointLight(0x16cfff,38,18);fill.position.set(2,3,4);scene.add(fill);
+const rim=new T.PointLight(0xff4ba8,30,16);rim.position.set(-3,2,-2);scene.add(rim);
+const mat=(color,metalness=.05,roughness=.27,extra={})=>new T.MeshPhysicalMaterial({color,metalness,roughness,...extra});
+const white=mat(0xf2f8ff,.15,.2),dark=mat(0x142a49,.45,.23),steel=mat(0xabbfcb,.85,.18),copper=mat(0xd4773d,.82,.22),red=mat(0xc62436,.36,.27),cyan=mat(0x2bf4ff,.3,.18,{emissive:0x00c8e8,emissiveIntensity:1.5}),gold=mat(0xffcf36,.5,.2,{emissive:0xff8a00,emissiveIntensity:.5}),glass=mat(0x91e9ff,.06,.06,{transparent:true,opacity:.32,side:T.DoubleSide,transmission:.5,thickness:.15});
+function mesh(g,m,x=0,y=0,z=0){const o=new T.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;return o}
+function sphere(r,m,x=0,y=0,z=0){return mesh(new T.SphereGeometry(r,24,16),m,x,y,z)}
+function box(w,h,d,m,x=0,y=0,z=0){return mesh(new T.BoxGeometry(w,h,d,2,2,2),m,x,y,z)}
+function torus(r,tube,m,x=0,y=0,z=0){return mesh(new T.TorusGeometry(r,tube,12,48),m,x,y,z)}
+function cyl(r1,r2,h,m,x=0,y=0,z=0){return mesh(new T.CylinderGeometry(r1,r2,h,24),m,x,y,z)}
+function rod(a,b,r,m){let d=new T.Vector3().subVectors(b,a),o=cyl(r,r,d.length(),m);o.position.copy(a).add(b).multiplyScalar(.5);o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),d.normalize());return o}
+function path(points,r,m){return mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points.map(p=>new T.Vector3(...p))),48,r,8,false),m)}
+let stage=new T.Group();scene.add(stage);let objects=new T.Group();scene.add(objects);let moving=[],particles=[],bot,botHead,botArmL,botArmR,beatNo=-1;
+function reset(group){while(group.children.length){const o=group.children.pop();o.parent=null;o.traverse(c=>{if(c.geometry)c.geometry.dispose()})}}
+function rand(n){let x=Math.sin(n*12.9898+17.21)*43758.5453;return x-Math.floor(x)}
+function stageFor(i){
+ const colors=[0x102343,0x241b43,0x0a3550,0x123750,0x113f42,0x1b264e,0x261b44];scene.background=new T.Color(colors[i]);scene.fog=new T.Fog(colors[i],9,22);
+ const floor=cyl(3.2,3.2,.14,mat(0x193651,.65,.22),0,-1.25,0);stage.add(floor);
+ const ring=torus(2.15,.018,cyan,0,-1.15,0);ring.rotation.x=Math.PI/2;stage.add(ring);
+ const back=torus(2.4,.025,mat(0x317fbb,.6,.3,{emissive:0x16517a,emissiveIntensity:.7}),0,1.1,-2.8);stage.add(back);
+ for(let n=0;n<32;n++){let s=sphere(.025+rand(n)*.035,n%3?cyan:gold,(rand(n+31)-.5)*5,rand(n+45)*5-1.5,(rand(n+69)-.5)*3);stage.add(s);particles.push({m:s,x:s.position.x,y:s.position.y,z:s.position.z,n})}
+}
+function battery(x=0,y=1.2,z=0){let g=new T.Group();g.position.set(x,y,z);
+ g.add(box(1.32,2.1,.35,dark));g.add(box(1.12,1.82,.08,mat(0x0b5873,.35,.15,{emissive:0x003a4c,emissiveIntensity:.7}),0,0,.22));
+ g.add(box(.42,.1,.09,steel,0,1.14,0));g.add(box(.65,.95,.05,mat(0x34e4a7,.25,.15,{emissive:0x06b966,emissiveIntensity:1.3}),0,.0,.28));
+ let bolt=new T.Shape();bolt.moveTo(.1,.42);bolt.lineTo(-.16,-.02);bolt.lineTo(0,-.02);bolt.lineTo(-.1,-.42);bolt.lineTo(.2,.09);bolt.lineTo(.03,.09);bolt.closePath();g.add(mesh(new T.ExtrudeGeometry(bolt,{depth:.035,bevelEnabled:true,bevelThickness:.015,bevelSize:.015,bevelSegments:2}),white,0,0,.34));return g}
+function glassCup(x,y,z){let pts=[[.35,0],[.42,.08],[.49,.96],[.45,1.02],[.4,.11],[.31,.06]].map(([a,b])=>new T.Vector2(a,b));let g=mesh(new T.LatheGeometry(pts,32),glass,x,y,z);g.add(torus(.47,.02,white,0,1,0));return g}
+function hose(x,y,z){let g=new T.Group();g.position.set(x,y,z);g.add(path([[-2.5,-.4,-.3],[-1.5,-.1,0],[-.7,0,0],[0,0,0]],.19,red));let no=cyl(.22,.32,.8,steel,.3,0,0);no.rotation.z=Math.PI/2;g.add(no);let tip=cyl(.28,.28,.15,dark,.7,0,0);tip.rotation.z=Math.PI/2;g.add(tip);return g}
+function stream(color,count,mode){for(let n=0;n<count;n++){let p=sphere(.045+rand(n+9)*.06,color);objects.add(p);moving.push({kind:mode,m:p,n})}}
+function makeBot(){let g=new T.Group();
+ let body=mesh(new T.SphereGeometry(.57,24,20),white,0,.0,0);body.scale.set(.9,1.05,.6);g.add(body);let collar=torus(.35,.05,cyan,0,.24,.01);collar.rotation.x=Math.PI/2;g.add(collar);
+ let badge=torus(.12,.026,gold,.26,-.12,.33);g.add(badge);
+ botHead=new T.Group();botHead.position.set(0,.69,0);g.add(botHead);
+ const skin=mat(0xd99268,.08,.28);let head=sphere(.46,skin);head.scale.set(1,.9,.82);botHead.add(head);
+ let visor=mesh(new T.SphereGeometry(.39,24,16),dark,0,.03,.22);visor.scale.set(1,.52,.47);botHead.add(visor);
+ for(let k of [-1,1]){let eye=sphere(.105,cyan,k*.18,.05,.42);eye.scale.set(.86,1.2,.36);botHead.add(eye);let pupil=sphere(.035,dark,k*.18,.05,.46);pupil.scale.z=.35;botHead.add(pupil)}
+ for(let k=-2;k<=2;k++){let spike=mesh(new T.ConeGeometry(.13,.38,8),cyan,k*.17,.44,0);spike.rotation.z=-k*.23;botHead.add(spike)}
+ botArmL=new T.Group();botArmL.position.set(-.44,.12,0);g.add(botArmL);botArmL.add(rod(new T.Vector3(0,0,0),new T.Vector3(-.35,-.32,.1),.11,white));botArmL.add(sphere(.12,skin,-.35,-.32,.1));
+ botArmR=new T.Group();botArmR.position.set(.44,.12,0);g.add(botArmR);botArmR.add(rod(new T.Vector3(0,0,0),new T.Vector3(.35,-.2,.1),.11,white));botArmR.add(sphere(.12,skin,.35,-.2,.1));
+ let thruster=cyl(.17,.27,.22,steel,0,-.56,0);g.add(thruster);g.add(sphere(.17,cyan,0,-.72,0));g.scale.setScalar(.73);g.position.set(1.05,-1.15,1.5);scene.add(g);return g}
+function build(i){reset(stage);reset(objects);if(bot)scene.remove(bot);particles=[];moving=[];beatNo=i;stageFor(i);bot=makeBot();
+ if(i===0){objects.add(battery(-.25,1,0));let cable=path([[.4,.5,-.2],[1.3,.2,0],[1.7,.3,0],[2.1,.75,0]],.12,red);objects.add(cable);let plug=box(.35,.42,.28,white,1.65,.92,0);objects.add(plug);}
+ if(i===1){let phone=battery(0,.8,0);phone.rotation.z=.26;objects.add(phone);moving.push({kind:'spin',m:phone});for(let n=0;n<35;n++){let s=sphere(.08+rand(n)*.22,n%3?gold:red);objects.add(s);moving.push({kind:'explode',m:s,n})}}
+ if(i===2){objects.add(hose(-.8,1.3,0));stream(cyan,50,'jet')}
+ if(i===3){objects.add(hose(-1.6,1.4,-.3));let cup=glassCup(.5,.0,0);objects.add(cup);moving.push({kind:'cup',m:cup});for(let n=0;n<22;n++){let shard=mesh(new T.TetrahedronGeometry(.1+rand(n)*.2),n%3?glass:cyan);objects.add(shard);moving.push({kind:'shard',m:shard,n})}stream(cyan,30,'jet')}
+ if(i===4){let tap=new T.Group();tap.add(path([[-.7,2.8,0],[-.7,2.0,0],[.0,2.0,0],[.2,1.7,0]],.12,steel));tap.add(sphere(.22,cyan,-.7,2.45,0));objects.add(tap);objects.add(glassCup(.2,-.5,0));stream(cyan,35,'fall')}
+ if(i===5){let g=new T.Group();g.rotation.y=-.3;g.add(box(2.5,2,.48,white));g.add(box(2.2,1.68,.08,dark,0,0,.28));for(let n=0;n<4;n++){let x=(n%2-.5)*1.03,y=(.5-Math.floor(n/2))*.75;g.add(box(.85,.6,.08,mat([0x176985,0x4a3579,0x9d5725,0x205c71][n],.45,.25),x,y,.35));g.add(torus(.19,.045,n%2?gold:cyan,x,y,.42))}g.position.set(0,1.05,0);objects.add(g);moving.push({kind:'factory',m:g});}
+ if(i===6){for(let side of [-1,1]){let coil=new T.Group();for(let n=0;n<7;n++){let r=torus(.56,.055,copper,n*.105-.31,0,0);r.rotation.y=Math.PI/2;coil.add(r)}coil.position.set(side*1.0,1.1,0);objects.add(coil)}for(let n=0;n<5;n++){let r=torus(.25+n*.13,.025,cyan,0,1.1,0);r.rotation.y=Math.PI/2;objects.add(r);moving.push({kind:'ring',m:r,n})}stream(cyan,25,'across')}
+}
+function render(i,t,amp,local){if(i!==beatNo)build(i);
+ camera.position.x=.12*Math.sin(t*.7);camera.position.z=8.3-.55*Math.min(1,local/3);camera.lookAt(0,.45,0);
+ bot.position.y=-1.15+.07*Math.sin(t*3)+.12*amp;bot.rotation.z=.08*Math.sin(t*2);bot.scale.set(.73*(1-.04*amp),.73*(1+.06*amp),.73);
+ botHead.rotation.z=.11*Math.sin(t*2.4);botArmL.rotation.z=.3*Math.sin(t*3);botArmR.rotation.z=-.5-.3*Math.sin(t*2.4);
+ particles.forEach(p=>{p.m.position.y=-1.2+((p.y+1.2+t*.25+p.n*.04)%4.6);p.m.material.emissiveIntensity=1+Math.sin(t*3+p.n)*.5});
+ for(const o of moving){let n=o.n||0,r=rand(n+8),q=(t*.8+rand(n+1))%1;
+ if(o.kind==='spin')o.m.rotation.y=.25*Math.sin(t*2);
+ if(o.kind==='explode'){let angle=rand(n)*Math.PI*2,rad=.3+q*1.8;o.m.position.set(Math.cos(angle)*rad,1+Math.sin(angle)*rad,(rand(n+44)-.5)*2);o.m.scale.setScalar(1-q*.6)}
+ if(o.kind==='jet'){o.m.position.set(-.05+q*2.4,1.4+(rand(n+3)-.5)*q*1.5,(rand(n+4)-.5)*q);}
+ if(o.kind==='fall'){o.m.position.set(.2+(rand(n)-.5)*.13,1.5-q*1.9,(rand(n+2)-.5)*.12)}
+ if(o.kind==='across'){o.m.position.set(-.8+q*1.6,1.1+(rand(n)-.5)*.4,(rand(n+2)-.5)*.4)}
+ if(o.kind==='shard'){let angle=rand(n)*6.28,rad=.15+q*1.35;o.m.position.set(.5+Math.cos(angle)*rad,.5+Math.sin(angle)*rad,(rand(n+3)-.5)*1.5);o.m.rotation.set(t+n,t*.7,n)}
+ if(o.kind==='cup')o.m.visible=local<.9;
+ if(o.kind==='factory')o.m.rotation.y=-.3+.1*Math.sin(t);
+ if(o.kind==='ring'){o.m.scale.setScalar(.8+.25*Math.sin(t*4-n*.8));o.m.position.x=.1*Math.sin(t*3-n)}
+ }
+ composer.render();return renderer.domElement.toDataURL('image/jpeg',.82).split(',')[1];
+}
+window.renderFrame=render;window.studioReady=true;
+</script></body></html>

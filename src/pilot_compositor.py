@@ -5,7 +5,7 @@ Pollinations; numpy generates the requested foreground particle VFX. Pillow is
 used to resample and composite the AI character cutouts.
 """
 from __future__ import annotations
-import argparse, concurrent.futures, math, subprocess, tempfile, time
+import argparse, concurrent.futures, json, math, subprocess, tempfile, time
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -71,9 +71,9 @@ def effects(beat,frame):
         ok=(x>=0)&(x<W)&(y>=0)&(y<H);arr[y[ok],x[ok],:3]=(105,255,255);arr[y[ok],x[ok],3]=np.uint8(max(20,190-3*(frame%45)))
     return Image.fromarray(arr,'RGBA')
 
-def frame_overlay(beat,frame,cutout,rms):
+def frame_overlay(beat,frame,cutout,rms,start_frame=None):
     """Independent spring slide + RMS squash/stretch and slight tilt."""
-    base=effects(beat,frame);t=frame/FPS;amp=float(rms[min(len(rms)-1,beat*120+frame)])
+    base=effects(beat,frame);t=frame/FPS;amp=float(rms[min(len(rms)-1,(beat*120 if start_frame is None else start_frame)+frame)])
     width=235;target_height=round(width*cutout.height/cutout.width)
     if target_height>420:target_height=420;width=round(target_height*cutout.width/cutout.height)
     sx=1-.04*amp;sy=1+.06*amp
@@ -90,68 +90,85 @@ def frame_overlay(beat,frame,cutout,rms):
     base.alpha_composite(char,(x,y))
     return base.tobytes()
 
-def add_impact_words(ass):
+def add_impact_words(ass,timeline=None):
     with open(ass,'a',encoding='utf8') as f:
         for i,word in enumerate(IMPACTS):
             if not word:continue
-            start=i*BEAT+.28;end=i*BEAT+1.2
+            start=(timeline[i]['start'] if timeline else i*BEAT)+.28;end=start+.92
             def ts(t):return f'0:00:{int(t):02d}.{round((t%1)*100):02d}'
             f.write('Dialogue: 1,'+ts(start)+','+ts(end)+',Default,,0,0,0,,{\\an5\\pos(540,420)\\fs92\\bord7\\1c&H20D7FF&\\fscx72\\fscy72\\t(0,180,\\fscx115\\fscy115)\\fad(50,220)}'+word+'\n')
 
 def render_beat(task):
-    i,cache,tmp,rms,ass=task;backdrop=Path(cache)/list(BACKDROPS)[i];cutout=Image.open(Path(cache)/POSES[i]).convert('RGBA')
+    i,cache,tmp,rms,ass,*option=task
+    slot=option[0] if option else {'index':i,'start':i*BEAT,'frames':120,'duration':BEAT}
+    frames=slot['frames'];start=slot['start'];backdrop=Path(cache)/list(BACKDROPS)[i];cutout=Image.open(Path(cache)/POSES[i]).convert('RGBA')
     dest=Path(tmp)/f'beat_{i}.mp4'
     # Ease-out camera push from 1.0 to 1.18; pan and damped shake live on the
     # background, while the character and VFX remain independent foregrounds.
-    z="1+0.18*(1-pow(1-min(on/119,1),3))"
+    z=f"1+0.18*(1-pow(1-min(on/{max(1,frames-1)},1),3))"
     shake="20*exp(-on/18)*sin(on*1.8)" if i<2 else "0"
     graph=(f"[0:v]zoompan=z='{z}':x='iw/2-iw/zoom/2+12*sin(on/36)+{shake}':"
            f"y='ih/2-ih/zoom/2+16*cos(on/47)+{shake}':d=1:s=1080x1920:fps=30,vignette=PI/5[bg];"
            f"[1:v]scale=1080:1920:flags=bilinear[fx];[bg][fx]overlay=0:0:shortest=1,"
-           f"fade=t=in:st=0:d=0.2:color=white,setpts=PTS+{i*BEAT}/TB,ass='{ass}',setpts=PTS-{i*BEAT}/TB[v]")
+           f"fade=t=in:st=0:d=0.2:color=white,setpts=PTS+{start}/TB,ass='{ass}',setpts=PTS-{start}/TB[v]")
     cmd=['ffmpeg','-v','error','-y','-filter_complex_threads','1','-loop','1','-framerate','30','-i',str(backdrop),
          '-f','rawvideo','-pixel_format','rgba','-video_size',f'{W}x{H}','-framerate','30','-i','pipe:0',
-         '-filter_complex',graph,'-map','[v]','-frames:v','120','-r','30','-an','-c:v','libx264','-threads','2','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',str(dest)]
+         '-filter_complex',graph,'-map','[v]','-frames:v',str(frames),'-r','30','-an','-c:v','libx264','-threads','2','-preset','veryfast','-crf','18','-pix_fmt','yuv420p',str(dest)]
     proc=subprocess.Popen(cmd,stdin=subprocess.PIPE)
     try:
-        for frame in range(120):proc.stdin.write(frame_overlay(i,frame,cutout,rms))
+        for frame in range(frames):proc.stdin.write(frame_overlay(i,frame,cutout,rms,round(start*FPS)))
         proc.stdin.close()
         if proc.wait()!=0:raise RuntimeError(f'FFmpeg failed on beat {i+1}')
     except BaseException:
         proc.kill();proc.wait();raise
     print(f'Rendered beat {i+1}',flush=True);return dest
 
-def verify(video):
+def verify(video, timeline):
     import av
+    expected_frames=sum(beat['frames'] for beat in timeline)
     with av.open(str(video)) as container:
         v=next(s for s in container.streams if s.type=='video')
-        assert (v.width,v.height,str(v.average_rate))==(1080,1920,'30')
-        assert v.frames==840,v.frames
-        assert any(s.type=='audio' for s in container.streams)
-        assert abs(container.duration/1_000_000-28)<.1
-    print('Verified 1080x1920, 30 fps, 840 frames, 28 seconds, audio',flush=True)
+        if (v.width,v.height,str(v.average_rate))!=(1080,1920,'30'):
+            raise RuntimeError('Wrong video dimensions or frame rate')
+        if v.frames!=expected_frames:raise RuntimeError(f'Expected {expected_frames} frames, got {v.frames}')
+        if not any(s.type=='audio' for s in container.streams):raise RuntimeError('Missing narration/audio')
+        duration=container.duration/1_000_000
+        if abs(duration-expected_frames/30)>.15:raise RuntimeError(f'Audio/video duration mismatch: {duration}')
+    print(f'Verified 1080x1920, 30 fps, {expected_frames} frames, {duration:.2f} seconds, audio',flush=True)
 
 def build(outdir='output/pilot',cache='assets/ai_cache',workers=2):
     started=time.monotonic();outdir=Path(outdir).resolve();outdir.mkdir(parents=True,exist_ok=True);cache=Path(cache).resolve()
     with tempfile.TemporaryDirectory(prefix='fast-pilot-') as d:
         tmp=Path(d)
-        # Network work happens in parallel. The render stops if either provider
-        # fails: no geometric placeholders or silent substitution.
+        # Pollinations and Edge run in parallel; a failed/slow art request falls
+        # back to real WebGL meshes, never 2D geometric replacement artwork.
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-            art=pool.submit(generate_all,cache);voice_job=pool.submit(build_voice,tmp)
-            art.result();voice,ass,ratios=voice_job.result()
-        print('Source art and narration complete',flush=True)
-        rms=mix_and_envelope(voice,tmp);add_impact_words(ass)
-        tasks=[(i,cache,tmp,rms,ass) for i in range(7)]
-        with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:paths=list(pool.map(render_beat,tasks))
+            art_job=pool.submit(generate_all,cache,11,1,8)
+            voice_job=pool.submit(build_voice,tmp)
+            try:
+                art_job.result();use_flux=True;print('Flux artwork obtained',flush=True)
+            except Exception as exc:
+                use_flux=False;print(f'Pollinations unavailable; switching to Three.js WebGL: {exc}',flush=True)
+            voice,ass,timeline=voice_job.result()
+        rms=mix_and_envelope(voice,tmp,timeline);add_impact_words(ass,timeline)
+        if use_flux:
+            tasks=[(i,cache,tmp,rms,ass,timeline[i]) for i in range(7)]
+            with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:paths=list(pool.map(render_beat,tasks))
+        else:
+            config={'tmp':str(tmp),'ass':str(ass),'timeline':timeline,'rms':rms.tolist()}
+            cfg=tmp/'webgl-config.json';cfg.write_text(json.dumps(config))
+            subprocess.run(['node',str(Path(__file__).with_name('webgl_studio.mjs')),str(cfg)],check=True)
+            paths=[tmp/f'beat_{i}.mp4' for i in range(7)]
         listing=tmp/'concat.txt';listing.write_text(''.join(f"file '{p}'\n" for p in paths))
-        video=outdir/'short_01_pilot_9x16.mp4'
+        video=outdir/'short_01_pilot_9x16.mp4';duration=sum(x['frames'] for x in timeline)/30
         run('ffmpeg','-v','error','-y','-f','concat','-safe','0','-i',listing,'-i',tmp/'mix.wav',
-            '-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-b:a','192k','-t','28','-movflags','+faststart',video)
-        verify(video)
+            '-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-b:a','192k','-t',f'{duration:.6f}','-movflags','+faststart',video)
+        verify(video,timeline)
         sheet=outdir/'pilot_contact_sheet.png'
-        run('ffmpeg','-v','error','-y','-i',video,'-vf','fps=16/28,scale=270:480:flags=lanczos,tile=4x4:nb_frames=16','-frames:v','1','-update','1',sheet)
-        print(f'Pilot created in {time.monotonic()-started:.1f}s; per-beat extra tempo ratios: {ratios}',flush=True)
+        run('ffmpeg','-v','error','-y','-i',video,'-vf',f'fps=16/{duration:.6f},scale=270:480:flags=lanczos,tile=4x4:nb_frames=16','-frames:v','1','-update','1',sheet)
+        metadata={'renderer':'Flux' if use_flux else 'Three.js WebGL', 'duration':duration, 'video_size':[1080,1920], 'fps':30, 'timeline':timeline, 'render_seconds':time.monotonic()-started}
+        (outdir/'render_metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+        print(f'Pilot created in {metadata["render_seconds"]:.1f}s using {metadata["renderer"]}; duration {duration:.2f}s',flush=True)
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--output',default='output/pilot');p.add_argument('--cache',default='assets/ai_cache');p.add_argument('--workers',type=int,default=2)

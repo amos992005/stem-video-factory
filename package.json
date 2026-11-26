@@ -1,0 +1,6 @@
+{
+  "name": "stem-fast-pilot",
+  "private": true,
+  "type": "module",
+  "dependencies": { "puppeteer-core": "24.31.0", "three": "0.181.2" }
+}

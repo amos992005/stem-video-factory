@@ -85,11 +85,11 @@ def fetch_one(spec,cache=CACHE,attempts=3,timeout=35):
             if attempt+1<attempts:time.sleep(min(15,3*(2**attempt)+(seed%4)))
     raise RuntimeError(f'Pollinations failed for {name}: {error}') from error
 
-def generate_all(cache=CACHE,workers=6):
+def generate_all(cache=CACHE,workers=6,attempts=3,timeout=35):
     """Fetch independently in parallel. Exactly seven backdrops were specified."""
     failures=[]
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures={pool.submit(fetch_one,s,cache):s[0] for s in SPECS}
+        futures={pool.submit(fetch_one,s,cache,attempts,timeout):s[0] for s in SPECS}
         for f in as_completed(futures):
             try:f.result()
             except Exception as exc:failures.append(f'{futures[f]}: {exc}')

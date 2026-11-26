@@ -10,3 +10,4 @@ assets/audio/ep01/
 
 # Generated AI art is cached externally by Actions, never committed.
 assets/ai_cache/
+node_modules/

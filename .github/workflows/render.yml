@@ -1,15 +1,21 @@
-name: Render 28-second fast pilot
+name: Render fast 3D pilot
 on:
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   pilot:
-    name: Generate AI art and render one pilot
+    name: Render one narrated pilot
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: Initialize diagnostic log
+        run: |
+          mkdir -p output/pilot
+          printf 'Pilot run %s, revision %s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > output/pilot/build.log
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -19,28 +25,56 @@ jobs:
           key: ${{ runner.os }}-fast-pilot-pip-${{ hashFiles('requirements.txt') }}
       - uses: actions/cache@v4
         with:
-          path: assets/ai_cache
-          key: ${{ runner.os }}-pilot-flux-art-${{ hashFiles('src/ai_asset_generator.py') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-pilot-node-${{ hashFiles('package-lock.json') }}
       - uses: actions/cache@v4
         with:
-          path: ~/.cache/huggingface
-          key: ${{ runner.os }}-pilot-model-cache-v1
-      - name: Install Python tools and packaged FFmpeg
+          path: assets/ai_cache
+          key: ${{ runner.os }}-pilot-flux-art-${{ hashFiles('src/ai_asset_generator.py') }}
+      - name: Install renderer dependencies
+        shell: bash
         run: |
-          python -m pip install -r requirements.txt
+          set -o pipefail
+          python -m pip install -r requirements.txt 2>&1 | tee -a output/pilot/build.log
+          npm ci --no-audit --no-fund 2>&1 | tee -a output/pilot/build.log
           mkdir -p "$RUNNER_TEMP/pilot-bin"
           ln -s "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$RUNNER_TEMP/pilot-bin/ffmpeg"
           echo "$RUNNER_TEMP/pilot-bin" >> "$GITHUB_PATH"
-      - name: Test pilot code
-        run: python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v
-      - name: Generate art, voice and render only the pilot
-        run: python src/pilot_compositor.py --workers 2
-      - name: Upload the pilot and contact sheet
+          echo "Chrome: $(command -v google-chrome-stable || command -v google-chrome || command -v chromium || echo not-found)" | tee -a output/pilot/build.log
+      - name: Test and render one pilot
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v 2>&1 | tee -a output/pilot/build.log
+          timeout 360s python -u src/pilot_compositor.py --workers 2 2>&1 | tee -a output/pilot/build.log
+      - name: Upload pilot and diagnostics even on failure
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ep01-fast-pilot
-          path: |
-            output/pilot/short_01_pilot_9x16.mp4
-            output/pilot/pilot_contact_sheet.png
-          if-no-files-found: error
+          path: output/pilot/
+          if-no-files-found: warn
           retention-days: 30
+      - name: Commit diagnostic log and contact sheet to this branch
+        if: always()
+        env:
+          BRANCH: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          set -eu
+          mkdir -p output/pilot
+          test -f output/pilot/build.log || echo 'Runner failed before log initialization.' > output/pilot/build.log
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f output/pilot/build.log
+          for file in output/pilot/pilot_contact_sheet.png output/pilot/render_metadata.json; do
+            if test -f "$file"; then git add -f "$file"; fi
+          done
+          if git diff --cached --quiet; then exit 0; fi
+          git fetch origin "$BRANCH"
+          if test "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA"; then
+            echo 'Branch advanced during this run; refusing to overwrite it. Diagnostics remain in the artifact.'
+            exit 0
+          fi
+          git commit -m "Record pilot diagnostics for run $GITHUB_RUN_ID"
+          git push origin "HEAD:$BRANCH"

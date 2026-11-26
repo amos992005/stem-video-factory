@@ -1,36 +1,29 @@
-# Episode 01 — fast vertical pilot
+# Fast 3D pilot
 
-The active GitHub Actions workflow renders **one** 28-second, 1080×1920, 30 fps
-pilot and a 4×4 contact sheet. Run it manually with **Actions → Render
-28-second fast pilot → Run workflow**. It uploads only
-`output/pilot/short_01_pilot_9x16.mp4` and `output/pilot/pilot_contact_sheet.png`
-as the `ep01-fast-pilot` artifact.
+The manual-only GitHub Actions workflow renders one vertical 1080×1920,
+30 fps pilot and a 4×4 contact sheet. The target duration is 26–36 seconds:
+seven exact narration blocks are synthesized with Andrew Multilingual at +12%
+and +2 Hz, silence is trimmed, and an additional global speedup is applied only
+when needed to fit. Edge word boundaries are aligned to the exact source words
+for burned-in white/gold ASS captions. Procedural audio supplies the beat SFX.
 
-`src/ai_asset_generator.py` requests the seven specified scene backdrops and
-four Dr. Volt poses from Pollinations' legacy image endpoint with `model=flux`,
-retries and caches successful images, and extracts the chroma-keyed character
-cutouts. The legacy endpoint is deprecated and can fail, rate-limit requests,
-return watermarked images or omit the actual model identity. This pipeline
-fails rather than substituting geometric artwork if an image is unavailable.
-Its cache is ignored by Git and optionally restored by Actions.
+The renderer first requests seven listed scene illustrations and four Dr. Volt
+cutouts from Pollinations' legacy Flux endpoint. If the service fails or times
+out, it falls back to an original Three.js/WebGL animated 3D studio, using
+Chromium's software renderer, physical materials, lighting, moving particles,
+a scientist hover-bot and bloom. WebGL frames are rendered at 360×640 and
+upsampled for the 1080×1920 deliverable; this is not native 1080p 3D rendering.
+Neither the generated character's identity nor the aesthetic quality is
+independently guaranteed. Real video, captions and illustrations need review.
 
-`src/pilot_audio.py` synthesizes the exact seven supplied lines with Edge TTS
-Andrew Multilingual at +12% and +2 Hz, trims silence, and time-compresses each
-clip if needed to fit its four-second beat. Additional acceleration can affect
-intelligibility. Edge's word-boundary events are mapped back to the exact
-source text for white/gold ASS captions; no Whisper model is downloaded.
-Synthesized effects align with beat starts. `src/pilot_compositor.py` layers
-camera motion, independently animated cutouts, particle VFX and flash
-transitions over the service artwork. Pillow is used for image processing and
-compositing, not to draw the backgrounds or the character.
+`ep01-fast-pilot` includes the video, contact sheet, metadata and `build.log`
+when available. The job attempts to commit the log and contact sheet back to
+the same branch even on failure, but leaves the video in the artifact rather
+than Git. It refuses to overwrite a branch that advanced during the job.
+`STATE.md` records the most recently verified run. AI image cache, local node
+modules and generated video are ignored by Git.
 
-The workflow has no push trigger, so committing changes does not cause extra
-runs. Pip, AI-image outputs and the model-cache directory are cached. Network
-service latency and availability make the requested two-to-four-minute build a
-target, not a guarantee; the job is limited to five minutes. The narration's
-claim that the battery will explode in seconds is not guaranteed and should be
-fact-checked before publication. See `STATE.md` for verified run status.
-
-Active tests: `python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v`.
-Older episode scripts remain in the repository as historical code and are not
-part of this workflow.
+The two-to-four-minute workflow time is a target, not guaranteed; the job gives
+the software renderer up to six minutes before collecting diagnostics. The
+exact user-provided statement that a battery will explode in seconds is not
+guaranteed and should be fact-checked before publication.
