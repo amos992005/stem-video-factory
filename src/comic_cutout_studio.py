@@ -31,7 +31,7 @@ def make_sticker(path,session):
     from rembg import remove
     image=np.asarray(Image.open(path).convert('RGBA'))
     # Remove only white connected to the edges, retaining interior white clothing.
-    rgb=image[:,:,:3]; nearwhite=(rgb.min(axis=2)>=247).astype(np.uint8)
+    rgb=image[:,:,:3]; nearwhite=(rgb.min(axis=2)>=235).astype(np.uint8)
     flood=np.pad(nearwhite,1,constant_values=1); cv2.floodFill(flood,None,(0,0),2)
     key=(flood[1:-1,1:-1]!=2).astype(np.uint8)*255
     result=remove(Image.fromarray(image),session=session,post_process_mask=False)
@@ -106,8 +106,8 @@ class Studio:
         if scene==0 and local<.65:pose=0
         person=self.stickers[pose]
         pop=max(.72,min(1.14,.78+.22*ease(phase)))
-        layouts=[(540,650,790,230,1410,380),(700,740,1080,205,1400,300),
-                 (280,600,700,730,1180,690),(570,850,990,800,1500,315)]
+        layouts=[(540,620,790,230,1150,300),(700,700,1080,205,1190,270),
+                 (280,550,700,730,930,480),(570,800,990,800,1190,270)]
         px,py,pw,cx,cy,cw=layouts[mode]
         px+=int(25*math.sin(t*1.1));cy+=int(7*math.sin(t*2.0));amp=float(rms)
         blend(frame,prop,px,py,int(pw*pop),rotation=2*math.sin(t*1.6))

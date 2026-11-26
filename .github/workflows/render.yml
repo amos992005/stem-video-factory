@@ -28,7 +28,7 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.cache/huggingface/hub
-            ~/.u2net
+            ~/.rembg
           key: ${{ runner.os }}-comic-v1-${{ hashFiles('requirements.txt') }}
       - name: Install rendering and audio tools
         shell: bash
