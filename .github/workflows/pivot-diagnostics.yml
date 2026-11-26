@@ -15,8 +15,25 @@ jobs:
           run-id: 45767965753
           github-token: ${{ github.token }}
           path: results
-      - name: Publish audit details as annotations
+      - name: Publish report
         run: |
-          find results -type f | while read -r f; do echo "::notice title=File::$f"; done
-          find results -name motion_audit_report.md -exec cat {} \; | while IFS= read -r line; do echo "::warning title=Audit::$line"; done
+          python3 - <<'PY'
+          from pathlib import Path
+          p=next(Path('results').rglob('motion_audit_report.md'))
+          print('::warning title=Entire audit::'+p.read_text().replace('%','%25').replace('\n','%0A').replace('\r','%0D'))
+          PY
+      - name: Install FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Publish metadata
+        run: |
           find results -name '*.mp4' | while read -r f; do x=$(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 "$f"); echo "::notice title=Duration::$f $x"; done
+      - name: Publish compressed landscape contact sheet
+        run: |
+          f=$(find results -name visual_contact_sheet_16x9.png)
+          ffmpeg -v error -y -i "$f" -vf scale=800:-1 -q:v 19 /tmp/sheet.jpg
+          python3 - <<'PY'
+          import base64
+          s=base64.b64encode(open('/tmp/sheet.jpg','rb').read()).decode()
+          print('::notice title=Size::'+str(len(s)))
+          for i in range(0,len(s),3500): print('::notice title=Image%04d::%s'%(i//3500,s[i:i+3500]))
+          PY
