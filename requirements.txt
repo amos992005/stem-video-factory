@@ -1,7 +1,4 @@
-manim>=0.22,<0.23
-manim-voiceover>=0.4,<0.5
-edge-tts>=7.3,<8
-schemdraw>=0.23,<0.24
-sympy>=1.14,<2
+Pillow>=11,<13
+numpy>=2,<3
+edge-tts>=7,<8
 faster-whisper>=1.2,<2
-setuptools

@@ -10,13 +10,13 @@ import subprocess
 import json
 from pathlib import Path
 import numpy as np
-from package_ep01 import FULL, SHORTS
+from studio_canvas_engine import FULL, SHORTS
 
 FPS=5
 WIDTH=320
 HEIGHT=180
 PIXEL_THRESHOLD=6
-MIN_CHANGED=.025
+MIN_CHANGED=.03
 MIN_DIVERSITY=.22
 
 
@@ -83,29 +83,31 @@ def contact_sheet(path,dest,portrait=False):
 
 def audit(directory,strict=True):
     directory=Path(directory)
-    videos=[directory/(FULL+'.mp4')]+[directory/(name+'.mp4') for name in SHORTS.values()]
+    videos=[directory/(FULL+'.mp4')]+[directory/(name+'.mp4') for name in SHORTS]
     contact_sheet(videos[0],directory/'visual_contact_sheet_16x9.png')
-    contact_sheet(videos[1],directory/'visual_contact_sheet_short01.png',portrait=True)
+    for i, video in enumerate(videos[1:], 1):
+        contact_sheet(video,directory/f'visual_contact_sheet_short{i:02}.png',portrait=True)
     lines=['# Episode 01 motion and composition audit','','Method: 5 fps, 320×180 grayscale; '
            'adjacent-frame intensity change ≥6/255. Each overlapping 2-second window uses the union of changed pixels '
            'across 10 frame differences; windows slide by 0.2 seconds. The lower 20% is excluded so subtitles '
-           'cannot make a static scene pass. Motion threshold: 2.5%. Composition compares normalized 9×20 coarse '
+           'cannot make a static scene pass. Motion threshold: strictly greater than 3%. Composition compares normalized 9×20 coarse '
            'foreground-luminance maps of contact-sheet frames i and i+2, excluding the lower 20% and dark pixels '
-           'below 24/255; minimum distance 0.22. These are heuristics, not proof of artistic quality.','','| Video | Minimum motion | Windows below 2.5% | Result |','|---|---:|---:|---|']
+           'below 24/255; minimum distance 0.22. These are heuristics, not proof of artistic quality.','','| Video | Minimum motion | Windows at or below 3% | Result |','|---|---:|---:|---|']
     failed=[];details=[]
     for video in videos:
         decoded=decode_frames(video)
         windows=motion_windows(decoded)
-        bad=[(time,value) for time,value in windows if value<MIN_CHANGED]
+        bad=[(time,value) for time,value in windows if value<=MIN_CHANGED]
         minimum=min(value for _,value in windows)
         lines.append(f'| {video.name} | {minimum*100:.2f}% | {len(bad)} / {len(windows)} | {"FAIL" if bad else "PASS"} |')
         if bad:
             failed.append(video.name+' (motion)')
             details.append(f'**{video.name} flagged window starts (seconds):** '+', '.join(f'{t:.1f}' for t,_ in bad[:100])+(' …' if len(bad)>100 else ''))
-        if video==videos[0]:
-            pairs=composition_pairs(sheet_samples(directory/'visual_contact_sheet_16x9.png'))
+        if True:
+            sheet = directory/('visual_contact_sheet_16x9.png' if video==videos[0] else f'visual_contact_sheet_short{videos.index(video):02}.png')
+            pairs=composition_pairs(sheet_samples(sheet))
             bad_pairs=[(i,j,v) for i,j,v in pairs if v<MIN_DIVERSITY]
-            details.append(f'**Landscape contact-sheet composition:** minimum {min(v for _,_,v in pairs):.3f}; {len(bad_pairs)} / {len(pairs)} pairs below {MIN_DIVERSITY:.2f}: {"FAIL" if bad_pairs else "PASS"}.')
+            details.append(f'**{video.name} contact-sheet composition:** minimum {min(v for _,_,v in pairs):.3f}; {len(bad_pairs)} / {len(pairs)} pairs below {MIN_DIVERSITY:.2f}: {"FAIL" if bad_pairs else "PASS"}.')
             if bad_pairs:
                 details.append('Flagged pairs (1-based): '+', '.join(f'{i+1}–{j+1} ({v:.3f})' for i,j,v in bad_pairs))
                 failed.append(video.name+' (composition)')

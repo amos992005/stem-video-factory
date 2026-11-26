@@ -1,117 +1,85 @@
 name: Render Episode 01
-
 on:
   workflow_dispatch:
   push:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'requirements.txt'
-      - '.github/workflows/render.yml'
-
+    paths: ['src/**', 'tests/**', 'requirements.txt', '.github/workflows/render.yml']
 permissions:
   contents: read
-
 jobs:
   render:
-    name: Render ${{ matrix.scene }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 180
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        include:
-          - {file: ep01_long_video, scene: Ch1_TheHookAndACvsDC, orientation: landscape}
-          - {file: ep01_long_video, scene: Ch2_TheWirelessJumpTransformer, orientation: landscape}
-          - {file: ep01_long_video, scene: Ch3_OneWayValveDiode, orientation: landscape}
-          - {file: ep01_long_video, scene: Ch4_TheMagicDiamondBridge, orientation: landscape}
-          - {file: ep01_long_video, scene: Ch5_TheCapacitorIron, orientation: landscape}
-          - {file: ep01_shorts, scene: Short01_ACvsDC, orientation: portrait}
-          - {file: ep01_shorts, scene: Short02_WirelessTransformer, orientation: portrait}
-          - {file: ep01_shorts, scene: Short03_DiamondBridge, orientation: portrait}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: pip
-      - name: Install system packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science dvisvgm fonts-dejavu-core
-      - name: Install Python packages
-        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
-      - name: Unit tests and generate SVGs
-        run: |
-          python src/run_checked.py python -m unittest discover -s tests -v
-          python src/generate_ep01_svgs.py
-          python src/audio_design.py
-      - name: Render landscape at 1080p
-        if: matrix.orientation == 'landscape'
-        run: python src/run_checked.py manim -qh --disable_caching --progress_bar none src/${{ matrix.file }}.py ${{ matrix.scene }}
-      - name: Render portrait at 1080p
-        if: matrix.orientation == 'portrait'
-        run: python src/run_checked.py manim -qh -r 1080,1920 --disable_caching --progress_bar none src/${{ matrix.file }}.py ${{ matrix.scene }}
-      - name: Collect and verify scene
-        env:
-          SCENE: ${{ matrix.scene }}
-        run: |
-          set -euo pipefail
-          mkdir -p staging
-          mapfile -t matches < <(find media/videos -type f -name "$SCENE.mp4")
-          test "${#matches[@]}" -eq 1
-          cp "${matches[0]}" "staging/$SCENE.mp4"
-          ffprobe -v error -select_streams a:0 -show_entries stream=codec_type -of csv=p=0 "staging/$SCENE.mp4" | grep -qx audio
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ep01-scene-${{ matrix.scene }}
-          path: staging/${{ matrix.scene }}.mp4
-          if-no-files-found: error
-          retention-days: 3
-
-  package:
-    name: Package, caption and verify
-    needs: render
+    name: Render ${{ matrix.video }}
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        video:
+          - full_youtube_video_16x9
+          - short_01_ac_vs_dc_war_9x16
+          - short_02_wireless_transformer_9x16
+          - short_03_diamond_diode_trick_9x16
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: pip
-      - name: Install packaging tools
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-pillow-whisper-${{ hashFiles('requirements.txt') }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-faster-whisper-base-en-v1
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core
-          python -m pip install --upgrade pip
-          python -m pip install 'faster-whisper>=1.2,<2'
+          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+          python -m pip install -r requirements.txt
+      - name: Test canvas and captions
+        run: python -m unittest tests.test_canvas_engine tests.test_subtitle_engine tests.test_studio -v
+      - name: Render and caption
+        run: python src/studio_canvas_engine.py --video '${{ matrix.video }}' --workers 2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rendered-${{ matrix.video }}
+          path: output/ep01_phone_charger/
+          if-no-files-found: error
+          retention-days: 3
+  audit:
+    name: Verify and package
+    needs: render
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-pillow-whisper-${{ hashFiles('requirements.txt') }}
+      - name: Install audit tools
+        run: |
+          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+          python -m pip install 'numpy>=2,<3' 'Pillow>=11,<13'
       - uses: actions/download-artifact@v4
         with:
-          pattern: ep01-scene-*
-          path: staging
+          pattern: rendered-*
+          path: output/ep01_phone_charger
           merge-multiple: true
-      - name: Create final MP4s and subtitles
-        run: python src/run_checked.py python src/package_ep01.py
-      - name: Create contact sheets and enforce motion audit
-        run: python src/run_checked.py python src/visual_audit.py
-      - name: Upload audit diagnostics on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ep01-audit-diagnostics
-          path: |
-            output/ep01_phone_charger/motion_audit_report.md
-            output/ep01_phone_charger/visual_contact_sheet*.png
-          if-no-files-found: ignore
-      - name: Upload final episode
+      - name: Check streams and make audit
+        run: |
+          python src/verify_canvas.py output/ep01_phone_charger
+          python src/visual_audit.py
+      - name: Upload episode and audit, including on audit failure
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ep01-phone-charger-videos
-          # Include a root-level manifest so the ZIP preserves output/... paths.
           path: |
             README.md
+            STATE.md
             output/ep01_phone_charger/
           if-no-files-found: error
           retention-days: 30

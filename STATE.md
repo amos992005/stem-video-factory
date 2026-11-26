@@ -1,11 +1,13 @@
-# Project state
+# Episode 01 state
 
-## Episode 01 — full-screen cinematic cut
+The active build is the illustrated canvas pivot; the earlier Manim artifacts
+are obsolete and do not establish the status of this version. The exact user
+narration is stored in `src/episode_script.json`. Four videos are built in
+parallel, with native portrait layouts, clean-voice Whisper timings, ASS/SRT
+captions, 30fps RMS-driven mouth animation, and a separate audit job.
 
-- Final artifact: **ep01-phone-charger-videos** in the [successful render run](https://github.com/amos992005/stem-video-factory/actions/runs/45711503860). The ZIP preserves `output/ep01_phone_charger/` and contains four MP4s, four SRTs, four ASS files, two contact sheets and the audit report. GitHub artifacts expire after 30 days.
-- H.264/AAC outputs: landscape 1920×1080, 236.98 seconds; portrait 1080×1920 Shorts of 37.47, 33.63 and 34.75 seconds. Word-highlighted subtitles are burned into all four. Word timings come from faster-whisper; review captions against narration before publication.
-- The 2.5% motion audit passed with zero flagged windows in all videos. Minimum change rates: 5.42%, 7.63%, 11.79% and 9.13%. The landscape contact-sheet layout comparison passed all 28 frame-i/frame-i+2 pairs, with minimum distance 0.353 against a 0.22 threshold.
-- Audits sample at 5 fps, use 320×180 grayscale and exclude the lower 20% so captions cannot inflate the score. Motion is the union of adjacent-frame changes over overlapping two-second windows; composition uses normalized coarse foreground-luminance maps of the actual 30 contact-sheet cells. Both metrics are heuristics, not guarantees of artistic quality, every-frame motion, or caption accuracy.
-- `src/cinematic_scene.py` and `src/cinematic_acts.py` stage the full-screen acts; `src/vfx_engine.py` supplies animated neon and projected 3D elements. `src/subtitle_engine.py` creates timed ASS/SRT files. `src/package_ep01.py` mixes the synthesized underscore, reserves the subtitle zone, and burns captions. `src/visual_audit.py` creates the sheets and enforces both audits.
-- Circuit scenes are illustrative models, not instructions to build or modify mains equipment. Narration distinguishes switching chargers from idealized transformer/bridge models and warns against connecting batteries to mains. Current dots indicate conventional current; AC motion is deliberately slowed.
-- The sandbox cannot reach Debian mirrors, Edge TTS, or GitHub artifact blob storage. Rendering and artifact downloads use GitHub Actions; Edge TTS and Whisper model hosting are external dependencies.
+The latest run's GitHub Actions status and `motion_audit_report.md` are the
+source of truth for render success, motion/diversity results and actual elapsed
+time. Passing the audit is not proof of artistic quality or factual accuracy.
+The narration intentionally retains user-supplied claims that need fact-checking.
+A five-minute build is a goal, not a verified result.

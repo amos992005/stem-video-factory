@@ -1,59 +1,44 @@
-# STEM video factory
+# STEM video factory — Episode 01
 
-A Manim Community Edition pipeline for STEM animations and narrated video.
-Episode 01 covers the ideas behind a phone charger, with five chapters and
-three standalone portrait Shorts. The circuit models are educational
-simplifications, not instructions for building or modifying a mains device.
+The active renderer is `src/studio_canvas_engine.py`, a Pillow/FFmpeg illustrated
+pipeline with Dr. Volt, native landscape and portrait compositions, a 30 fps
+narration-RMS mouth, blinking and camera/energy motion. The narration source is
+`src/episode_script.json`. The long version reads all eleven blocks in order;
+the three Shorts use unchanged, complete blocks from that same script.
 
-## Render and download
+**Render Episode 01** runs four video jobs in parallel on GitHub Actions. Each
+job synthesizes `en-US-ChristopherNeural`, uses faster-whisper `base.en` for
+word timings, aligns the exact source words to those timings, burns white/gold
+ASS captions, and writes SRT/ASS alongside the MP4. A final job checks streams
+and exact SRT text and creates contact sheets and a motion/composition report.
+Download the `ep01-phone-charger-videos` artifact from the run; check the job
+and audit status before treating the output as finished. The artifact is kept
+for 30 days. Edge TTS and Hugging Face must be reachable from the runner; Edge
+TTS is unofficial and can change or fail.
 
-The **Render Episode 01** GitHub Actions workflow automatically starts on a
-relevant push, or can be started via **Actions → Render Episode 01 → Run
-workflow** on the branch with these files. It renders eight scenes in parallel
-at 1080p, concatenates the chapters, transcribes with faster-whisper `base.en`,
-burns word-highlighted captions into all four videos, and verifies dimensions and audio streams. Download
-**ep01-phone-charger-videos** from the successful run's Artifacts section.
-The ZIP contains four MP4s, four editable SRTs, four ASS files, contact sheets
-and the audit report under
-`output/ep01_phone_charger/`, plus this README. Automated captions should be
-reviewed before publishing.
-Artifacts expire after 30 days; Actions availability and quotas depend on plan.
+The timing alignment uses Whisper matches; words Whisper misses are interpolated
+between neighboring matches. Review captions and timing before publication.
+The visual audit is a heuristic, not a guarantee of quality or narrative
+accuracy. It tests 2-second windows (excluding the lower 20%) for **greater
+than 3%** changed pixels and compares contact-sheet spatial luminance layouts.
 
-The render needs outbound access to Microsoft's Edge TTS and Hugging Face's
-Whisper model downloads. Edge TTS is an unofficial free service that can change
-or become unavailable. Generated assets and videos are excluded from Git.
-See `STATE.md` for current pipeline details.
+The exact requested narration includes claims about explosion, charger
+operation, and zero wasted energy that are not technically reliable. They are
+preserved as requested; revise and fact-check before publication.
 
-## Local setup (Debian/Ubuntu)
+## Development
+
+The workflow is the authoritative full-suite build. It requires FFmpeg with
+libass and libx264, DejaVu fonts, Python 3.11 and the packages in
+`requirements.txt`; it does not use Manim or LaTeX. Run the active tests with:
 
 ```sh
-sudo apt-get update
-sudo apt-get install -y ffmpeg libcairo2-dev libpango1.0-dev pkg-config python3-dev \
-  texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-science dvisvgm fonts-dejavu-core
-python3 -m venv .venv
-. .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m unittest discover -s tests -v
-python src/generate_ep01_svgs.py
-manim -qh src/ep01_long_video.py Ch1_TheHookAndACvsDC
+python -m unittest tests.test_canvas_engine tests.test_subtitle_engine tests.test_studio -v
+python src/studio_canvas_engine.py --video full_youtube_video_16x9 --workers 2
 ```
 
-The workflow is the authoritative full-suite build recipe: it collects the
-five landscape and three portrait scene MP4s in `staging/`, then runs
-`python src/package_ep01.py`. Packaging requires FFmpeg with libass/libx264,
-and internet access for the initial Whisper model download. The voiceover
-service times animations to clip durations; bookmark timing is not implemented.
-
-## Studio visuals and motion audit
-
-The studio version uses `src/vfx_engine.py` and `src/studio_components.py` for
-procedural neon, flowing current indicators, sparks and 3D-projected coils.
-`src/audio_design.py` synthesizes the underscore and effects; the packaging
-job mixes the underscore at -20 dB gain beneath the narration. The final
-artifact includes contact sheets and `motion_audit_report.md`. The audit samples
-5 fps, thresholds adjacent grayscale frames and checks every overlapping
-2-second window above the subtitle region, requiring at least 2.5% changed
-pixels. A separate comparison checks the actual 30-frame landscape sheet for
-layout changes. The report describes the metrics and limitations; passing is
-not a substitute for editorial review of images or captions.
+Older Manim-era sources and their tests remain in the repository as historical
+code but are not part of the active renderer or workflow. Outputs and temporary
+assets are ignored by Git. Full-resolution video encoding and transcription
+are computationally expensive; a five-minute end-to-end build is a target, not
+a guarantee. See `STATE.md` for run status.
