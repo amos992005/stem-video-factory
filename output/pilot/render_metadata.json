@@ -1,0 +1,54 @@
+{
+  "renderer": "Three.js WebGL",
+  "duration": 35.333333333333336,
+  "video_size": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "timeline": [
+    {
+      "index": 0,
+      "start": 0.0,
+      "duration": 4.5,
+      "frames": 135
+    },
+    {
+      "index": 1,
+      "start": 4.5,
+      "duration": 3.6333333333333333,
+      "frames": 109
+    },
+    {
+      "index": 2,
+      "start": 8.133333333333333,
+      "duration": 6.766666666666667,
+      "frames": 203
+    },
+    {
+      "index": 3,
+      "start": 14.9,
+      "duration": 4.666666666666667,
+      "frames": 140
+    },
+    {
+      "index": 4,
+      "start": 19.566666666666666,
+      "duration": 4.566666666666666,
+      "frames": 137
+    },
+    {
+      "index": 5,
+      "start": 24.133333333333333,
+      "duration": 5.133333333333334,
+      "frames": 154
+    },
+    {
+      "index": 6,
+      "start": 29.266666666666666,
+      "duration": 6.066666666666666,
+      "frames": 182
+    }
+  ],
+  "render_seconds": 195.187192579
+}

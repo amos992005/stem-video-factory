@@ -1,0 +1,116 @@
+Pilot run 45798419265, revision 26f705013414dfeb8e4e95a351d0859d17ccc6b2
+Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
+  Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
+  Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+Collecting edge-tts<8,>=7 (from -r requirements.txt (line 3))
+  Downloading edge_tts-7.3.1-py3-none-any.whl.metadata (6.1 kB)
+Collecting imageio-ffmpeg<1,>=0.6 (from -r requirements.txt (line 4))
+  Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl.metadata (1.5 kB)
+Collecting av<19,>=14 (from -r requirements.txt (line 5))
+  Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl.metadata (5.0 kB)
+Collecting aiohttp<4.0.0,>=3.8.0 (from edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading aiohttp-3.14.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.3 kB)
+Collecting certifi>=2023.11.17 (from edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
+Collecting tabulate<1.0.0,>=0.4.4 (from edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading tabulate-0.10.0-py3-none-any.whl.metadata (40 kB)
+Collecting typing-extensions<5.0.0,>=4.1.0 (from edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting aiohappyeyeballs>=2.5.0 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl.metadata (5.9 kB)
+Collecting aiosignal>=1.4.0 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+Collecting attrs>=17.3.0 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Collecting frozenlist>=1.1.1 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (20 kB)
+Collecting multidict<8.0,>=4.5 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading multidict-7.2.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (6.1 kB)
+Collecting propcache>=0.2.0 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (25 kB)
+Collecting yarl<2.0,>=1.25.1 (from aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (111 kB)
+Collecting idna>=2.0 (from yarl<2.0,>=1.25.1->aiohttp<4.0.0,>=3.8.0->edge-tts<8,>=7->-r requirements.txt (line 3))
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 149.2 MB/s  0:00:00
+Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 151.4 MB/s  0:00:00
+Downloading edge_tts-7.3.1-py3-none-any.whl (38 kB)
+Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl (68.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 143.2 MB/s  0:00:00
+Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl (36.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 136.2 MB/s  0:00:00
+Downloading aiohttp-3.14.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 165.2 MB/s  0:00:00
+Downloading multidict-7.2.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (510 kB)
+Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (117 kB)
+Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
+Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
+Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (231 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (235 kB)
+Installing collected packages: typing-extensions, tabulate, propcache, Pillow, numpy, multidict, imageio-ffmpeg, idna, frozenlist, certifi, av, attrs, aiohappyeyeballs, yarl, aiosignal, aiohttp, edge-tts
+
+Successfully installed Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 attrs-26.1.0 av-18.1.1 certifi-2026.11.20 edge-tts-7.3.1 frozenlist-1.8.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 propcache-0.5.4 tabulate-0.10.0 typing-extensions-4.16.0 yarl-1.25.1
+
+added 82 packages in 3s
+Chrome: /usr/bin/google-chrome-stable
+test_audio_trim_tempo_and_sfx (tests.test_fast_pilot.PilotTests.test_audio_trim_tempo_and_sfx) ... ok
+test_cache_and_validation (tests.test_fast_pilot.PilotTests.test_cache_and_validation) ... ok
+test_effects_and_spring (tests.test_fast_pilot.PilotTests.test_effects_and_spring) ... ok
+test_exact_alignment_and_y_position (tests.test_fast_pilot.PilotTests.test_exact_alignment_and_y_position) ... ok
+test_script (tests.test_fast_pilot.PilotTests.test_script) ... ok
+test_url_and_chroma (tests.test_fast_pilot.PilotTests.test_url_and_chroma) ... ok
+test_empty_and_markup (tests.test_subtitle_engine.SubtitleTests.test_empty_and_markup) ... ok
+test_group_size_and_punctuation (tests.test_subtitle_engine.SubtitleTests.test_group_size_and_punctuation) ... ok
+test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.SubtitleTests.test_overlapping_whisper_words_do_not_overlap_lines) ... ok
+test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.102s
+
+OK
+WARNING:root:beat5_gentle_stream.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:dr_volt_mindblown.png attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat3_firehose.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat7_magnetic_canyon.jpg attempt 1/1: HTTP Error 402: Payment Required
+Beat 1: natural 4.73s, extra tempo 1.08x, slot 4.50s
+Beat 2: natural 3.80s, extra tempo 1.08x, slot 3.63s
+Beat 3: natural 7.18s, extra tempo 1.08x, slot 6.77s
+Beat 4: natural 4.94s, extra tempo 1.08x, slot 4.67s
+WARNING:root:dr_volt_curious.png attempt 1/1: HTTP Error 402: Payment Required
+Beat 5: natural 4.83s, extra tempo 1.08x, slot 4.57s
+Beat 6: natural 5.43s, extra tempo 1.08x, slot 5.13s
+Beat 7: natural 6.43s, extra tempo 1.08x, slot 6.07s
+Total narration: 35.33s, extra tempo 1.08x
+WARNING:root:dr_volt_pointing.png attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat6_charger_factory.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:beat4_shattered_glass.jpg attempt 1/1: HTTP Error 402: Payment Required
+WARNING:root:dr_volt_shocked.png attempt 1/1: HTTP Error 402: Payment Required
+Pollinations unavailable; switching to Three.js WebGL: Could not obtain all required AI art:
+beat5_gentle_stream.jpg: Pollinations failed for beat5_gentle_stream.jpg: HTTP Error 402: Payment Required
+dr_volt_mindblown.png: Pollinations failed for dr_volt_mindblown.png: HTTP Error 402: Payment Required
+beat3_firehose.jpg: Pollinations failed for beat3_firehose.jpg: HTTP Error 402: Payment Required
+beat7_magnetic_canyon.jpg: Pollinations failed for beat7_magnetic_canyon.jpg: HTTP Error 402: Payment Required
+dr_volt_curious.png: Pollinations failed for dr_volt_curious.png: HTTP Error 402: Payment Required
+dr_volt_pointing.png: Pollinations failed for dr_volt_pointing.png: HTTP Error 402: Payment Required
+beat6_charger_factory.jpg: Pollinations failed for beat6_charger_factory.jpg: HTTP Error 402: Payment Required
+beat4_shattered_glass.jpg: Pollinations failed for beat4_shattered_glass.jpg: HTTP Error 402: Payment Required
+dr_volt_shocked.png: Pollinations failed for dr_volt_shocked.png: HTTP Error 402: Payment Required
+WebGL renderer using browser /usr/bin/google-chrome-stable at 360x640, final output 1080x1920
+WebGL device: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+Rendered 3D beat 1: 135 frames in 18.3s
+Rendered 3D beat 2: 109 frames in 15.4s
+Rendered 3D beat 3: 203 frames in 24.6s
+Rendered 3D beat 4: 140 frames in 35.8s
+Rendered 3D beat 5: 137 frames in 38.3s
+Rendered 3D beat 6: 154 frames in 20.5s
+Rendered 3D beat 7: 182 frames in 26.1s
+Verified 1080x1920, 30 fps, 1060 frames, 35.33 seconds, audio
+Pilot created in 195.2s using Three.js WebGL; duration 35.33s
