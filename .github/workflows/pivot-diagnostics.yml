@@ -1,5 +1,7 @@
 name: Pivot diagnostics
-on: workflow_dispatch
+on:
+  push:
+    paths: ['.github/workflows/pivot-diagnostics.yml']
 permissions:
   actions: read
   contents: read
