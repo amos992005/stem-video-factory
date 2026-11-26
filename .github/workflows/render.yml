@@ -1,23 +1,13 @@
-name: Render Episode 01
+name: Render 28-second fast pilot
 on:
   workflow_dispatch:
-  push:
-    paths: ['src/**', 'tests/**', 'requirements.txt', '.github/workflows/render.yml']
 permissions:
   contents: read
 jobs:
-  render:
-    name: Render ${{ matrix.video }}
+  pilot:
+    name: Generate AI art and render one pilot
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
-    strategy:
-      fail-fast: false
-      matrix:
-        video:
-          - full_youtube_video_16x9
-          - short_01_ac_vs_dc_war_9x16
-          - short_02_wireless_transformer_9x16
-          - short_03_diamond_diode_trick_9x16
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,60 +16,31 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-pillow-whisper-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-fast-pilot-pip-${{ hashFiles('requirements.txt') }}
+      - uses: actions/cache@v4
+        with:
+          path: assets/ai_cache
+          key: ${{ runner.os }}-pilot-flux-art-${{ hashFiles('src/ai_asset_generator.py') }}
       - uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
-          key: ${{ runner.os }}-hf-faster-whisper-base-en-v1
-      - name: Install dependencies
+          key: ${{ runner.os }}-pilot-model-cache-v1
+      - name: Install Python tools and packaged FFmpeg
         run: |
-          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
           python -m pip install -r requirements.txt
-      - name: Test canvas and captions
-        run: python -m unittest tests.test_canvas_engine tests.test_subtitle_engine tests.test_studio -v
-      - name: Render and caption
-        run: python src/studio_canvas_engine.py --video '${{ matrix.video }}' --workers 2
-      - uses: actions/upload-artifact@v4
-        with:
-          name: rendered-${{ matrix.video }}
-          path: output/ep01_phone_charger/
-          if-no-files-found: error
-          retention-days: 3
-  audit:
-    name: Verify and package
-    needs: render
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-pillow-whisper-${{ hashFiles('requirements.txt') }}
-      - name: Install audit tools
-        run: |
-          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
-          python -m pip install 'numpy>=2,<3' 'Pillow>=11,<13'
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: rendered-*
-          path: output/ep01_phone_charger
-          merge-multiple: true
-      - name: Check streams and make audit
-        run: |
-          python src/verify_canvas.py output/ep01_phone_charger
-          python src/visual_audit.py
-      - name: Upload episode and audit, including on audit failure
-        if: always()
+          mkdir -p "$RUNNER_TEMP/pilot-bin"
+          ln -s "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$RUNNER_TEMP/pilot-bin/ffmpeg"
+          echo "$RUNNER_TEMP/pilot-bin" >> "$GITHUB_PATH"
+      - name: Test pilot code
+        run: python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v
+      - name: Generate art, voice and render only the pilot
+        run: python src/pilot_compositor.py --workers 2
+      - name: Upload the pilot and contact sheet
         uses: actions/upload-artifact@v4
         with:
-          name: ep01-phone-charger-videos
+          name: ep01-fast-pilot
           path: |
-            README.md
-            STATE.md
-            output/ep01_phone_charger/
+            output/pilot/short_01_pilot_9x16.mp4
+            output/pilot/pilot_contact_sheet.png
           if-no-files-found: error
           retention-days: 30

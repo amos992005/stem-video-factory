@@ -75,11 +75,11 @@ def _escape(text):
     return text.replace('\\','').replace('{','(').replace('}',')').replace('\n',' ')
 
 
-def write_ass(path,groups,portrait=False):
+def write_ass(path,groups,portrait=False,margin_v=None):
     w,h=(1080,1920) if portrait else (1920,1080)
     font_size=62 if portrait else 58
     outline=5 if portrait else 4
-    margin_v=240 if portrait else 50
+    if margin_v is None: margin_v=240 if portrait else 50
     header=f'''[Script Info]
 ScriptType: v4.00+
 PlayResX: {w}

@@ -1,45 +1,36 @@
-# STEM video factory — Episode 01
+# Episode 01 — fast vertical pilot
 
-The active renderer is `src/studio_canvas_engine.py`, a Pillow/FFmpeg illustrated
-pipeline with Dr. Volt, native landscape and portrait compositions, a 30 fps
-narration-RMS mouth, blinking and camera/energy motion. The narration source is
-`src/episode_script.json`. The long version reads all eleven blocks in order;
-the three Shorts use unchanged, complete blocks from that same script.
+The active GitHub Actions workflow renders **one** 28-second, 1080×1920, 30 fps
+pilot and a 4×4 contact sheet. Run it manually with **Actions → Render
+28-second fast pilot → Run workflow**. It uploads only
+`output/pilot/short_01_pilot_9x16.mp4` and `output/pilot/pilot_contact_sheet.png`
+as the `ep01-fast-pilot` artifact.
 
-**Render Episode 01** runs four video jobs in parallel on GitHub Actions. Each
-job synthesizes `en-US-ChristopherNeural`, uses faster-whisper `base.en` for
-word timings, aligns the exact source words to those timings, burns white/gold
-ASS captions, and writes SRT/ASS alongside the MP4. A final job checks streams
-and exact SRT text and creates contact sheets and a motion/composition report.
-Download the `ep01-phone-charger-videos` artifact from the run; check the job
-and audit status before treating the output as finished. The artifact is kept
-for 30 days. Edge TTS and Hugging Face must be reachable from the runner; Edge
-TTS is unofficial and can change or fail.
+`src/ai_asset_generator.py` requests the seven specified scene backdrops and
+four Dr. Volt poses from Pollinations' legacy image endpoint with `model=flux`,
+retries and caches successful images, and extracts the chroma-keyed character
+cutouts. The legacy endpoint is deprecated and can fail, rate-limit requests,
+return watermarked images or omit the actual model identity. This pipeline
+fails rather than substituting geometric artwork if an image is unavailable.
+Its cache is ignored by Git and optionally restored by Actions.
 
-The timing alignment uses Whisper matches; words Whisper misses are interpolated
-between neighboring matches. Review captions and timing before publication.
-The visual audit is a heuristic, not a guarantee of quality or narrative
-accuracy. It tests 2-second windows (excluding the lower 20%) for **greater
-than 3%** changed pixels and compares median-subtracted contact-sheet foreground layouts at least nine
-seconds apart; the check uses actual finished frames, not scene names.
+`src/pilot_audio.py` synthesizes the exact seven supplied lines with Edge TTS
+Andrew Multilingual at +12% and +2 Hz, trims silence, and time-compresses each
+clip if needed to fit its four-second beat. Additional acceleration can affect
+intelligibility. Edge's word-boundary events are mapped back to the exact
+source text for white/gold ASS captions; no Whisper model is downloaded.
+Synthesized effects align with beat starts. `src/pilot_compositor.py` layers
+camera motion, independently animated cutouts, particle VFX and flash
+transitions over the service artwork. Pillow is used for image processing and
+compositing, not to draw the backgrounds or the character.
 
-The exact requested narration includes claims about explosion, charger
-operation, and zero wasted energy that are not technically reliable. They are
-preserved as requested; revise and fact-check before publication.
+The workflow has no push trigger, so committing changes does not cause extra
+runs. Pip, AI-image outputs and the model-cache directory are cached. Network
+service latency and availability make the requested two-to-four-minute build a
+target, not a guarantee; the job is limited to five minutes. The narration's
+claim that the battery will explode in seconds is not guaranteed and should be
+fact-checked before publication. See `STATE.md` for verified run status.
 
-## Development
-
-The workflow is the authoritative full-suite build. It requires FFmpeg with
-libass and libx264, DejaVu fonts, Python 3.11 and the packages in
-`requirements.txt`; it does not use Manim or LaTeX. Run the active tests with:
-
-```sh
-python -m unittest tests.test_canvas_engine tests.test_subtitle_engine tests.test_studio -v
-python src/studio_canvas_engine.py --video full_youtube_video_16x9 --workers 2
-```
-
-Older Manim-era sources and their tests remain in the repository as historical
-code but are not part of the active renderer or workflow. Outputs and temporary
-assets are ignored by Git. Full-resolution video encoding and transcription
-are computationally expensive; a five-minute end-to-end build is a target, not
-a guarantee. See `STATE.md` for run status.
+Active tests: `python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v`.
+Older episode scripts remain in the repository as historical code and are not
+part of this workflow.
