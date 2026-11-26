@@ -30,7 +30,7 @@ jobs:
       - name: Publish compressed landscape contact sheet
         run: |
           f=$(find results -name visual_contact_sheet_16x9.png)
-          ffmpeg -v error -y -i "$f" -vf scale=800:-1 -q:v 19 /tmp/sheet.jpg
+          ffmpeg -v error -y -i "$f" -vf scale=440:-1 -q:v 24 /tmp/sheet.jpg
           python3 - <<'PY'
           import base64
           s=base64.b64encode(open('/tmp/sheet.jpg','rb').read()).decode()
