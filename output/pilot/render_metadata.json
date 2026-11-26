@@ -1,0 +1,81 @@
+{
+  "source": "real AI images",
+  "duration": 35.333333333333336,
+  "fps": 30,
+  "shots": [
+    {
+      "index": 1,
+      "beat": 0,
+      "start_frame": 0,
+      "frames": 74
+    },
+    {
+      "index": 2,
+      "beat": 0,
+      "start_frame": 74,
+      "frames": 61
+    },
+    {
+      "index": 3,
+      "beat": 1,
+      "start_frame": 135,
+      "frames": 54
+    },
+    {
+      "index": 4,
+      "beat": 1,
+      "start_frame": 189,
+      "frames": 55
+    },
+    {
+      "index": 5,
+      "beat": 2,
+      "start_frame": 244,
+      "frames": 203
+    },
+    {
+      "index": 6,
+      "beat": 3,
+      "start_frame": 447,
+      "frames": 140
+    },
+    {
+      "index": 7,
+      "beat": 4,
+      "start_frame": 587,
+      "frames": 137
+    },
+    {
+      "index": 8,
+      "beat": 5,
+      "start_frame": 724,
+      "frames": 69
+    },
+    {
+      "index": 9,
+      "beat": 5,
+      "start_frame": 793,
+      "frames": 85
+    },
+    {
+      "index": 10,
+      "beat": 6,
+      "start_frame": 878,
+      "frames": 182
+    }
+  ],
+  "transitions": [
+    "zoom",
+    "flash",
+    "flash",
+    "whip",
+    "zoom",
+    "whip",
+    "whip",
+    "zoom",
+    "zoom"
+  ],
+  "transition_frames": 10,
+  "verification": "passed",
+  "render_seconds": 82.71655602
+}
