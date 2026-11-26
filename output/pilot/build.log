@@ -1,4 +1,8 @@
-Pilot run 45807374677, revision 7f4dc1f5f1d39829d8137d5340ab1b67b8a6390d
+Pilot run 45809540556, revision af1fe57a2b74d302caa7e969708a66561ddcae38
+Collecting huggingface_hub>=0.28.0
+  Downloading huggingface_hub-2.4.0-py3-none-any.whl.metadata (16 kB)
+Collecting gradio_client
+  Downloading gradio_client-2.7.2-py3-none-any.whl.metadata (7.1 kB)
 Collecting Pillow<13,>=11 (from -r requirements.txt (line 1))
   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
 Collecting numpy<3,>=2 (from -r requirements.txt (line 2))
@@ -33,31 +37,78 @@ Collecting yarl<2.0,>=1.25.1 (from aiohttp<4,>=3.10->-r requirements.txt (line 4
   Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (111 kB)
 Collecting idna>=2.0 (from yarl<2.0,>=1.25.1->aiohttp<4,>=3.10->-r requirements.txt (line 4))
   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting click<9.0.0,>=8.4.2 (from huggingface_hub>=0.28.0)
+  Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting filelock>=3.10.0 (from huggingface_hub>=0.28.0)
+  Downloading filelock-4.3.1-py3-none-any.whl.metadata (2.3 kB)
+Collecting fsspec>=2023.5.0 (from huggingface_hub>=0.28.0)
+  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting hf-xet<2.0.0,>=1.6.0 (from huggingface_hub>=0.28.0)
+  Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Collecting httpx2<3,>=2.0.0 (from huggingface_hub>=0.28.0)
+  Downloading httpx2-2.16.2-py3-none-any.whl.metadata (10.0 kB)
+Collecting packaging>=20.9 (from huggingface_hub>=0.28.0)
+  Downloading packaging-26.4-py3-none-any.whl.metadata (3.5 kB)
+Collecting pyyaml>=5.1 (from huggingface_hub>=0.28.0)
+  Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
+Collecting tqdm>=4.42.1 (from huggingface_hub>=0.28.0)
+  Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting anyio>=4.10 (from httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+  Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting httpcore2==2.16.2 (from httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+  Downloading httpcore2-2.16.2-py3-none-any.whl.metadata (28 kB)
+Collecting truststore>=0.10 (from httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+  Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+Collecting h11>=0.16 (from httpcore2==2.16.2->httpx2<3,>=2.0.0->huggingface_hub>=0.28.0)
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting httpx>=0.24.1 (from gradio_client)
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting httpcore==1.* (from httpx>=0.24.1->gradio_client)
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
 Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 89.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 122.0 MB/s  0:00:00
 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 142.7 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 335.0 MB/s  0:00:00
 Downloading edge_tts-7.3.1-py3-none-any.whl (38 kB)
 Downloading aiohttp-3.14.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 128.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 272.3 MB/s  0:00:00
 Downloading imageio_ffmpeg-0.8.1-py3-none-manylinux_2_28_x86_64.whl (68.0 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 123.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.0/68.0 MB 114.7 MB/s  0:00:00
 Downloading av-18.1.1-cp311-abi3-manylinux_2_28_x86_64.whl (36.6 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 55.5 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 36.6/36.6 MB 120.4 MB/s  0:00:00
 Downloading multidict-7.2.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (510 kB)
 Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
 Downloading yarl-1.25.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (117 kB)
+Downloading huggingface_hub-2.4.0-py3-none-any.whl (857 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 857.0/857.0 kB 182.3 MB/s  0:00:00
+Downloading click-8.5.1-py3-none-any.whl (126 kB)
+Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 313.1 MB/s  0:00:00
+Downloading httpx2-2.16.2-py3-none-any.whl (97 kB)
+Downloading httpcore2-2.16.2-py3-none-any.whl (85 kB)
+Downloading gradio_client-2.7.2-py3-none-any.whl (64 kB)
 Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
 Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
 Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
+Downloading filelock-4.3.1-py3-none-any.whl (244 kB)
 Downloading frozenlist-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (231 kB)
+Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
 Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading packaging-26.4-py3-none-any.whl (140 kB)
 Downloading propcache-0.5.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (235 kB)
-Installing collected packages: typing-extensions, tabulate, propcache, Pillow, numpy, multidict, imageio-ffmpeg, idna, frozenlist, certifi, av, attrs, aiohappyeyeballs, yarl, aiosignal, aiohttp, edge-tts
+Downloading pyyaml-6.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (828 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 828.0/828.0 kB 172.6 MB/s  0:00:00
+Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+Installing collected packages: typing-extensions, truststore, tqdm, tabulate, pyyaml, propcache, Pillow, packaging, numpy, multidict, imageio-ffmpeg, idna, hf-xet, h11, fsspec, frozenlist, filelock, click, certifi, av, attrs, aiohappyeyeballs, yarl, httpcore2, httpcore, anyio, aiosignal, httpx2, httpx, aiohttp, huggingface_hub, edge-tts, gradio_client
 
-Successfully installed Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 attrs-26.1.0 av-18.1.1 certifi-2026.11.20 edge-tts-7.3.1 frozenlist-1.8.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 propcache-0.5.4 tabulate-0.10.0 typing-extensions-4.16.0 yarl-1.25.1
+Successfully installed Pillow-12.3.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 anyio-4.16.0 attrs-26.1.0 av-18.1.1 certifi-2026.11.20 click-8.5.1 edge-tts-7.3.1 filelock-4.3.1 frozenlist-1.8.0 fsspec-2026.9.0 gradio_client-2.7.2 h11-0.16.0 hf-xet-1.8.0 httpcore-1.0.9 httpcore2-2.16.2 httpx-0.28.1 httpx2-2.16.2 huggingface_hub-2.4.0 idna-3.20 imageio-ffmpeg-0.8.1 multidict-7.2.1 numpy-2.4.6 packaging-26.4 propcache-0.5.4 pyyaml-6.0.4 tabulate-0.10.0 tqdm-4.70.1 truststore-0.10.5 typing-extensions-4.16.0 yarl-1.25.1
 test_cache_reused_without_any_key (tests.test_fast_pilot.PilotTests.test_cache_reused_without_any_key) ... All ten cached AI shots are valid; no image API call required.
 ok
 test_decode_google_and_mask_secrets (tests.test_fast_pilot.PilotTests.test_decode_google_and_mask_secrets) ... ok
@@ -75,1157 +126,441 @@ test_overlapping_whisper_words_do_not_overlap_lines (tests.test_subtitle_engine.
 test_whisper_timing_and_karaoke (tests.test_subtitle_engine.SubtitleTests.test_whisper_timing_and_karaoke) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.518s
+Ran 13 tests in 0.574s
 
 OK
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-78041f3c1b3349993a2cc43c;7534fd02-f6dd-48f5-936e-cac9c0c23665)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-1192e76815b8021d3e5cf334;54a5991a-7d1a-4ba8-b6af-4f7902c64f8d)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-7b23f2f20ec44c443d7069b6;cccc2ed8-8033-4cce-9b12-80574ba91676)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-4692ee9804b73a407ba5247d;7299b016-9f60-4753-a149-372c9b9c5d95)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+Trying HF provider=auto model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-41e975c3385ae89455d5ee65;a10feef2-b4e9-4f9b-9732-a2e89d9cd7ea)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-4badc1bd239e092011f18b84;fb01e7a7-9d93-459f-9840-c5068d02ae9b)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-576395d32bc04dd757156407;2bb1b287-1a65-4700-8061-488df8572317)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-22fbd11a2238232444312a33;d11a9819-9d0a-4b2c-a426-320191ab3c9a)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-10f4b6f94bbf7b0c1beabe5b;1a465a6d-f476-4b24-ac1c-7cc09bf3c485)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-exp-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-49ced3b71c5cb18371326673;a1eef8e7-74ba-4f3d-9dc7-53c191087e90)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.301091426s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.300610674s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.299558669s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.28755532s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate 
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.291055615s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.291207435s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.289065839s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.284697885s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.259704778s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.234563491s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.022923845s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.021765079s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.020120356s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.015550903s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.013391032s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.01324741s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate 
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.004563595s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m6.00094011s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate 
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.985674576s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-gemini-3.1-flash-image-preview: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.955258913s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "description": "Generate
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.87284024s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.871801342s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.866261372s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.866081871s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.865907771s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.851397279s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.851026987s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.840422858s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.818547177s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.789544479s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.599531738s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.59781152s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            "
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.589287381s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.587839938s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.591643589s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.563221979s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.550801943s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.544714734s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.532328111s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-flash-preview-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\nPlease retry in 20h54m5.521259562s.",
-    "status": "RESOURCE_EXHAUSTED",
-    "details": [
-      {
-        "@type": "type.googleapis.com/google.rpc.Help",
-        "links": [
-          {
-            "description": "Learn more about Gemini API quotas",
-            "url": "https://aistudio.google.com/docs/rate-limits"
-          }
-        ]
-      },
-      {
-        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-        "violations": [
-          {
-            
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-379fa7ac5d7cf9b63d808a48;9891095d-1859-46f2-9d9a-863c100508d9)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-50e6884d175a41eb1efa43a2;b413b375-376d-44d4-8e35-a4fb74763440)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-6d92072922fb80f818586baa;941c549e-1037-4aa2-bc7f-42c97baeda14)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-1a83f56013de6d9a3794a2d9;24acec5a-4134-4856-9b97-75e4d39bcb54)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-19e7a62961322d63456da24c;bcb80e0c-86af-4c64-a60b-41610c753fca)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-33dc98bc612ff4b74ccf9ed1;d1e8fb15-074d-4a87-8839-299b50272acc)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF auto black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-4cbb4d914fad74ce3d31253d;e89e49e3-5b4e-4a7c-ab8b-cb58502c56be)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=fal-ai model=black-forest-labs/FLUX.1-schnell
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-3b8fbe2e137f86682ca37c06;c6d06fd3-7750-4e16-b810-05e9d56840d9)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-29bb096c31a9fdd72ec2971f;6dfc6ca4-f599-40d1-865a-b48e2a1ea9fb)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-26ba7077770bc53c11f38c1b;8e788096-901c-4855-9463-3396c1d4f41f)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-265a8bfc2d6cac2f4c11b2c7;dea3fae6-8694-46fa-b6fc-2e449103db56)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-149176871e65b5561ed3addf;3ef7e9a7-a670-4b62-8385-effa5a556940)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-253efbeb059da2ae19787ebd;5904073e-9304-4de5-b2b1-90523dc077b0)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-preview-image-generation: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-76dad00f0a8964557f80f74c;8e606a5f-2b94-4f15-a066-912effeab608)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF fal-ai black-forest-labs/FLUX.1-schnell: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/flux/schnell' (Request ID: Root=1-6b0815d6-1884a25f068ac063383176db;1f5bb416-08bc-4381-a964-726d51ff5542)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=together model=black-forest-labs/FLUX.1-schnell
+HF together black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider together.
+Trying HF provider=nebius model=black-forest-labs/FLUX.1-schnell
+HF nebius black-forest-labs/FLUX.1-schnell: ValueError: Provider 'nebius' not supported. Available values: 'auto' or any provider from ['baseten', 'cerebras', 'cohere', 'deepinfra', 'fal-ai', 'featherless-ai', 'fireworks-ai', 'groq', 'hf-inference', 'novita', 'nscale', 'openai', 'ovhcloud', 'publicai', 'replicate', 'scaleway', 'together', 'wavespeed', 'zai-org'].Passing 'auto' (default value) will automatically select the first provider available for the model, sorted by the user's order in https://hf.co/settings/inference-providers.
+Trying HF provider=replicate model=black-forest-labs/FLUX.1-schnell
+HF replicate black-forest-labs/FLUX.1-schnell: ValueError: Model black-forest-labs/FLUX.1-schnell is not supported by provider replicate.
+Trying HF provider=hf-inference model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-1fdc3b9d1188160d7a61afb6;fcef550f-8492-499f-a9ad-47303f307fe4)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-4fe60e233ba50db02f184f9a;73bb3c54-0394-46cd-9095-1770e17ada65)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-52cfd5b050a30a073ac02813;5ce02ec5-5069-4993-a857-f0c52f4c33b4)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-4d9c3590725a1d9419f0dc12;742f68e5-4802-4fdc-8150-8949f45d0b2a)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-65f099cf5beabeb8148f9d62;f1a5a563-a189-4e18-886b-a8ccf8438ad6)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d6-3c4226be42f856fc465c114e;1cfedd8b-3311-4c8a-995c-789d96a04adb)
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-6606764d4d1f852c7c8bb1e7;c84bfc02-2ffd-4a9d-9838-4384e87276f5)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-7b80e8ed3aa1b9b116426b3b;4f26c629-3a6e-426d-a7ac-377a5036298b)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-gemini-2.0-flash-exp: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference stabilityai/stable-diffusion-xl-base-1.0: HTTP 410: HfHubHTTPError: Client error '410 Gone' for url 'https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0' (Request ID: Root=1-6b0815d6-533dd7615a9ba4647b5eda1c;4a62854b-4feb-4d08-a713-1f9748dc8449)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+The requested model is deprecated and no longer supported by provider hf-inference
+Trying HF provider=auto model=stabilityai/stable-diffusion-xl-base-1.0
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d6-0735ae7501bcea62276dbee2;d1c69446-b8bf-4f76-badc-c7de5825d7bc)
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-012aa99270b05a0f522f3db7;737823a0-170e-4493-9278-22c3ce9c58b1)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-364e97ed1f6d925f64492a15;3db610e2-5cf7-4194-ba20-0abf5eb3cf60)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-4ac7266d56e1f1a8103cc97d;a3717fb4-391a-4514-b824-b21e85b9ce19)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d6-6976180b594faf7400f81bf8;08bdcaa2-17bc-47fa-9725-87dd9c58acc9)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-imagen-3.0-generate-002: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.",
-    "status": "NOT_FOUND"
-  }
-}
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d7-63f21784497fa1eb51e56d8d;e518b62d-1426-4821-b4cd-aa9acce19b4d)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
 
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-HF: HTTP 410: {"error":"The requested model is deprecated and no longer supported by provider hf-inference"}
-::error title=Studio pilot failed::ImageGenerationError: Failed to generate all shots: shot_01.jpg: all available image providers failed: gemini-2.0-flash-exp-image-generation: HTTP 404: {%0A  "error": {%0A    "code": 404,%0A    "message": "models/gemini-2.0-flash-exp-image-generation is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.",%0A    "status": "NOT_FOUND"%0A  }%0A}%0A | gemini-3.1-flash-image-preview: HTTP 429: {%0A  "error": {%0A    "code": 429,%0A    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per day limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image, description: Generate content requests per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limits.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image, description: Generate content input tokens per minute limit exceeded on Free Tier. See https://aistudio.google.com/docs/rate-limit
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-7bb5d1b37531b2193bb96b63;bcfb5e05-ac8c-426b-a7ff-ceb3e549963f)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d7-0dd926b92ddf5f82530f467e;2a5dd796-ac73-463c-9159-743c8ee5dca1)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF auto stabilityai/stable-diffusion-xl-base-1.0: HTTP 402: HfHubHTTPError: Client error '402 Payment Required' for url 'https://router.huggingface.co/fal-ai/fal-ai/fast-sdxl' (Request ID: Root=1-6b0815d7-54e78f084d0875c2592cfd12;79364add-74b3-4cae-90b8-54ff60073a34)
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402
+
+Purchase pre-paid credits to continue using Inference Providers. Alternatively, subscribe to PRO to get monthly included credits.
+Trying HF provider=hf-inference model=PlaygroundAI/playground-v2.5-1024px-aesthetic
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-7e6491374dabaf9240d414bc;eda27840-6f4c-4ec7-aa49-f96d820a2f90)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-45241e0573d0d4a760af2c3f;fad29e8e-2500-4b30-9c0d-d90f659d51e9)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-6d2697276a454d397ed5fcea;09119f13-e023-4a81-9ec9-6e638328f431)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-2c16a31d215b500717ce4cdc;6d171d4b-dc75-41e8-a37c-a502519dfa31)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-7840e5210ccadc430bb29257;835e40ec-ecd0-407d-bcef-7cd5997544fb)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-38e7fda6707b88fa12189483;8d508c3d-f3bc-4aa5-a10f-687d641f0816)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-38240ddc1e1a50d8483d8c03;e566468d-8eba-4558-80a4-9bcd1b0ea726)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-0b0e4b710d0f49d144459021;7f72f86c-2c8a-499e-bd18-27f605233feb)
+
+Bad request:
+Model not supported by provider hf-inference
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-52281bae1c60e2b17d7640e1;34db243e-4170-45e8-851a-1a9e3fb8de4a)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-254f79ca741f11f2201cec6e;eff53112-8147-477b-9381-1282c6f286ed)
+
+Bad request:
+Model not supported by provider hf-inference
+HF hf-inference PlaygroundAI/playground-v2.5-1024px-aesthetic: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-71061fa254c1993c2b69eba3;cc89a660-5645-410b-b53d-7d81779fe535)
+
+Bad request:
+Model not supported by provider hf-inference
+Trying HF provider=hf-inference model=ByteDance/SDXL-Lightning
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-401ca1e61746a20e576b0b64;6277f091-5efb-4ad1-842a-f074b2afcf7a)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-5dcf59392693a5b223f684ba;9eb6da77-67bd-4245-941b-1b9d6e7d4797)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-37cb434b3e4f5098750b9f8b;ee38fc89-5116-476d-9ff4-79bac7a5ed79)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-4011aa93560d26085f435da2;080622e2-d3d7-40d5-84de-4e2e9fc6769c)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-3ae9a95f28901ee31797e750;d0c11af4-ab2c-4479-b715-8a41db1b8e4a)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+HF hf-inference ByteDance/SDXL-Lightning: HTTP 400: BadRequestError: (Request ID: Root=1-6b0815d7-6e55cceb6f18670425733062;1a044639-c802-4d3a-ab91-46c93ac69cec)
+
+Bad request:
+Model not supported by provider hf-inference
+ImageGenerationError: HF provider attempts exhausted or timed out
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Trying HF Space black-forest-labs/FLUX.1-schnell
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+Space black-forest-labs/FLUX.1-schnell endpoint /infer: AppError: You have exceeded your free ZeroGPU quota (105s requested vs. 90s left). Try again in 23:59:59. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU
+Trying HF Space multimodalart/FLUX.1-merged
+spaces shot_03.jpg: phase deadline reached; worker terminated
+spaces shot_07.jpg: phase deadline reached; worker terminated
+spaces shot_06.jpg: phase deadline reached; worker terminated
+spaces shot_04.jpg: phase deadline reached; worker terminated
+AI Horde accepted shot_07.jpg
+AI Horde accepted shot_03.jpg
+Space multimodalart/FLUX.1-merged endpoint /infer: AppError: 'You have exceeded your free ZeroGPU quota (90s requested vs. 0s left). Try again in 23:59:58. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU'
+Trying HF Space stabilityai/stable-diffusion-3.5-large-turbo
+Space multimodalart/FLUX.1-merged endpoint /infer: AppError: 'You have exceeded your free ZeroGPU quota (90s requested vs. 0s left). Try again in 23:59:57. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU'
+Trying HF Space stabilityai/stable-diffusion-3.5-large-turbo
+Space multimodalart/FLUX.1-merged endpoint /infer: AppError: 'You have exceeded your free ZeroGPU quota (90s requested vs. 0s left). Try again in 23:59:57. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU'
+ImageGenerationError: HF Space attempts exhausted or timed out
+spaces shot_08.jpg: phase deadline reached; worker terminated
+spaces shot_10.jpg: phase deadline reached; worker terminated
+AI Horde shot_04: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+AI Horde shot_06: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+Space multimodalart/FLUX.1-merged endpoint /infer: AppError: 'You have exceeded your free ZeroGPU quota (90s requested vs. 0s left). Try again in 23:59:57. Subscribe to Hugging Face PRO to get 40 min of ZeroGPU quota a day - https://huggingface.co/subscribe/pro?from=ZeroGPU'
+ImageGenerationError: HF Space attempts exhausted or timed out
+AI Horde shot_08: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+spaces shot_02.jpg: phase deadline reached; worker terminated
+spaces shot_05.jpg: phase deadline reached; worker terminated
+spaces shot_09.jpg: phase deadline reached; worker terminated
+AI Horde shot_10: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+spaces shot_01.jpg: phase deadline reached; worker terminated
+AI Horde shot_02: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+AI Horde shot_05: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+AI Horde shot_01: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+AI Horde shot_09: ImageGenerationError: AI Horde HTTP 429: {"message":"2 per 1 second"}
+
+AI Horde shot_07: ImageGenerationError: AI Horde job did not finish before deadline
+AI Horde shot_03: ImageGenerationError: AI Horde job did not finish before deadline
+::error title=Studio pilot failed::ImageGenerationError: Failed to generate all shots: shot_01.jpg: no provider returned a validated AI image before deadline | shot_02.jpg: no provider returned a validated AI image before deadline | shot_03.jpg: no provider returned a validated AI image before deadline | shot_04.jpg: no provider returned a validated AI image before deadline | shot_05.jpg: no provider returned a validated AI image before deadline | shot_06.jpg: no provider returned a validated AI image before deadline | shot_07.jpg: no provider returned a validated AI image before deadline | shot_08.jpg: no provider returned a validated AI image before deadline | shot_09.jpg: no provider returned a validated AI image before deadline | shot_10.jpg: no provider returned a validated AI image before deadline
