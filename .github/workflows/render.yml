@@ -7,7 +7,7 @@ jobs:
   pilot:
     name: Generate ten AI shots and edit one pilot
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,7 +40,7 @@ jobs:
         run: |
           set -o pipefail
           python -m unittest tests.test_fast_pilot tests.test_subtitle_engine -v 2>&1 | tee -a output/pilot/build.log
-          timeout 360s python -u src/studio_editor.py 2>&1 | tee -a output/pilot/build.log
+          timeout 720s python -u src/studio_editor.py 2>&1 | tee -a output/pilot/build.log
       - name: Upload pilot and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@v4

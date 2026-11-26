@@ -1,7 +1,7 @@
 """Generate and cache ten real AI images; never synthesize substitute artwork.
 
 API keys are sent only as headers, never in URLs, logs, metadata, or Git.
-Requests run concurrently within a bounded 15-second generation deadline.
+Requests run concurrently within a bounded five-minute generation deadline.
 """
 from __future__ import annotations
 import argparse, asyncio, base64, io, json, os, time
@@ -27,7 +27,9 @@ SHOTS=(
 MODELS=('gemini-2.0-flash-exp-image-generation','gemini-3.1-flash-image-preview',
         'gemini-2.5-flash-image','gemini-2.0-flash-preview-image-generation',
         'gemini-2.0-flash-exp','imagen-3.0-generate-002')
-BUDGET=15.0
+BUDGET=300.0
+HORDE_BUDGET=240.0
+SPACE_TIMEOUT=60.0
 
 class ImageGenerationError(RuntimeError):pass
 
@@ -97,11 +99,9 @@ async def post(session,url,headers,payload,deadline,secrets,model):
 
 # These are requested provider/model combinations, not claims of availability.
 HF_MODELS=(
-    *(("black-forest-labs/FLUX.1-schnell",provider) for provider in ("auto","fal-ai","together","nebius","replicate")),
     ("stabilityai/stable-diffusion-xl-base-1.0","hf-inference"),
-    ("stabilityai/stable-diffusion-xl-base-1.0","auto"),
-    ("PlaygroundAI/playground-v2.5-1024px-aesthetic","hf-inference"),
     ("ByteDance/SDXL-Lightning","hf-inference"),
+    ("PlaygroundAI/playground-v2.5-1024px-aesthetic","hf-inference"),
 )
 SPACES=("black-forest-labs/FLUX.1-schnell","multimodalart/FLUX.1-merged",
         "stabilityai/stable-diffusion-3.5-large-turbo","prodia/fast-stable-diffusion")
@@ -116,7 +116,7 @@ def inference_worker(prompt,path,token,deadline):
         if remaining<=.15:break
         print(f'Trying HF provider={provider} model={model}',flush=True)
         try:
-            client=InferenceClient(api_key=token,provider=provider,timeout=min(remaining,2.5))
+            client=InferenceClient(api_key=token,provider=provider,timeout=min(remaining,8.0))
             image=client.text_to_image(prompt,model=model,width=768,height=1344)
             data=io.BytesIO();image.save(data,format='PNG');save_image(data.getvalue(),path)
             print(f'Generated {path.name} with HF {provider} {model}',flush=True);return
@@ -168,10 +168,10 @@ def space_result_file(result,root):
     return None
 
 
-def spaces_worker(prompt,path,token,deadline):
+def spaces_worker(prompt,path,token,deadline,spaces=SPACES):
     import tempfile
     from gradio_client import Client
-    for space in SPACES:
+    for space in spaces:
         if deadline-time.monotonic()<=.15:break
         print(f'Trying HF Space {space}',flush=True)
         try:
@@ -204,7 +204,7 @@ def spaces_worker(prompt,path,token,deadline):
     raise ImageGenerationError('HF Space attempts exhausted or timed out')
 
 
-async def isolated_worker(kind,index,prompt,directory,token,deadline,phase_seconds):
+async def isolated_worker(kind,index,prompt,directory,token,deadline,phase_seconds,space_index=None):
     import sys
     remaining=min(phase_seconds,deadline-time.monotonic())
     if remaining<=.15:return False
@@ -212,6 +212,7 @@ async def isolated_worker(kind,index,prompt,directory,token,deadline,phase_secon
     env=os.environ.copy();env['HF_TOKEN']=token
     cmd=[sys.executable,str(Path(__file__).resolve()),'--worker',kind,'--index',str(index),
          '--directory',str(directory),'--worker-deadline',str(time.monotonic()+remaining)]
+    if space_index is not None:cmd+=['--space-index',str(space_index)]
     proc=await asyncio.create_subprocess_exec(*cmd,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT,env=env)
     async def read_output():
         while True:
@@ -239,23 +240,32 @@ class HordeSession:
         self.session=session;self.lock=asyncio.Lock();self.next_submit=0.0
     def request(self,*args,**kwargs):return self.session.request(*args,**kwargs)
     def delete(self,*args,**kwargs):return self.session.delete(*args,**kwargs)
-    async def reserve_submission(self,deadline):
+    async def reserve_request(self,deadline):
         async with self.lock:
             delay=max(0.,self.next_submit-time.monotonic())
             if deadline-time.monotonic() <= delay+1.1:
-                raise ImageGenerationError('AI Horde submission skipped: insufficient time to respect rate limit and poll')
+                raise ImageGenerationError('AI Horde request skipped: insufficient time to respect rate limit and poll')
             if delay:await asyncio.sleep(delay)
             self.next_submit=time.monotonic()+.55
 
 
 async def horde_request(session,method,url,deadline,**kwargs):
-    remaining=deadline-time.monotonic()
-    if remaining<=.05:raise ImageGenerationError('AI Horde generation deadline exceeded')
-    async with session.request(method,url,timeout=aiohttp.ClientTimeout(total=min(remaining,3)),**kwargs) as response:
-        body=await response.read()
-        if response.status>=400:
-            raise ImageGenerationError(f'AI Horde HTTP {response.status}: {body.decode("utf8","replace")[:1200]}')
-        return body
+    for attempt in range(3):
+        # Pace all Horde API requests (including status checks), not image
+        # downloads, so ten concurrent shots cannot flood the anonymous limit.
+        if url.startswith('https://aihorde.net/api/v2/'):
+            await session.reserve_request(deadline)
+        remaining=deadline-time.monotonic()
+        if remaining<=.05:raise ImageGenerationError('AI Horde generation deadline exceeded')
+        async with session.request(method,url,timeout=aiohttp.ClientTimeout(total=min(remaining,10)),**kwargs) as response:
+            body=await response.read()
+            if response.status==429 and attempt<2 and deadline-time.monotonic()>2:
+                print(f'AI Horde HTTP 429: {body.decode("utf8","replace")[:1200]} (retrying)',flush=True)
+                await asyncio.sleep(1);continue
+            if response.status>=400:
+                raise ImageGenerationError(f'AI Horde HTTP {response.status}: {body.decode("utf8","replace")[:1200]}')
+            return body
+    raise ImageGenerationError('AI Horde rate-limit retry exhausted')
 
 
 async def horde_one(session,index,prompt,directory,deadline):
@@ -264,11 +274,10 @@ async def horde_one(session,index,prompt,directory,deadline):
              'models':['AlbedoBase XL (SDXL)','SDXL 1.0'],'nsfw':False,'censor_nsfw':True}
     job=None
     try:
-        await session.reserve_submission(deadline)
         response=await horde_request(session,'POST',base+'/generate/async',deadline,headers=headers,json=payload)
         job=json.loads(response)['id'];print(f'AI Horde accepted {shot_path(directory,index).name}',flush=True)
-        while deadline-time.monotonic()>1.1:
-            await asyncio.sleep(1)
+        while deadline-time.monotonic()>5.1:
+            await asyncio.sleep(5)
             check=json.loads(await horde_request(session,'GET',base+'/generate/check/'+job,deadline,headers=headers))
             if check.get('faulted'):raise ImageGenerationError(f'AI Horde job faulted: {check}')
             if check.get('done'):
@@ -296,10 +305,15 @@ async def generate_one(session,index,prompt,directory,key,hf,deadline):
     path=shot_path(directory,index)
     if valid_shot(path):print(f'Cached {path.name}',flush=True);return path
     if hf:
-        if await isolated_worker('providers',index,prompt,directory,hf,deadline,7):return path
-        if await isolated_worker('spaces',index,prompt,directory,hf,deadline,4):return path
+        # Reserve four minutes of the overall five-minute budget for Horde.
+        # A Space gets at most 60 seconds, reduced if the shared budget is low.
+        cascade_deadline=deadline-HORDE_BUDGET
+        if await isolated_worker('providers',index,prompt,directory,hf,cascade_deadline,10):return path
+        for space_index in range(len(SPACES)):
+            if cascade_deadline-time.monotonic()<=.15:break
+            if await isolated_worker('spaces',index,prompt,directory,hf,cascade_deadline,SPACE_TIMEOUT,space_index):return path
     else:print(f'{path.name}: HF_TOKEN is not set; trying AI Horde',flush=True)
-    if await horde_one(session,index,prompt,directory,deadline):return path
+    if await horde_one(session,index,prompt,directory,min(deadline,time.monotonic()+HORDE_BUDGET)):return path
     raise ImageGenerationError(f'{path.name}: no provider returned a validated AI image before deadline')
 
 async def generate_all(directory=SHOT_DIR,key=None,hf=None,budget=BUDGET):
@@ -329,12 +343,13 @@ async def generate_all(directory=SHOT_DIR,key=None,hf=None,budget=BUDGET):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--check-cache',action='store_true');parser.add_argument('--directory',default=str(SHOT_DIR))
-    parser.add_argument('--worker',choices=('providers','spaces'));parser.add_argument('--index',type=int);parser.add_argument('--worker-deadline',type=float);a=parser.parse_args()
+    parser.add_argument('--worker',choices=('providers','spaces'));parser.add_argument('--index',type=int);parser.add_argument('--worker-deadline',type=float);parser.add_argument('--space-index',type=int);a=parser.parse_args()
     if a.check_cache:raise SystemExit(0 if cache_complete(a.directory) else 1)
     if a.worker:
         try:
             token=os.environ.get('HF_TOKEN','');path=shot_path(a.directory,a.index)
-            (inference_worker if a.worker=='providers' else spaces_worker)(SHOTS[a.index-1],path,token,a.worker_deadline)
+            if a.worker=='providers':inference_worker(SHOTS[a.index-1],path,token,a.worker_deadline)
+            else:spaces_worker(SHOTS[a.index-1],path,token,a.worker_deadline,(SPACES[a.space_index],) if a.space_index is not None else SPACES)
         except Exception as exc:
             print(safe_error(f'{type(exc).__name__}: {exc}',os.environ.get('HF_TOKEN',''),os.environ.get('GEMINI_API_KEY','')),flush=True)
             raise SystemExit(1)
