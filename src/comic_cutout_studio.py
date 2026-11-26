@@ -107,7 +107,7 @@ class Studio:
         person=self.stickers[pose]
         pop=max(.72,min(1.14,.78+.22*ease(phase)))
         layouts=[(540,620,790,230,1150,300),(700,700,1080,205,1190,270),
-                 (280,550,700,730,930,480),(570,800,990,800,1190,270)]
+                 (280,550,700,730,930,480),(350,780,780,790,995,420)]
         px,py,pw,cx,cy,cw=layouts[mode]
         px+=int(25*math.sin(t*1.1));cy+=int(7*math.sin(t*2.0));amp=float(rms)
         blend(frame,prop,px,py,int(pw*pop),rotation=2*math.sin(t*1.6))

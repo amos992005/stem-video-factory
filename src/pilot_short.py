@@ -12,7 +12,7 @@ from sfx_engine import mix
 SCRIPT=(
 "Connect a phone battery straight to the wall, and it could catch fire!",
 "Inside your charger, energy crosses an air gap without wires touching.",
-"Wall power alternates sixty times a second, like a wild firehose.",
+"US wall power alternates sixty times a second, like a wild firehose.",
 "A transformer passes energy across that gap and changes the voltage.",
 "Diodes guide current one way. A capacitor smooths the output.",
 "Now your phone gets usable power. Follow Dr. Volt for more!",
