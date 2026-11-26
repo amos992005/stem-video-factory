@@ -24,7 +24,22 @@ SCRIPT=(
 
 def run(*args):subprocess.run([str(x) for x in args],check=True,stdout=subprocess.DEVNULL)
 
-async def synthesize(tmp):return await asyncio.gather(*(synthesize_one(i,text,tmp) for i,text in enumerate(SCRIPT)))
+async def synthesize(tmp):
+    # Avoid sending all nine requests simultaneously; transient service errors
+    # must not cancel unrelated scenes or silently substitute another voice.
+    semaphore=asyncio.Semaphore(2)
+    async def one(i,text):
+        async with semaphore:
+            for attempt in range(4):
+                try:
+                    result=await synthesize_one(i,text,tmp)
+                    print(f'Edge voice scene {i+1} received.',flush=True)
+                    return result
+                except Exception as exc:
+                    print(f'Edge voice scene {i+1} attempt {attempt+1}/4: {type(exc).__name__}: {exc}',flush=True)
+                    if attempt==3:raise RuntimeError(f'Edge voice scene {i+1} failed after 4 attempts: {type(exc).__name__}: {exc}') from exc
+                    await asyncio.sleep(1.0*(2**attempt))
+    return await asyncio.gather(*(one(i,text) for i,text in enumerate(SCRIPT)))
 
 def audio(tmp):
     clips=asyncio.run(synthesize(tmp));voice_parts=[];timeline=[];position=0

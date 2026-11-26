@@ -1,8 +1,10 @@
 import sys, unittest, xml.etree.ElementTree as ET
+import asyncio
+from unittest.mock import patch
 from pathlib import Path
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
-from pilot_short import SCRIPT
+from pilot_short import SCRIPT,synthesize
 from vector_studio import svg_frame,spring_angles,frame_plan,scene_art,FPS
 from sfx_engine import make_sfx,mix,RATE
 
@@ -28,6 +30,17 @@ class VectorStudioTests(unittest.TestCase):
         plans=list(frame_plan(timeline,np.linspace(0,1,270)))
         self.assertEqual(len(plans),270);self.assertEqual(plans[30][0],1)
         self.assertIsNotNone(plans[30][-1]);self.assertGreater(plans[-1][3],plans[0][3])
+    def test_edge_retry_keeps_each_scene(self):
+        attempts={}
+        async def fake(index,text,tmp):
+            attempts[index]=attempts.get(index,0)+1
+            if index==2 and attempts[index]<3:raise RuntimeError('temporary')
+            return index,text
+        async def no_delay(n):pass
+        with patch('pilot_short.synthesize_one',fake),patch('pilot_short.asyncio.sleep',no_delay):
+            clips=asyncio.run(synthesize(Path('/tmp')))
+        self.assertEqual([v[0] for v in clips],list(range(9)))
+        self.assertEqual(attempts[2],3)
     def test_sfx_length_and_ducked_master(self):
         timeline=[{'index':i,'start':i*2,'duration':2,'frames':60} for i in range(9)]
         voice=np.full(RATE*18,.04,dtype=np.float32)
